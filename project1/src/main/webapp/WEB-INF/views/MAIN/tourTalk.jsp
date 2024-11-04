@@ -34,44 +34,60 @@
 </script>
 </head>
 <body>
-    <form action="/tourTalk_write_ok" method="post" enctype="multipart/form-data">
-        <textarea id="content" name="content"></textarea>
-        <input type="submit" value="등록">
+    <form method="post" encType="multipart/form-data">
+        <textarea name="content" id="content"></textarea>
+        <input type="button" value="보내기" onclick="bbs_write_ok(this.form)">
     </form>
-
-    <script>
-        $(document).ready(function() {
-            $("#content").summernote({
-                lang: 'ko-KR',
-                height: 300,
-                placeholder: "최대 3000자까지 입력 가능합니다.",
-                callbacks: {
-                    onImageUpload: function(files) {
-                        for (let i = 0; i < files.length; i++) {
-                            uploadImage(files[i]);
-                        }
-                    }
-                }
-            });
-        });
-
-        function uploadImage(file) {
-            let formData = new FormData();
-            formData.append("file", file);
-            $.ajax({
-                url: "/saveImg",
-                data: formData,
-                method: "POST",
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    $('#content').summernote('insertImage', data.url);
-                },
-                error: function() {
-                    alert("이미지 업로드 실패");
-                }
-            });
-        }
-    </script>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
+	<script src="resources/js/summernote-lite.js" ></script>
+	<script src="resources/js/lang/summernote-ko-KR.js" ></script>
+	<script type="text/javascript">
+		$(function() {
+			$("#content").summernote({
+				lang : 'ko-KR',
+				height : 300,
+				focus : true,
+				placeholder : "최대 3000자까지 쓸 수 있습니다.",
+				callbacks : {
+					onImageUpload : function(files, editor) {
+						for (let i = 0; i < files.length; i++) {
+							sendImage(files[i], editor);
+						}
+					}
+				}
+			});
+		});
+		
+		function sendImage(file, editor) {
+		// FormData 객체를 전송할 때 , jQuery가 설정
+		  let frm = new FormData();
+		  frm.append("s_file", file);
+		  $.ajax({
+			  url : "/saveImg",
+			  data : frm,
+			  method : "post",
+			  contentType : false,
+			  processData : false,
+			  cache : false,
+			  dataType : "json",
+			  success : function(data) {
+				 const path = data.path;
+				 const fname = data.fname ;
+				 console.log(path, fname);
+				 $("#content").summernote("editor.insertImage", path+"/"+fname);
+			  },
+			  error : function() {
+				alert("읽기실패");
+			}
+		  });
+		}
+	</script>
+	<script type="text/javascript">
+		function bbs_write_ok(f) {
+			f.action = "/bbs_write_ok";
+			f.submit();
+		}
+	</script>
 </body>
 </html>

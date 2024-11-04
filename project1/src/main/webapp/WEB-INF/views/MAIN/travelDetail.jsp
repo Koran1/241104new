@@ -10,6 +10,8 @@
 <title>관광지 상세 페이지</title>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="resources/css/summernote-lite.css">
+	
 <link rel="stylesheet" href="resources/css/reset.css">
 <link rel="stylesheet" href="resources/css/header.css">
 <link rel="stylesheet" href="resources/css/footer.css">
@@ -151,50 +153,15 @@
 
 
 /* 여행톡 섹션 */
-#tourTalk {
-	padding: 15px;
-	border-radius: 8px;
-	flex-direction: column;
-	height: 100%;
+#bbs form {
+    text-align: right; /* 폼 내 콘텐츠 오른쪽 정렬 */
+    margin-top: 5px;
 }
+
 .title{
 	font-size: 20px;
 }
- /* 모달 스타일 */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-    }
-
-    .modal-content {
-        display: block;
-        margin: auto;
-        width: 80%;
-        max-width: 700px;
-        animation: zoom 0.3s;
-        cursor: pointer; /* 이미지 클릭 가능하도록 설정 */
-    }
-
-    .close {
-        position: absolute;
-        top: 20px;
-        right: 35px;
-        color: #fff;
-        font-size: 40px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    @keyframes zoom {
-        from { transform: scale(0.8); }
-        to { transform: scale(1); }
-    }
+ 
 </style>
 </head>
 <body>
@@ -310,20 +277,106 @@
 				<!-- travelIdx 검색해서 ${list.latitude}, ${list.longitude} 정보를 통해 아래 마커 위치를 지정 -->
 			</div>
 			<br><br>
+			
 			<!-- 여행톡 섹션 -->
 			<div class="title" id="tourTalk">여행톡</div><br>
-			<jsp:include page="tourTalk.jsp" />
+			<%-- <jsp:include page="tourTalk.jsp" /> --%>
+			<div id="bbs" style="text-align: left;">
+			    <form method="list" encType="multipart/form-data">
+			        <textarea name="content" id="content"></textarea>
+			        <input type="button" value="등록" onclick="bbs_write_ok(this.form)" >
+    			</form>
+    			
+    		</div>
+		</div>
 		</div>
 
-		</div>
-
-		
 		<div class="main_right">
 			<jsp:include page="scroll.jsp" />
 		</div>
 	</div>
 
 	<jsp:include page="footer.jsp" />
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
+	<script src="resources/js/summernote-lite.js" ></script>
+	<script src="resources/js/lang/summernote-ko-KR.js" ></script>
+		<script type="text/javascript">
+		$(function() {
+			$("#content").summernote({
+				lang : 'ko-KR',
+				height : 100,
+				focus : true,
+				placeholder : "최대 500자까지 쓸 수 있습니다.",
+				callbacks : {
+					onImageUpload : function(files, editor) {
+						for (let i = 0; i < files.length; i++) {
+							sendImage(files[i], editor);
+						}
+					}
+				}
+			});
+			$("#content").css("width", "80%"); // 에디터 너비를 80%로 설정
+		});
+		
+		function sendImage(file, editor) {
+		// FormData 객체를 전송할 때 , jQuery가 설정
+		  let frm = new FormData();
+		  frm.append("s_file", file);
+		  $.ajax({
+			  url : "/saveImg",
+			  data : frm,
+			  method : "list",
+			  contentType : false,
+			  processData : false,
+			  cache : false,
+			  dataType : "json",
+			  success : function(data) {
+				 const path = data.path;
+				 const fname = data.fname ;
+				 console.log(path, fname);
+				 $("#content").summernote("editor.insertImage", path+"/"+fname);
+			  },
+			  error : function() {
+				alert("읽기실패");
+			}
+		  });
+		}
+	</script>
+	<script type="text/javascript">
+	function bbs_write_ok() {
+	    const content = $('#content').val();
+	    $.ajax({
+	        url: "/bbs_write_ok",
+	        method: "list",
+	        data: { content: content },
+	        dataType: "json",
+	        success: function(response) {
+	            if (response.status === "success") {
+	                $('#content').summernote('reset'); // 입력 필드 초기화
+	                updateRecentlists(response.recentlists); // 최신 글 목록 업데이트
+	            } else {
+	                alert("글 등록에 실패했습니다.");
+	            }
+	        },
+	        error: function() {
+	            alert("오류가 발생했습니다.");
+	        }
+	    });
+	}
+
+	function updateRecentlists(list) {
+	    let talk = "";
+	    lists.forEach(list => {
+	    	talk += "<div class='tourTList'>";
+	    	talk += "<div class='tourTContent' style='width: 800px;'>"+list.tourTalkContent+"</div>";
+	    	talk += "<ul><li class='tourTId'>"+list.userId"</li>";
+	    	talk += "<li class='tourTReg'>"+list.tourTalkReg"</li></ul>";
+	    	talk += "</div>";
+	    });
+	    $('#bbs').html(talk); // 최신 글 목록 표시할 영역에 추가
+	}
+	</script>
 
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=590d5be37368c91772ba5516b2944ed1"></script>
