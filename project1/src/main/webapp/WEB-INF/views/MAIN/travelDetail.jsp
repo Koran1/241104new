@@ -18,21 +18,22 @@
 /* 메뉴 컨테이너 스타일 */
 .menu_container {
 	width: 100%;
-	margin: 120px 10px 0 0;
 	display: flex;
+	margin-top: 69px;
 	justify-content: center;
+	align-content: center;
 	background-color: white;
 	border: 0.5px solid #ddd;
+	border-left: none;
+	border-right: none;
 	padding: 10px 0;
 	position: fixed;
 	z-index: 5; /* 다른 요소들 위에 위치 */
+	top: 0;
 }
-
 .menu_container ul {
 	display: flex;
 	list-style-type: none; /* 목록 스타일 제거 */
-	justify-content: center;
-	list-style-type: none;
 }
 /* 메뉴 항목 스타일 */
 .menu_container ul li {
@@ -63,7 +64,7 @@
 /* 전체 컨테이너 */
 .main_wrapper {
 	width: 100%;
-	padding-top: 200px;
+	padding-top: 130px;
 }
 
 .main_left {
@@ -151,18 +152,49 @@
 
 /* 여행톡 섹션 */
 #tourTalk {
-	background-color: #fff3e0;
 	padding: 15px;
 	border-radius: 8px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	display: flex;
 	flex-direction: column;
 	height: 100%;
 }
 .title{
 	font-size: 20px;
-	color: rgb(100, 50, 15, 10);
 }
+ /* 모달 스타일 */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-content {
+        display: block;
+        margin: auto;
+        width: 80%;
+        max-width: 700px;
+        animation: zoom 0.3s;
+        cursor: pointer; /* 이미지 클릭 가능하도록 설정 */
+    }
+
+    .close {
+        position: absolute;
+        top: 20px;
+        right: 35px;
+        color: #fff;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    @keyframes zoom {
+        from { transform: scale(0.8); }
+        to { transform: scale(1); }
+    }
 </style>
 </head>
 <body>
@@ -194,14 +226,21 @@
 			<div class="trrname">${list.trrsrtNm}</div>
 			<!-- 사진 섹션 -->
 			<div class="photo_gallery">
-				<img src="${list.placeImg01}" alt="관광지 이미지01" class="photo_big">
+				<img src="${list.placeImg01}" alt="관광지 이미지01" class="photo_big" id="photo_big">
 				<div class="photo_small">
-					<img src="${list.placeImg01}" alt="관광지 이미지01" class="small">
-					<img src="${list.placeImg02}" alt="관광지 이미지02" class="small">
-					<img src="${list.placeImg03}" alt="관광지 이미지03" class="small">
-					<img src="${list.placeImg04}" alt="관광지 이미지04" class="small">
+					<img src="${list.placeImg01}" alt="관광지 이미지01" class="small" onclick="changeBig(this)">
+					<img src="${list.placeImg02}" alt="관광지 이미지02" class="small" onclick="changeBig(this)">
+					<img src="${list.placeImg03}" alt="관광지 이미지03" class="small" onclick="changeBig(this)">
+					<img src="${list.placeImg04}" alt="관광지 이미지04" class="small" onclick="changeBig(this)">
 				</div>
 			</div>
+			
+			<!-- 모달 창 구조 -->
+			<div id="imageModal" class="modal">
+			    <span class="close">&times;</span>
+			    <img class="modal-content" id="modalImage">
+			</div>
+			
 			<!-- 상세보기 섹션 -->
 			<div id="details"></div>
 			<div class="travel_info">
@@ -229,15 +268,38 @@
 								<p>주소: ${list.rdnmadr}</p>
 							</c:if>
 						</li>
-						<li>시설정보: ${list.cnvnncFclty} ${list.recrtClturFclty}
-							${list.mvmAmsmtFclty} ${list.hospitalityFclty} ${list.sportFclty}</li>
-						<li>숙박시설: ${list.stayngInfo}</li>
-						<li>수용인원: <fmt:formatNumber value="${list.aceptncCo}" pattern="#,##0" />명</li>
-						<li>주차대수: <fmt:formatNumber value="${list.prkplceCo}" pattern="#,##0" />대</li>
-						<li>관리사무소 Tel: ${list.phoneNumber}</li>
-						<li>업데이트 일자: ${list.referenceDate}</li>
-					</ul>
-				</div>
+						  <c:if test="${not empty list.cnvnncFclty or not empty list.recrtClturFclty or not empty list.mvmAmsmtFclty or not empty list.hospitalityFclty or not empty list.sportFclty}">
+			            <li>
+			                시설정보: 
+			                <c:if test="${not empty list.cnvnncFclty}">${list.cnvnncFclty} </c:if>
+			                <c:if test="${not empty list.recrtClturFclty}">${list.recrtClturFclty} </c:if>
+			                <c:if test="${not empty list.mvmAmsmtFclty}">${list.mvmAmsmtFclty} </c:if>
+			                <c:if test="${not empty list.hospitalityFclty}">${list.hospitalityFclty} </c:if>
+			                <c:if test="${not empty list.sportFclty}">${list.sportFclty}</c:if>
+			            </li>
+			        </c:if>
+			
+			        <c:if test="${not empty list.stayngInfo}">
+			            <li>숙박시설: ${list.stayngInfo}</li>
+			        </c:if>
+			
+			        <c:if test="${not empty list.aceptncCo}">
+			            <li>수용인원: <fmt:formatNumber value="${list.aceptncCo}" pattern="#,##0" />명</li>
+			        </c:if>
+			
+			        <c:if test="${not empty list.prkplceCo}">
+			            <li>주차대수: <fmt:formatNumber value="${list.prkplceCo}" pattern="#,##0" />대</li>
+			        </c:if>
+			
+			        <c:if test="${not empty list.phoneNumber}">
+			            <li>관리사무소 Tel: ${list.phoneNumber}</li>
+			        </c:if>
+			
+			        <c:if test="${not empty list.referenceDate}">
+			            <li>업데이트 일자: ${list.referenceDate}</li>
+			        </c:if>
+			    </ul>
+			</div>
 			
 
 			<!-- 카카오 지도 섹션 -->
@@ -247,13 +309,15 @@
 				<div id="map" class="map" style="width: 100%; height: 450px;"></div>
 				<!-- travelIdx 검색해서 ${list.latitude}, ${list.longitude} 정보를 통해 아래 마커 위치를 지정 -->
 			</div>
-
+			<br><br>
 			<!-- 여행톡 섹션 -->
-			<%-- <jsp:include page="tourTalk.jsp" /> --%>
+			<div class="title" id="tourTalk">여행톡</div><br>
+			<jsp:include page="tourTalk.jsp" />
 		</div>
 
 		</div>
 
+		
 		<div class="main_right">
 			<jsp:include page="scroll.jsp" />
 		</div>
@@ -272,29 +336,29 @@
 	    geo_map(lat, lng);
 
         function geo_map(lat, lng) {
-            var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+            let mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
                 center: new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
-                level: 2 // 지도의 확대 레벨 (1~14)
+                level: 4 // 지도의 확대 레벨 (1~14)
             };
 
             // 지도를 생성합니다
-            var map = new kakao.maps.Map(mapContainer, mapOption);
+            let map = new kakao.maps.Map(mapContainer, mapOption);
 
             // 마커 위치 설정
-            var markerPosition = new kakao.maps.LatLng(lat, lng);
+            let markerPosition = new kakao.maps.LatLng(lat, lng);
 
             // 마커를 생성하고 지도에 표시합니다
-            var marker = new kakao.maps.Marker({
+            let marker = new kakao.maps.Marker({
                 position: markerPosition
             });
             marker.setMap(map);
 
             // 인포윈도우 설정
-            var iwContent = '<div style="padding:5px;">${list.trrsrtNm}</div>',
+            let iwContent = '<div style="padding:10px;">${list.trrsrtNm}</div>',
                 iwPosition = new kakao.maps.LatLng(lat, lng);
 
-            var infowindow = new kakao.maps.InfoWindow({
+            let infowindow = new kakao.maps.InfoWindow({
                 position: iwPosition,
                 content: iwContent
             });
@@ -337,10 +401,64 @@
 			scrollToSection('#kakaoMap');
 		}
 
-		// 여행톡 버튼 클릭 시 tourTalk 섹션으로 이동
+ 		// 여행톡 버튼 클릭 시 tourTalk 섹션으로 이동
 		function goToTourTalk() {
 			scrollToSection('#tourTalk');
-		}
+		} 
 	</script>
+	
+	<script type="text/javascript">
+	    document.addEventListener("DOMContentLoaded", function () {
+	        const bigImage = document.getElementById("photo_big");
+	        const smallImages = document.querySelectorAll(".photo_small .small");
+	        const modal = document.getElementById("imageModal");
+	        const modalImage = document.getElementById("modalImage");
+	        const closeModal = document.querySelector(".close");
+	
+	        // 작은 이미지를 클릭하면 큰 이미지 변경
+	        smallImages.forEach(function (smallImg) {
+	            smallImg.addEventListener("click", function () {
+	                bigImage.src = smallImg.src;
+	            });
+	        });
+	
+	        // 큰 이미지 클릭 시 모달 창 열기
+	        bigImage.addEventListener("click", function () {
+	            modal.style.display = "block";
+	            modalImage.src = bigImage.src;
+	        });
+	
+	    	 // 모달 배경을 클릭하면 모달 닫기
+	        modal.addEventListener("click", function (event) {
+	            if (event.target !== modalImage) {  // 모달 배경 클릭 시 닫기
+	                modal.style.display = "none";
+	            }
+	        });
+
+	        // 모달 이미지 클릭 시 모달 닫기
+	        modalImage.addEventListener("click", function () {
+	            modal.style.display = "none";
+	        });
+	    });
+	</script>
+	
+	<script type="text/javascript">
+	document.addEventListener("DOMContentLoaded", function () {
+	    const regionFilter = document.getElementById('region-filter');
+	    const selectedRegion = new URLSearchParams(window.location.search).get('region') || '0';
+	    
+	    regionFilter.value = selectedRegion;
+
+	    // 필터 선택 시 페이지 이동 (선택된 지역을 URL에 포함하여 새로고침)
+	    regionFilter.addEventListener('change', function () {
+	        const selectedCategory = this.value;
+	        const url = new URL(window.location.href);
+	        url.searchParams.set('region', selectedCategory);
+	        url.searchParams.set('cPage', 1); // 지역 변경 시 첫 페이지로 이동
+	        window.location.href = url.toString();
+	    });
+	});
+	</script>
+	
 </body>
 </html>

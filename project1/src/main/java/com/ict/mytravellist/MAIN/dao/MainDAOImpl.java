@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ict.mytravellist.vo.TourTalkVO;
 import com.ict.mytravellist.vo.TravelDBVO;
 import com.ict.mytravellist.vo.WeatherVO;
 
@@ -60,10 +61,10 @@ public class MainDAOImpl implements MainDAO{
 	
     // 특정 관광지 이름으로 상세 정보를 가져오는 메서드
 	@Override
-    public List<TravelDBVO> getDetailList(String trrsrtNm) {
+    public List<TravelDBVO> getDetailList(String travelIdx) {
         try {
-            List<TravelDBVO> list = sqlSessionTemplate.selectList("main.getDetailList", trrsrtNm);
-            System.out.println("getDetailList MainDAO 통과");
+            List<TravelDBVO> list = sqlSessionTemplate.selectList("main.getDetailList", travelIdx);
+            // System.out.println("getDetailList MainDAO 통과");
             return list;
         } catch (Exception e) {
             System.out.println("getDetailList 검색 중 오류 발생: " + e.getMessage());
@@ -77,8 +78,23 @@ public class MainDAOImpl implements MainDAO{
 	}
 
 	@Override
-	public List<TravelDBVO> getTralDetail(String travelIdx) {
-		// TODO Auto-generated method stub
-		return null;
+	public int getSearchCount(String keyword) {
+		System.out.println("getSearchCount MainDAOImpl 통과");
+		return sqlSessionTemplate.selectOne("main.count", keyword);
 	}
+
+	@Override
+	public List<TravelDBVO> getSearchPageList(int limit, int offset, String keyword) {
+	    Map<String, Object> map = new HashMap<>();  // <String, Object>로 변경
+	    map.put("offset", offset);
+	    map.put("limit", limit);
+	    map.put("keyword", keyword);
+	    return sqlSessionTemplate.selectList("main.page_list", map);
+	}
+
+	@Override
+	public int insertTourTalk(TourTalkVO tourtvo) {
+		return sqlSessionTemplate.insert("tourTalk.insert", tourtvo);		
+	}
+
 }

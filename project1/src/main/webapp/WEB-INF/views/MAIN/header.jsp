@@ -13,6 +13,7 @@
     	width: 100%;
     	position: fixed;
     	background-color: white;
+    	z-index: 1000;
     }
     </style>
     <link rel="canonical" href="https://getbootstrap.kr/docs/5.3/examples/headers/">
@@ -26,23 +27,23 @@
 	  <header class="p-3 mb-3 border-bottom">
 	    <div class="container">
 	      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-	        <a href="/main" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+	        <a href="/main_go" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
 	          <svg class="bi me-2" width="40" height="32" role="img" aria-label="HOME">
 	          <img src="resources/images/logo.png" width="220"></svg>
 	        </a>
-	        
+	        <!-- 검색  -->
 	        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search_go" method="get" autocomplete="on">
 	          <input type="search" class="form-control" placeholder="Travel search..." aria-label="Search" name="keyword" value="${keyword}">
 	        </form>
 	        
 	        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-	          <li><a href="/notice_go" class="nav-link px-2 link-body-emphasis"><b>Notice</b></a></li>
+	          <li><a href="/notice_go" class="nav-link px-2 link-body-emphasis"><b>공지사항</b></a></li>
 				<c:choose>
 				 <c:when test="${empty userId}">
-	          		<li><a href="/mem_login" class="nav-link px-2 link-body-emphasis"><b>Travel Plan</b></a></li>
+	          		<li><a href="/mem_login" class="nav-link px-2 link-body-emphasis"><b>여행계획</b></a></li>
 				 </c:when>
 				 <c:otherwise>
-				   	<li><a href="/trvlPlan_go" class="nav-link px-2 link-body-emphasis"><b>Travel Plan</b></a></li>
+				   	<li><a href="/trvlPlan_go" class="nav-link px-2 link-body-emphasis"><b>여행계획</b></a></li>
 				 </c:otherwise>
 				</c:choose>
 	        </ul>

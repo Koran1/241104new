@@ -20,8 +20,9 @@
 				<div class="footer_left"></div>
 				<div class="footer_center">
 					<div class="footer_center_top">
-						<a href="privacy.html">개인정보처리방침</a> <a href="terms.html">서비스
-							이용약관</a> <a href="contact.html">Contact Us</a>
+						<a href="privacy.html">개인정보처리방침</a> 
+						<a href="terms.html">서비스이용약관</a> 
+						<a href="contact.html">Contact Us</a>
 					</div>
 					<div class="footer_center_bottom">
 						<p>서울시 마포구 백범로 23 3층 한국ICT인재개발원 (우)04108 | Email:
