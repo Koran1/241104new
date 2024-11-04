@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reginfo">
+	<select id="getreginfo" parameterType="String" resultType="regvo">
+		select * from regioninfo where region = #{region}
+	</select>
+	
+	<delete id="delete">
+		delete from pjweather
+	</delete>
+	
+	<select id="insertwthrinfo" parameterType="wthrvo" resultType="int">
+	 	insert into pjweather (wthrDate, wthrTMin, wthrTMax, wthrSKY_PTY, wthrPOP, region)
+	 	values (#{wthrDate}, #{wthrTMin}, #{wthrTMax}, #{wthrSKY_PTY}, #{wthrPOP}, #{region})
+	</select>
+	
+	<select id="getwhtrinfo" parameterType="String" resultType="wthrvo">
+		select * from pjweather where region = #{region}
+	</select>
+</mapper>

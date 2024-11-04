@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="mems">
+ 	<select id="login" parameterType="String" resultType="uservo">
+		select * from pjcustomer where userId=#{userId}
+ 	</select>
+ 	
+ 	<select id="idchk" parameterType="String" resultType="int">
+ 		select count(*) from pjcustomer where userId = #{userId}
+ 	</select>
+ 	
+ 	<select id="emailchk" parameterType="String" resultType="int">
+ 		select count(*) from pjcustomer where userMail = #{userMail}
+ 	</select>
+ 	
+ 	<insert id="insert" parameterType="uservo">
+ 		INSERT INTO pjcustomer (userName, userId, userPw, userMail, userAddr, userLevel, userFavor01, userFavor02, userFavor03, userReg) 
+        VALUES (#{userName}, #{userId}, #{userPw}, #{userMail}, #{userAddr}, 1, #{userFavor01}, #{userFavor02}, #{userFavor03}, now())
+ 	</insert>
+ 	
+ 	<select id="idfind" parameterType="uservo" resultType="uservo">
+ 		select * from pjcustomer where userName=#{userName} and userMail=#{userMail}
+ 	</select>
+ 	
+ 	<select id="pwfind" parameterType="uservo" resultType="uservo">
+ 		select * from pjcustomer where userId=#{userId} and userMail=#{userMail}
+ 	</select>
+ 	
+ 	<update id="pwchange" parameterType="uservo">
+ 		update pjcustomer set userPw=#{userPw}, userUpdReg=now() where userId=#{userId}
+ 	</update>
+ 	
+ 	<update id="logintime" parameterType="uservo">
+ 		update pjcustomer set userConnReg=now() where userId=#{userId}
+ 	</update>
+ </mapper>
