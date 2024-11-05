@@ -252,19 +252,17 @@
 					<ul>
 						<li><b>관광지 소개: ${list.trrsrtIntrcn}</b></li>
 						<li>
-							<!-- rdnmadr와 lnmadr 둘 다 없는 경우 --> 
 							<c:if
 								test="${empty list.rdnmadr and empty list.lnmadr}">
-								<!-- 아무것도 출력하지 않음 -->
-							</c:if> <!-- rdnmadr만 있는 경우 --> 
+							</c:if>  
 							<c:if
 								test="${not empty list.rdnmadr and empty list.lnmadr}">
 								<p>주소: ${list.rdnmadr}</p>
-							</c:if> <!-- lnmadr만 있는 경우 --> 
+							</c:if> 
 							<c:if
 								test="${empty list.rdnmadr and not empty list.lnmadr}">
 								<p>주소: ${list.lnmadr}</p>
-							</c:if> <!-- rdnmadr와 lnmadr 둘 다 있는 경우 --> 
+							</c:if>  
 							<c:if
 								test="${not empty list.rdnmadr and not empty list.lnmadr}">
 								<p>주소: ${list.rdnmadr}</p>
@@ -294,7 +292,7 @@
 			        </c:if>
 			
 			        <c:if test="${not empty list.phoneNumber}">
-			            <li>관리사무소 Tel: ${list.phoneNumber}</li>
+			            <li>관리사무소 ☎: ${list.phoneNumber}</li>
 			        </c:if>
 			
 			        <c:if test="${not empty list.referenceDate}">
@@ -309,7 +307,6 @@
 			<div class="kakaoMap" id="kakaoMap">
 
 				<div id="map" class="map" style="width: 100%; height: 450px;"></div>
-				<!-- travelIdx 검색해서 ${list.latitude}, ${list.longitude} 정보를 통해 아래 마커 위치를 지정 -->
 			</div>
 			<br><br>
 			
@@ -317,7 +314,6 @@
 			<div class="title" id="tourTalk">여행톡</div><br>
 			<div id="bbs" align="center">
 		        <input type="hidden" id="travelIdx" value="${param.travelIdx}">
-			    <!-- <form id="bbsForm" method="post" enctype="multipart/form-data"> -->
 			    <form id="bbsForm" method="post" encType="multipart/form-data">
 			        <textarea name="content" id="content"></textarea>
 			        <c:choose>
@@ -329,7 +325,6 @@
  				 		</c:otherwise>
 				 	</c:choose>
 			    </form>
-			    <!-- 등록하면 travelIdx를 가져가서 insert 하고, 불러 올 때는 해당 travelIdx 의 content를 불러온다 -->			    
 			    <div id="tourTalkList"></div>
 			</div>
 			
@@ -365,7 +360,7 @@
 		    $("#content").summernote({
 		        lang: 'ko-KR',
 		        height: 100,
-		        focus: true,
+		        focus: false,
 		        placeholder: "최대 500자까지 쓸 수 있습니다.",
 		        callbacks: {
 		            onImageUpload: function(files, editor) {
@@ -375,12 +370,12 @@
 		            }
 		        }
 		    });
-		    $(".note-editable").css({
+ 		    $(".note-editable").css({
 		        "text-align": "left",
 		        "width": "100%",  // 에디터 너비 조절 가능
-		    });
+		    }); 
 		});
-
+		    
 		// 서버에서 travelIdx에 맞는 글 목록 데이터를 가져와 표시
 		function loadTourTalkData(travelIdx) {
 		    $.ajax({
@@ -414,7 +409,7 @@
 		        talkHtml += "</ul>";
 		        talkHtml += "</div>";
 		    });
-		    $('#tourTalkList').html(talkHtml); // 동적으로 생성된 HTML을 tourTalkList에 삽입
+		    $('#tourTalkList').html(talkHtml);
 		}
 
 		// 글 등록 버튼 클릭 시 호출되는 함수
@@ -504,7 +499,18 @@
             infowindow.open(map, marker);
         }
     </script>
-
+    
+	<script type="text/javascript">
+	    document.addEventListener("DOMContentLoaded", function () {
+	        // URL에 #tourTalk 등의 앵커가 있을 경우 제거
+	        if (window.location.hash === "#tourTalk") {
+	            history.replaceState(null, null, ' '); // URL에서 앵커 제거
+	        }
+	
+	        // 페이지 로드 시 photo_gallery 섹션으로만 자동 스크롤 이동
+	        scrollToSection('photo_gallery');
+	    });
+	</script>
 	<script type="text/javascript">
 		// 섹션으로 부드럽게 스크롤하는 함수
 		function scrollToSection(sectionId) {
@@ -525,22 +531,22 @@
 
 		// 사진보기 버튼 클릭 시 photo_gallery 섹션으로 이동
 		function goToPhotoGallery() {
-			scrollToSection('#photo_gallery');
+			scrollToSection('photo_gallery');
 		}
 
 		// 상세보기 버튼 클릭 시 details_box 섹션으로 이동
 		function goToDetailsBox() {
-			scrollToSection('#details');
+			scrollToSection('details');
 		}
 
 		// 지도보기 버튼 클릭 시 kakaoMap 섹션으로 이동
 		function goToKakaoMap() {
-			scrollToSection('#kakaoMap');
+			scrollToSection('kakaoMap');
 		}
 
  		// 여행톡 버튼 클릭 시 tourTalk 섹션으로 이동
 		function goToTourTalk() {
-			scrollToSection('#tourTalk');
+			scrollToSection('tourTalk');
 		} 
 	</script>
 
@@ -577,24 +583,6 @@
 	            modal.style.display = "none";
 	        });
 	    });
-	</script>
-
-	<script type="text/javascript">
-	document.addEventListener("DOMContentLoaded", function () {
-	    const regionFilter = document.getElementById('region-filter');
-	    const selectedRegion = new URLSearchParams(window.location.search).get('region') || '0';
-	    
-	    regionFilter.value = selectedRegion;
-
-	    // 필터 선택 시 페이지 이동 (선택된 지역을 URL에 포함하여 새로고침)
-	    regionFilter.addEventListener('change', function () {
-	        const selectedCategory = this.value;
-	        const url = new URL(window.location.href);
-	        url.searchParams.set('region', selectedCategory);
-	        url.searchParams.set('cPage', 1); // 지역 변경 시 첫 페이지로 이동
-	        window.location.href = url.toString();
-	    });
-	});
 	</script>
 
 </body>
