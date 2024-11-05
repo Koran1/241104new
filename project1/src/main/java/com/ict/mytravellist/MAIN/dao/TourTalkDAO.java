@@ -13,7 +13,7 @@ public interface TourTalkDAO{
     public int getTourTalkInsert(TourTalkVO tourtvo);
 		
 	// 리스트
-    public List<TourTalkVO> getTourTalkList();
+    public List<TourTalkVO> getTourTalkList(String travelIdx);
     
     // 조회수 업데이트
     public int getHitUpdate(String userIdx);

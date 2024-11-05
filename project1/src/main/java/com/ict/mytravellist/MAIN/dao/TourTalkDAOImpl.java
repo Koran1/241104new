@@ -21,8 +21,9 @@ public class TourTalkDAOImpl implements TourTalkDAO{
 	}
 
 	@Override
-	public List<TourTalkVO> getTourTalkList() {
-		return null;
+	public List<TourTalkVO> getTourTalkList(String travelIdx) {
+        System.out.println("TourTalkDAOImpl 통과 ");
+		return sqlSessionTemplate.selectList("tourTalk.list", travelIdx);
 	}
 
 	@Override

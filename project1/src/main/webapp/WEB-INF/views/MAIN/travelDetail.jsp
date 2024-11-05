@@ -161,7 +161,42 @@
 .title{
 	font-size: 20px;
 }
- 
+
+.tourTList {
+    padding: 15px;
+    border-bottom: 1px solid #e6e6e6;
+    max-width: 800px; /* 고정 너비 */
+    margin: 0 auto; /* 가운데 정렬 */
+    text-align: left; /* 왼쪽 정렬 */
+}
+/* 내용 텍스트 정렬 */
+.tourTContent {
+	max-width: 800px;
+    margin-bottom: 10px; /* 하단 여백 추가 */
+    text-align: left; /* 왼쪽 정렬 */
+    color: #666;
+}
+/* 사용자 정보와 날짜를 가로로 정렬 */
+.tourInfo {
+    display: flex;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    gap: 20px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.tourinfo li{
+	margin-right: 20px;
+	color: #666;
+	font-size: 16px;
+
+}
+.tourTId .tourTReg{
+	list-style: none;
+	font-size: 16px;
+	color: #666;
+	text-align: left;
+}
 </style>
 </head>
 <body>
@@ -280,110 +315,159 @@
 			
 			<!-- 여행톡 섹션 -->
 			<div class="title" id="tourTalk">여행톡</div><br>
-			<%-- <jsp:include page="tourTalk.jsp" /> --%>
-			<div id="bbs" style="text-align: left;">
-			    <form method="list" encType="multipart/form-data">
+			<div id="bbs" align="center">
+		        <input type="hidden" id="travelIdx" value="${param.travelIdx}">
+			    <!-- <form id="bbsForm" method="post" enctype="multipart/form-data"> -->
+			    <form id="bbsForm" method="post" encType="multipart/form-data">
 			        <textarea name="content" id="content"></textarea>
-			        <input type="button" value="등록" onclick="bbs_write_ok(this.form)" >
-    			</form>
-    			
-    		</div>
-		</div>
-		</div>
-
-		<div class="main_right">
-			<jsp:include page="scroll.jsp" />
+			        <c:choose>
+				 		<c:when test="${empty userId}">
+				 			<input type="button" value="로그인" onclick="mem_login()">
+				 		</c:when>
+				 		<c:otherwise>
+			        		<input type="button" value="등록" onclick="bbs_write_ok()">
+ 				 		</c:otherwise>
+				 	</c:choose>
+			    </form>
+			    <!-- 등록하면 travelIdx를 가져가서 insert 하고, 불러 올 때는 해당 travelIdx 의 content를 불러온다 -->			    
+			    <div id="tourTalkList"></div>
+			</div>
+			
 		</div>
 	</div>
 
-	<jsp:include page="footer.jsp" />
+	<div class="main_right">
+			<jsp:include page="scroll.jsp" />
+	</div>
+</div>
+
+	<div><jsp:include page="footer.jsp" /></div>
+
+	<script type="text/javascript">
+		function mem_login() {
+			location.href="/mem_login";
+		}
+	</script>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
 	<script src="resources/js/summernote-lite.js" ></script>
 	<script src="resources/js/lang/summernote-ko-KR.js" ></script>
-		<script type="text/javascript">
-		$(function() {
-			$("#content").summernote({
-				lang : 'ko-KR',
-				height : 100,
-				focus : true,
-				placeholder : "최대 500자까지 쓸 수 있습니다.",
-				callbacks : {
-					onImageUpload : function(files, editor) {
-						for (let i = 0; i < files.length; i++) {
-							sendImage(files[i], editor);
-						}
-					}
-				}
-			});
-			$("#content").css("width", "80%"); // 에디터 너비를 80%로 설정
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+		    // travelIdx를 hidden 필드에서 가져오기
+		    const travelIdx = $('#travelIdx').val();
+		    
+		    // 페이지 로드 시 해당 travelIdx에 맞는 글 목록을 불러오기
+		    loadTourTalkData(travelIdx);
+		    
+		    // Summernote 초기화
+		    $("#content").summernote({
+		        lang: 'ko-KR',
+		        height: 100,
+		        focus: true,
+		        placeholder: "최대 500자까지 쓸 수 있습니다.",
+		        callbacks: {
+		            onImageUpload: function(files, editor) {
+		                for (let i = 0; i < files.length; i++) {
+		                    sendImage(files[i], editor);
+		                }
+		            }
+		        }
+		    });
+		    $(".note-editable").css({
+		        "text-align": "left",
+		        "width": "100%",  // 에디터 너비 조절 가능
+		    });
 		});
+
+		// 서버에서 travelIdx에 맞는 글 목록 데이터를 가져와 표시
+		function loadTourTalkData(travelIdx) {
+		    $.ajax({
+		        url: "/getTourTalkList",
+		        method: "post",
+		        data: { travelIdx: travelIdx },
+		        dataType: "json",
+		        success: function(response) {
+		            updateRecentlists(response);
+		        },
+		        error: function() {
+		            /* alert("데이터 요청 중 오류가 발생했습니다."); */
+		        }
+		    });
+		}
 		
+		function formatDateTime(dateTimeString) {
+		    // "YYYY-MM-DD HH:MM:SS"에서 "MM-DD HH:MM"만 잘라냅니다.
+		    return dateTimeString.substring(5, 16);
+		}
+		
+		// 가져온 데이터로 최신 글 목록을 동적으로 렌더링
+		function updateRecentlists(lists) {
+		    let talkHtml = "";
+		    lists.forEach(list => {
+		        talkHtml += "<div class='tourTList'>";
+		        talkHtml += "<div class='tourTContent'><p>" + list.tourTalkContent + "</p></div>";
+		        talkHtml += "<ul class='tourinfo'>"
+		        talkHtml += "<li class='tourTId'>" + list.userId + "</li>";
+		        talkHtml += "<li class='tourTReg'>" + formatDateTime(list.tourTalkReg) + "</li>";
+		        talkHtml += "</ul>";
+		        talkHtml += "</div>";
+		    });
+		    $('#tourTalkList').html(talkHtml); // 동적으로 생성된 HTML을 tourTalkList에 삽입
+		}
+
+		// 글 등록 버튼 클릭 시 호출되는 함수
+	    function bbs_write_ok() {
+	        const tourTalkContent = $('#content').val();
+	        const travelIdx = $('#travelIdx').val(); // travelIdx 값을 가져옵니다
+	        
+	        $.ajax({
+	            url: "/bbs_write_ok",
+	            method: "POST",
+	            data: {
+	            	tourTalkContent: tourTalkContent,
+	                travelIdx: travelIdx 	
+	            },
+	            success: function(response) {
+	            	loadTourTalkData(travelIdx);
+                    $('#content').summernote('reset'); // 입력 필드 초기화
+	            },
+	            error: function() {
+	                alert("오류가 발생했습니다.");
+	            }
+	        });
+	    }
+		
+		// 이미지 업로드 처리
 		function sendImage(file, editor) {
-		// FormData 객체를 전송할 때 , jQuery가 설정
-		  let frm = new FormData();
-		  frm.append("s_file", file);
-		  $.ajax({
-			  url : "/saveImg",
-			  data : frm,
-			  method : "list",
-			  contentType : false,
-			  processData : false,
-			  cache : false,
-			  dataType : "json",
-			  success : function(data) {
-				 const path = data.path;
-				 const fname = data.fname ;
-				 console.log(path, fname);
-				 $("#content").summernote("editor.insertImage", path+"/"+fname);
-			  },
+		    let formData = new FormData();
+		    formData.append("s_file", file);
+		    $.ajax({
+		        url: "/saveImg",
+		        data: formData,
+		        method: "POST",
+		        contentType: false,
+		        processData: false,
+			  	cache : false,
+			  	dataType : "json",
+			  	success : function(data) {
+					 const path = data.path;
+					 const fname = data.fname ;
+					 $("#content").summernote("editor.insertImage", path+"/"+fname);
+			  	},
 			  error : function() {
-				alert("읽기실패");
+				alert("이미지 업로드 실패");
 			}
 		  });
 		}
-	</script>
-	<script type="text/javascript">
-	function bbs_write_ok() {
-	    const content = $('#content').val();
-	    $.ajax({
-	        url: "/bbs_write_ok",
-	        method: "list",
-	        data: { content: content },
-	        dataType: "json",
-	        success: function(response) {
-	            if (response.status === "success") {
-	                $('#content').summernote('reset'); // 입력 필드 초기화
-	                updateRecentlists(response.recentlists); // 최신 글 목록 업데이트
-	            } else {
-	                alert("글 등록에 실패했습니다.");
-	            }
-	        },
-	        error: function() {
-	            alert("오류가 발생했습니다.");
-	        }
-	    });
-	}
+	    </script>
 
-	function updateRecentlists(list) {
-	    let talk = "";
-	    lists.forEach(list => {
-	    	talk += "<div class='tourTList'>";
-	    	talk += "<div class='tourTContent' style='width: 800px;'>"+list.tourTalkContent+"</div>";
-	    	talk += "<ul><li class='tourTId'>"+list.userId"</li>";
-	    	talk += "<li class='tourTReg'>"+list.tourTalkReg"</li></ul>";
-	    	talk += "</div>";
-	    });
-	    $('#bbs').html(talk); // 최신 글 목록 표시할 영역에 추가
-	}
-	</script>
-
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=590d5be37368c91772ba5516b2944ed1"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=590d5be37368c91772ba5516b2944ed1"></script>
 	<script type="text/javascript">
 	    // Controller로부터 전달된 데이터를 자바스크립트 변수에 할당
-	    const lat = ${list.latitude};
-	    const lng = ${list.longitude};
+	    const lat = "${list.latitude}";
+	    const lng = "${list.longitude}";
 	
 	    // 지도 생성 함수 호출
 	    geo_map(lat, lng);
@@ -419,8 +503,8 @@
             // 마커에 인포윈도우를 표시합니다
             infowindow.open(map, marker);
         }
-        </script>
-        
+    </script>
+
 	<script type="text/javascript">
 		// 섹션으로 부드럽게 스크롤하는 함수
 		function scrollToSection(sectionId) {
@@ -459,7 +543,7 @@
 			scrollToSection('#tourTalk');
 		} 
 	</script>
-	
+
 	<script type="text/javascript">
 	    document.addEventListener("DOMContentLoaded", function () {
 	        const bigImage = document.getElementById("photo_big");
@@ -494,7 +578,7 @@
 	        });
 	    });
 	</script>
-	
+
 	<script type="text/javascript">
 	document.addEventListener("DOMContentLoaded", function () {
 	    const regionFilter = document.getElementById('region-filter');
@@ -512,6 +596,6 @@
 	    });
 	});
 	</script>
-	
+
 </body>
 </html>

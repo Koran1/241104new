@@ -1,21 +1,27 @@
 package com.ict.mytravellist.MAIN.controller;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.ict.mytravellist.MAIN.common.MainPaging;
 import com.ict.mytravellist.MAIN.service.MainService;
 import com.ict.mytravellist.MAIN.service.TourTalkService;
+import com.ict.mytravellist.vo.TourTalkVO;
 import com.ict.mytravellist.vo.TravelDBVO;
 import com.ict.mytravellist.vo.WeatherVO;
 
@@ -34,7 +40,7 @@ public class MainController {
 	@Autowired
 	private MainPaging paging;
 	
-	// HOME
+	// main
 	@GetMapping("/main_go")
 	public ModelAndView maiPage(Model model) {
 		ModelAndView mv = new ModelAndView("MAIN/main");
@@ -58,6 +64,7 @@ public class MainController {
 		return "fail";
 	}
 
+	
     // 키워드와 지역으로 검색
 	@GetMapping("/region_search")
 	public ModelAndView regionSearch(
@@ -79,7 +86,6 @@ public class MainController {
 	        System.out.println("region_search Controller 통과");
 	        return mv;
 	    }
-	
 
 	@GetMapping("/search_go")
 	public ModelAndView boardList(
@@ -137,23 +143,21 @@ public class MainController {
 		return null;
 	}
 
-
     // 특정 관광지의 상세 정보 조회
     @GetMapping("/travelDetail_go")
     public ModelAndView detail(@ModelAttribute("travelIdx") String travelIdx) {
         ModelAndView mv = new ModelAndView("MAIN/travelDetail");
         List<TravelDBVO> list = mainService.getDetailList(travelIdx);
-
         if (!list.isEmpty()) {
             mv.addObject("list", list.get(0));
             // System.out.println("detail_go Controller 통과: " + list);
         } else {
             System.out.println("해당 관광지 정보를 찾을 수 없습니다: " + travelIdx);
         }
-
         return mv;
     }
-    
-
+   
+	
+	
     
 }

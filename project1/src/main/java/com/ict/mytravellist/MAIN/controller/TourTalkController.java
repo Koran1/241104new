@@ -24,47 +24,48 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.mytravellist.MAIN.service.TourTalkService;
+import com.ict.mytravellist.PLAN.service.TravelService;
 import com.ict.mytravellist.vo.TourTalkVO;
+import com.ict.mytravellist.vo.TravelDBVO;
 
 @Controller
 public class TourTalkController {
 
 	@Autowired
 	private TourTalkService tourTalkService;
-	
-	@PostMapping("/bbs_write_ok")
-	public ModelAndView getBbsWriteOk(TourTalkVO tourtvo, HttpServletRequest request) {
-		try {
-			ModelAndView mv = new ModelAndView("redirect:/travelDetail_go");
 
-			String path = request.getSession().getServletContext().getRealPath("/resources/upload");
-			MultipartFile file = tourtvo.getFile_name();
-			if (file.isEmpty()) {
-				tourtvo.setF_name("");
-			} else {
-				UUID uuid = UUID.randomUUID();
-				String f_name = uuid.toString() + "_" + file.getOriginalFilename();
-				tourtvo.setF_name(f_name);
+	@Autowired
+	private TravelService travelService;
 
-				// 업로드
-				file.transferTo(new File(path, f_name));
-			}
-			
-			/*
-			// 비밀번호 암호화
-			String pwd = passwordEncoder.encode(tourtvo.getPwd());
-			tourtvo.setPwd(pwd);
-			*/
-			
-			int result = tourTalkService.getTourTalkInsert(tourtvo);
-			if (result > 0) {
-				return mv;
-			}
-
-			return null;
-		} catch (Exception e) {
-			System.out.println(e);
-			return null;
-		}
-	}
+	/*
+	 * @RequestMapping("/bbs") public ModelAndView getBbsList(HttpServletRequest
+	 * request) { ModelAndView mv = new ModelAndView("MAIN/travelDetail");
+	 * List<TravelDBVO> list2 = travelService.g List<TourTalkVO> list =
+	 * tourTalkService.getTourTalkList(); mv.addObject("list", list);
+	 * 
+	 * return mv; }
+	 * 
+	 * @PostMapping("/bbs_write_ok") public ModelAndView getBbsWriteOk(TourTalkVO
+	 * tourtvo, HttpServletRequest request) { try { ModelAndView mv = new
+	 * ModelAndView("redirect:/travelDetail_go");
+	 * 
+	 * String path =
+	 * request.getSession().getServletContext().getRealPath("/resources/upload");
+	 * MultipartFile file = tourtvo.getFile_name(); if (file.isEmpty()) {
+	 * tourtvo.setF_name(""); } else { UUID uuid = UUID.randomUUID(); String f_name
+	 * = uuid.toString() + "_" + file.getOriginalFilename();
+	 * tourtvo.setF_name(f_name);
+	 * 
+	 * // 업로드 file.transferTo(new File(path, f_name)); }
+	 * 
+	 * 
+	 * // 비밀번호 암호화 String pwd = passwordEncoder.encode(tourtvo.getPwd());
+	 * tourtvo.setPwd(pwd);
+	 * 
+	 * 
+	 * int result = tourTalkService.getTourTalkInsert(tourtvo); if (result > 0) {
+	 * return mv; }
+	 * 
+	 * return null; } catch (Exception e) { System.out.println(e); return null; } }
+	 */
 }

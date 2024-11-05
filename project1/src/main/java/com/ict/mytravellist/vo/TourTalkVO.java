@@ -3,8 +3,16 @@ package com.ict.mytravellist.vo;
 import org.springframework.web.multipart.MultipartFile;
 
 public class TourTalkVO {
-	private String tourTalkIdx, userId, tourTalkContent, tourTalkReg, f_name, hit, active, old_f_name;
+	private String tourTalkIdx, userId, tourTalkContent, tourTalkReg, f_name, hit, active, old_f_name, travelIdx;
 	private MultipartFile file_name;
+	
+	
+	public String getTravelIdx() {
+		return travelIdx;
+	}
+	public void setTravelIdx(String travelIdx) {
+		this.travelIdx = travelIdx;
+	}
 	public String getTourTalkIdx() {
 		return tourTalkIdx;
 	}
