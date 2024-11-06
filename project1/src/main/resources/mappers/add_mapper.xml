@@ -31,26 +31,33 @@
         LIMIT 5
     </select>
     
-    <select id="noticeList2" resultType="noticevo">
-    	SELECT *
-        FROM pjnotice
-        WHERE noticeStatus = 'on'
-        ORDER BY noticeidx DESC
-        LIMIT 10000
+    <select id="noticeCount" resultType = "int">
+		select count(*) from pjnotice
+	</select>
+    
+    <select id="noticeList2" resultType="noticevo" parameterType="map">
+        SELECT * 
+		FROM pjnotice 
+		WHERE noticeStatus = 'on' 
+		ORDER BY noticeidx DESC 
+		limit #{limit} offset #{offset}
     </select>
 	
 	<!-- 공지사항 검색 기능 -->
 	<select id="adds.noticeSearch" parameterType="String" resultType="noticevo">
-		 SELECT * FROM pjnotice 
-        WHERE (noticeSubject LIKE CONCAT('%', #{keyword}, '%') 
-        OR noticeContent LIKE CONCAT('%', #{keyword}, '%'))
-        AND noticeStatus = 'on'
+		SELECT * FROM pjnotice 
+        WHERE noticeSubject LIKE CONCAT('%', #{keyword}, '%') 
+        OR noticeContent LIKE CONCAT('%', #{keyword}, '%') 
         ORDER BY noticeIdx DESC
 	</select>
 	
     <!-- 공지사항 상세화면 -->
     <select id="noticeDetail" parameterType="String" resultType="noticevo">
     	select * from pjnotice where noticeIdx=#{noticeIdx}
+    </select>
+    
+    <select id="noticeAll" resultType="noticevo">
+    	select * from pjnotice where noticeStatus = 'on' order by noticeIdx desc
     </select>
     
     <!-- FAQ 초기화면 -->
@@ -63,43 +70,43 @@
 		select count(*) from pjfaq
 	</select>
 	
+	
 	<select id="faqPageList" parameterType="Map"  resultType = "faqvo">
 		select * from pjfaq limit #{limit} offset #{offset}
 	</select>
     
     <!-- QNA 초기화면 -->
-    <select id="qnaList" resultType="qnavo">
-    	select 
-		q.qnaIdx, q.userId, q.qnaSubject, q.qnaFile, q.qnaContent, q.qnaReg, q.qnaReSubject, q.qnaReContent, q.qnaReRegdate, q.qnaStatus, q.qnaEtc01, q.qnaEtc02 
-		from pjqna q 
-		inner join pjcustomer c 
-		on q.userId = c.userId
-		order by q.qnaReg desc
+    
+    <select id="qnaCount" resultType="int">
+    	select count(*) from pjqna
     </select>
+    
+    <select id="qnaList" parameterType="Map" resultType="qnavo">
+    	select * from pjqna 
+		where userId=#{userId} 
+		order by qnaReg desc  
+    	limit #{limit} offset #{offset}
+    </select>
+    
+   <!--  <select id="qnaList" parameterType="String" resultType="qnavo">
+    	select * from pjqna 
+		where userId=#{userId} 
+		order by qnaReg desc 
+    </select> -->
     
     <!-- QNA 상세화면-User -->
     <select id="qnaDetail" parameterType="String" resultType="qnavo">
-    	select 
-		q.qnaIdx, q.userId, q.qnaSubject, q.qnaSubject, q.qnaFile, q.qnaContent, q.qnaReg, q.qnaReSubject, q.qnaReContent, q.qnaReRegdate, q.qnaStatus, q.qnaEtc01, q.qnaEtc02 
-		from pjqna q 
-		inner join pjcustomer c 
-		on q.userId = c.userId 
-		where q.qnaIdx=#{qnaIdx}
+    	select * from pjqna where qnaIdx=#{qnaIdx}
     </select>
     
     <!-- QNA 상세화면-Admin -->
     <select id="qnaDetailAdmin" parameterType="String" resultType="qnavo">
-    	select 
-		q.qnaIdx, q.userId, q.qnaSubject, q.qnaSubject, q.qnaFile, q.qnaContent, q.qnaReg, q.qnaReSubject, q.qnaReContent, q.qnaReRegdate, q.qnaStatus, q.qnaEtc01, q.qnaEtc02 
-		from pjqna q 
-		inner join pjcustomer c 
-		on q.userId = c.userId 
-		where q.qnaIdx=#{qnaIdx}
+    	select * from pjqna where qnaIdx=#{qnaIdx}
     </select>
     
     <!-- QNA 질문하기 화면 -->
     <insert id="qnaInsert" parameterType="qnavo">
-    	insert into pjqna(userId, qnaSubject, qnaFile, qnaContent, qnaReg) 
-    	values (#{userId}, #{qnaSubject}, #{qnaFile}, #{qnaContent}, now())
+    	insert into pjqna(userId, qnaSubject, qnaFile, qnaContent, qnaReg, qnaStatus) 
+    	values (#{userId}, #{qnaSubject}, #{qnaFile}, #{qnaContent}, now(), '답변 중') 
     </insert>
  </mapper>
