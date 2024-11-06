@@ -1,6 +1,8 @@
 package com.ict.mytravellist.MAIN.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,14 +53,20 @@ public class MainServiceImpl implements MainService {
 
 
 	@Override
-	public int getSearchCount(String keyword) {
-		System.out.println("getSearchCount MainServiceImpl 통과");
-		return mainDAO.getSearchCount(keyword);
+	public int getSearchCount(String keyword, String region) {
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("keyword", keyword);
+	    map.put("region", region);
+	    return mainDAO.getSearchCount(map);
 	}
 
 	@Override
-	public List<TravelDBVO> getSearchPageList(int limit, int offset, String keyword) {
-		return mainDAO.getSearchPageList(limit, offset, keyword);
+	public List<TravelDBVO> getSearchPageList(int limit, int offset, TravelDBVO tdvo) {
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("offset", offset);
+	    map.put("limit", limit);
+	    map.put("tdvo", tdvo);
+	    return mainDAO.getSearchPageList(map);
 	}
 
 	@Override

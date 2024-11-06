@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page session="true" %>
+	
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -201,6 +203,10 @@
 </head>
 <body>
 	<jsp:include page="header.jsp" />
+	
+	<!-- 세션에 저장된 id를 불러옴 -->
+	<% String userId = (String) session.getAttribute("userId"); %>	
+	
 	<!-- 고정된 메뉴 섹션 -->
 	<div class="menu_container">
 		<ul>
@@ -347,6 +353,10 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
 	<script src="resources/js/summernote-lite.js" ></script>
 	<script src="resources/js/lang/summernote-ko-KR.js" ></script>
+
+	<script type="text/javascript">
+	    const userId = "<%= userId %>";
+	</script>
 
 	<script type="text/javascript">
 		$(document).ready(function() {

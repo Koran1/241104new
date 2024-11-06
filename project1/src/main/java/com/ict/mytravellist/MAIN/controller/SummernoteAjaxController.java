@@ -32,10 +32,10 @@ public class SummernoteAjaxController {
     @PostMapping(value = "/getTourTalkList", produces = "application/json; charset=utf-8")
     @ResponseBody
     public List<TourTalkVO> detail(@RequestParam("travelIdx") String travelIdx) {
-        
         // travelIdx에 해당하는 TourTalk 정보를 가져오기
         List<TourTalkVO> list = tourTalkService.getTourTalkList(travelIdx);
         if (!list.isEmpty()) {
+        	System.out.println();
             return list;
         } else {
             return null;
@@ -47,10 +47,9 @@ public class SummernoteAjaxController {
 	@ResponseBody
 	public void getBbsWriteOk(TourTalkVO tourtvo, HttpServletRequest request) {
 		try {
-			System.out.println(tourtvo.getTourTalkContent());
-			/* tourtvo.setUserId("hong"); */
-			
-			
+			// System.out.println(tourtvo.getTourTalkContent());
+	        String userId = (String) request.getSession().getAttribute("userId");
+	        tourtvo.setUserId(userId);
 			int result = tourTalkService.getTourTalkInsert(tourtvo);
 		    } catch (Exception e) {
 		    	e.printStackTrace();

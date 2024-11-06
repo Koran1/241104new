@@ -30,6 +30,7 @@
 /* 메인 화면의 중앙 영역: 비율 80% */
 .main_center {
 	width: 80%; /* 중앙 레이아웃의 비율 설정 */
+	height: 90vh;
 }
 
 /* 메인 화면의 우측 영역: 비율 10% */
@@ -39,7 +40,7 @@
 
 /* 메인 컨테이너의 래퍼: 스크롤 없이 고정된 레이아웃 */
 .main_wrapper {
-	margin: 100px 0;
+	margin: 120px 0;
 	display: flex;
 	justify-content: center; /* 중앙 정렬 */
 	gap: 20px; /* 각 박스 사이의 간격 */
@@ -51,11 +52,11 @@
 
 /* travel_box 스타일: 각각의 여행지 박스 */
 .travel_box {
-	width: 30%;
-	height: 450px; /* 고정된 높이 */
-	border: 1px solid #7bbe6e;
+	width: 33%;
+	height: 550px; /* 고정된 높이 */
+	/* border: 1px solid #7bbe6e; */
 	border-radius: 12px;
-	box-shadow: 1px 1px 3px 0 gray;
+	box-shadow: 1px 1px 2px 0 gray;
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
@@ -72,17 +73,11 @@
 	margin-bottom: 15px;
 	color: rgb(100, 50, 15, 10);
 }
-/* travel_box 크기 비율 유지 */
-.travel_box {
-	transform: scale(1);
-	transform-origin: 0 0;
-	width: 30%; /* 비율로 설정 */
-	height: auto; /* 높이도 비율에 맞춰 자동 설정 */
-}
+
 /* 여행지 이미지 스타일: travel_box 내부 이미지 */
 .travel_image {
     width: 100%;
-    height: 270px; /* 고정 높이 설정 */
+    height: 370px; /* 고정 높이 설정 */
     background-color: white; /* 이미지가 없을 경우 표시될 배경색 */
     display: flex;
     justify-content: center;
@@ -97,7 +92,7 @@
 }
 /* 날씨 정보 스타일: 여행지 정보 하단 날씨 박스 */
 .travel_weather {
-	height: 150px !important; /* 날씨 정보의 높이 */
+	height: 157px !important; /* 날씨 정보의 높이 */
 	margin-top: 7px; /* 상단 여백 */
 	padding: 15px; /* 내부 여백 */
 	background-color: #ddf7d8; /* 연한 초록색 배경 */
@@ -188,7 +183,9 @@
 	<!-- 바디 -->
 	<div class="main_container">
 
-		<div class="main_left"></div>
+		<div class="main_left">
+			<jsp:include page="popup.jsp" />
+		</div>
 
 		<div class="main_center">
 			<div class="main_wrapper">
@@ -208,7 +205,7 @@
 
  		    setInterval(() => {
 		        loadTravelList();
-		    }, 200000); 
+		    }, 20000); 
 		    
  		   function countKoreanChars(str) {
  			    if (!str) return 0;  // null 또는 undefined 처리
@@ -255,7 +252,7 @@
 							}
 		    	           	
 			                if (k && k.length > i) {
-			                    wthrDate = k[i].wthrDate;
+			                    wthrDate = k[0].wthrDate;
 			                    wthrTMin = k[i].wthrTMin;
 			                    wthrTMax = k[i].wthrTMax;
 			                    wthrSKY_PTY = getWeatherImage(k[i].wthrSKY_PTY);
@@ -293,13 +290,13 @@
 		                	table += "<tr><th>일자</th><th>최저</th><th>최고</th><th>하늘</th><th>강수</th></tr>";
 		                	
 		                	k.forEach((weatherData, index) => {
-		                        if (index > 0 && index < 10) {
+		                        if (index >= 0 && index < 10) {
 		                            let dailyWeatherImage = getWeatherImage(weatherData.wthrSKY_PTY);
 
 		                            table += "<tr>";
 		                            table += "<td>" + weatherData.wthrDate.substring(5) + "</td>";
-		                            table += "<td>" + weatherData.wthrTMin + "</td>";
-		                            table += "<td>" + weatherData.wthrTMax + "</td>";
+		                            table += "<td>" + weatherData.wthrTMin + "℃</td>";
+		                            table += "<td>" + weatherData.wthrTMax + "℃</td>";
 		                            table += "<td style='font-size: 16px;'>" + dailyWeatherImage + "</td>";
 		                            table += "<td>" + weatherData.wthrPOP + "%</td>";
 		                            table += "</tr>";

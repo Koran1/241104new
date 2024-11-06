@@ -78,19 +78,15 @@ public class MainDAOImpl implements MainDAO{
 	}
 
 	@Override
-	public int getSearchCount(String keyword) {
-		System.out.println("getSearchCount MainDAOImpl 통과");
-		return sqlSessionTemplate.selectOne("main.count", keyword);
+	public int getSearchCount(Map<String, Object> map) {
+		// System.out.println("getSearchCount MainDAOImpl 통과");
+		return sqlSessionTemplate.selectOne("main.count", map);
 	}
 
-	@Override
-	public List<TravelDBVO> getSearchPageList(int limit, int offset, String keyword) {
-	    Map<String, Object> map = new HashMap<>();  // <String, Object>로 변경
-	    map.put("offset", offset);
-	    map.put("limit", limit);
-	    map.put("keyword", keyword);
-	    return sqlSessionTemplate.selectList("main.page_list", map);
-	}
+    @Override
+    public List<TravelDBVO> getSearchPageList(Map<String, Object> map) {
+        return sqlSessionTemplate.selectList("main.page_list", map);
+    }
 
 	@Override
 	public int insertTourTalk(TourTalkVO tourtvo) {

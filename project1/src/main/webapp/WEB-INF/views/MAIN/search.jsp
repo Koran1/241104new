@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page session="true" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,7 +70,7 @@
 .travel_box {
 	width: 300px;
 	height: 390px;
-	border: 1px solid #7bbe6e;
+	/* border: 1px solid #7bbe6e; */
 	border-radius: 12px;
 	overflow: hidden;
 	text-align: center;
@@ -77,7 +79,7 @@
 	align-items: center;
 	justify-content: center;
 	padding: 8px;
-	box-shadow: 1px 1px 3px 0 gray;
+	box-shadow: 1px 1px 1px 0 gray;
 }
 
 /* 여행 이미지 */
@@ -141,6 +143,7 @@
 	color: gray;
 	padding-right: 30px;
 	list-style-type: none;
+	margin-left: 60px;
 }
 .disable{color: lightgray;}
 .now{color: black;}
@@ -148,6 +151,8 @@
 </head>
 <body>
 	<jsp:include page="header.jsp" />
+	
+	<% String userId = (String) session.getAttribute("userId"); %>	
 
 	<!-- 메인 컨텐츠 -->
 	<!-- main -->
@@ -157,24 +162,24 @@
 		<div class="main_center">
 			<div class="travel_result">
 				<p>검색결과: ${keyword} ${count}건</p>
-				<br> <select id="region-filter">
-					<option value="0">:: 전체 ::</option>
-					<option value="1">서울</option>
-					<option value="2">부산</option>
-					<option value="3">대구</option>
-					<option value="4">인천</option>
-					<option value="5">광주</option>
-					<option value="6">대전</option>
-					<option value="7">울산</option>
-					<option value="8">경기</option>
-					<option value="9">강원</option>
-					<option value="10">충북</option>
-					<option value="11">충남</option>
-					<option value="12">전북</option>
-					<option value="13">전남</option>
-					<option value="14">경북</option>
-					<option value="15">경남</option>
-					<option value="16">제주</option>
+				<br> <select id="region-filter" onchange="filterByRegion()">
+				    <option value="0" ${region == '' ? 'selected' : ''}>:: 전체 ::</option>
+				    <option value="1" ${region == '1' ? 'selected' : ''}>서울</option>
+				    <option value="2" ${region == '2' ? 'selected' : ''}>부산</option>
+				    <option value="3" ${region == '3' ? 'selected' : ''}>대구</option>
+				    <option value="4" ${region == '4' ? 'selected' : ''}>인천</option>
+				    <option value="5" ${region == '5' ? 'selected' : ''}>광주</option>
+				    <option value="6" ${region == '6' ? 'selected' : ''}>대전</option>
+				    <option value="7" ${region == '7' ? 'selected' : ''}>울산</option>
+				    <option value="8" ${region == '8' ? 'selected' : ''}>경기</option>
+				    <option value="9" ${region == '9' ? 'selected' : ''}>강원</option>
+				    <option value="10" ${region == '10' ? 'selected' : ''}>충북</option>
+				    <option value="11" ${region == '11' ? 'selected' : ''}>충남</option>
+				    <option value="12" ${region == '12' ? 'selected' : ''}>전북</option>
+				    <option value="13" ${region == '13' ? 'selected' : ''}>전남</option>
+				    <option value="14" ${region == '14' ? 'selected' : ''}>경북</option>
+				    <option value="15" ${region == '15' ? 'selected' : ''}>경남</option>
+				    <option value="16" ${region == '16' ? 'selected' : ''}>제주</option>
 				</select>
 			</div>
 			<c:choose>
@@ -217,7 +222,7 @@
 					</c:when>
 					<c:otherwise>
 						<div>
-							<a href="/search_go?cPage=${paging.beginBlock - paging.pagePerBlock}&keyword=${keyword}">◀이전</a>
+							<a href="/search_go?cPage=${paging.beginBlock - paging.pagePerBlock}&keyword=${keyword}&region=${region}">◀이전</a>
 						</div>
 					</c:otherwise>
 				</c:choose>
@@ -228,7 +233,7 @@
 						<li class="now">${k}</li>
 					</c:if>
 					<c:if test="${k != paging.nowPage}">
-						<li><a href="/search_go?cPage=${k}&keyword=${keyword}">${k}</a></li>
+						<li><a href="/search_go?cPage=${k}&keyword=${keyword}&region=${region}">${k}</a></li>
 					</c:if>
 				</c:forEach>
 				<!-- 다음 버튼 -->
@@ -238,7 +243,7 @@
 					</c:when>
 					<c:otherwise>
 						<div>
-							<a href="/search_go?cPage=${paging.beginBlock + paging.pagePerBlock}&keyword=${keyword}">다음▶</a>
+							<a href="/search_go?cPage=${paging.beginBlock + paging.pagePerBlock}&keyword=${keyword}&region=${region}">다음▶</a>
 						</div>
 					</c:otherwise>
 				</c:choose>
@@ -253,19 +258,15 @@
 	<jsp:include page="footer.jsp" />
 	
 	<script type="text/javascript">
-		document.getElementById('region-filter').addEventListener('change', function () {
-	        const selectedCategory = this.value;
-	        const travelBoxes = document.querySelectorAll('.travel_box');
-	        
-	        travelBoxes.forEach(item => {
-	            item.style.display = (item.getAttribute('data-category') === selectedCategory) ? 'block' : 'none';
-	        });
-	        if(selectedCategory === "0"){
-	        	travelBoxes.forEach(item => {
-		            item.style.display = 'block';
-	        	});
-	        }
-	    });
+		function filterByRegion() {
+		    const regionSelect = document.getElementById("region-filter");
+		    const region = regionSelect.value;
+		    const keyword = "${keyword}"; // 기존 검색어 유지
+	
+		    // URL 파라미터로 안전하게 전달
+		    location.href = "/search_go?keyword=" + encodeURIComponent(keyword) + "&region=" + encodeURIComponent(region);
+		}
 	</script>
+	
 </body>
 </html>

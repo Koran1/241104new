@@ -65,45 +65,43 @@ public class MainController {
 	}
 
 	
-    // 키워드와 지역으로 검색
-	@GetMapping("/region_search")
-	public ModelAndView regionSearch(
-	        @RequestParam("keyword") String keyword,
-	        @RequestParam(value = "region", required = false) String region) {
-	
-	    	ModelAndView mv = new ModelAndView("MAIN/search");
-	        List<TravelDBVO> list;
-	
-	        if (region == null || region.isEmpty()) {
-	            list = mainService.getSearchList(keyword);
-	        } else {
-	            list = mainService.searchKeywordAndRegion(keyword, region);
-	        }
-	
-	        mv.addObject("list", list);
-	        mv.addObject("keyword", keyword);
-	        mv.addObject("region", region);
-	        System.out.println("region_search Controller 통과");
-	        return mv;
-	    }
+	/*
+	 * // 키워드와 지역으로 검색
+	 * 
+	 * @GetMapping("/region_search") public ModelAndView regionSearch(
+	 * 
+	 * @RequestParam("keyword") String keyword,
+	 * 
+	 * @RequestParam(value = "region", required = false) String region) {
+	 * 
+	 * ModelAndView mv = new ModelAndView("MAIN/search"); List<TravelDBVO> list;
+	 * 
+	 * if (region == null || region.isEmpty()) { list =
+	 * mainService.getSearchList(keyword); } else { list =
+	 * mainService.searchKeywordAndRegion(keyword, region); }
+	 * 
+	 * mv.addObject("list", list); mv.addObject("keyword", keyword);
+	 * mv.addObject("region", region);
+	 * System.out.println("region_search Controller 통과"); return mv; }
+	 */
 
 	@GetMapping("/search_go")
 	public ModelAndView boardList(
-			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
-            HttpServletRequest request) {
+	        @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+	        @RequestParam(value = "region", required = false, defaultValue = "") String region,
+	        HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("MAIN/search");
 		
 		// 페이징 기법
 		// 전체 게시물의 수 (DB처리)
-		int count = mainService.getSearchCount(keyword);		// 키워드 총 갯수 구하기
+		int count = mainService.getSearchCount(keyword, region);		// 키워드 총 갯수 구하기
 		paging.setTotalRecord(count);					// 집어 넣는다
 		
-		System.out.println("count : " + count);
+		// System.out.println("count : " + count);
 		// 전체 페이지의 수를 구한다
 		if(paging.getTotalRecord() <= paging.getNumPerPage()) {// 전체 게시물의 수가 1 page 전체 줄 표시 보다 작으면
 			paging.setTotalPage(1);						// 1페이지를 보여라
 		} else {
-
 	        paging.setTotalPage((int) Math.ceil((double) paging.getTotalRecord() / paging.getNumPerPage()));
 		}
 		
@@ -116,6 +114,7 @@ public class MainController {
 			paging.setNowPage(Integer.parseInt(cPage));
 		}
 		
+		// 오프셋 계산
 		paging.setOffset(paging.getNumPerPage() * (paging.getNowPage() - 1));
 
 	    // 현재 페이지 블록 계산
@@ -131,16 +130,21 @@ public class MainController {
 			paging.setEndBlock(paging.getTotalPage());
 		}
 		
-		// DB 처리
-		List<TravelDBVO> list = mainService.getSearchPageList(paging.getOffset(), paging.getNumPerPage(), keyword);
-		if (list != null) {
-			mv.addObject("list", list);
-			mv.addObject("paging", paging);
-			mv.addObject("keyword", keyword);
-			mv.addObject("count", count);
-			return mv;
-		}
-		return null;
+	    // 검색 및 페이징 조건 설정
+	    TravelDBVO tdvo = new TravelDBVO();
+	    tdvo.setKeyword(keyword);
+	    tdvo.setRegion(region);
+
+	    // DB 처리
+	    List<TravelDBVO> list = mainService.getSearchPageList(paging.getOffset(), paging.getNumPerPage(), tdvo);
+	    mv.addObject("list", list);
+	    mv.addObject("paging", paging);
+	    mv.addObject("keyword", keyword);
+	    mv.addObject("region", region);
+	    mv.addObject("count", count);
+	    System.out.println("keyword" + tdvo.getKeyword());
+	    System.out.println("region" + tdvo.getRegion());
+	    return mv;
 	}
 
     // 특정 관광지의 상세 정보 조회

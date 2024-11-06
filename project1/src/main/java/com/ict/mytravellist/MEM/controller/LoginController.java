@@ -91,7 +91,7 @@ public class LoginController {
 	        // 로그인 성공
 	        System.out.println("로그인 성공");	
 	        session.setAttribute("loginChk", "ok"); // 로그인 상태 체크 세션 설정
-	        mv.setViewName("redirect:/"); // 메인 화면으로 이동
+	        mv.setViewName("MAIN/main"); // 메인 화면으로 이동
 	        session.setAttribute("userId", uservo.getUserId()); // userId 세션에 저장
 	        System.out.println(uservo2.getUserId());
 	        session.setAttribute("loginFailCnt", 0); // 로그인 성공 시 실패 횟수 초기화
@@ -111,12 +111,12 @@ public class LoginController {
 	}
 
 	// 로그아웃
-	@GetMapping("mem_logout")
+	@GetMapping("/mem_logout")
 	public ModelAndView memLogout(HttpSession session) {
 		// 세션 초기화
 		session.invalidate();
 		System.out.println("로그아웃 성공");
-		return new ModelAndView("redirect:/");
+		return new ModelAndView("MAIN/main");
 	}
 
 	// 아이디 찾기 화면

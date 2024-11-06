@@ -21,8 +21,6 @@ public class TourTalkServiceImpl implements TourTalkService{
 
 	@Override
 	public List<TourTalkVO> getTourTalkList(String travelIdx) {
-        System.out.println("TourTalkServiceImpl 통과 ");
-
 		return tourTalkDAO.getTourTalkList(travelIdx);
 	}
 

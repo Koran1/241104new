@@ -8,23 +8,6 @@
         SELECT * FROM travellistdb ORDER BY RAND() LIMIT 3
     </select>
 
-    <!-- 키워드 기반 검색 
-    <select id="getSearchList" parameterType="String" resultType="tdvo">
-        SELECT * 
-        FROM ictedu_db.travellistdb 
-        WHERE trrsrtNm LIKE CONCAT('%', #{keyword}, '%' ) 
-        OR rdnmadr LIKE CONCAT('%', #{keyword}, '%' )  
-        OR lnmadr LIKE CONCAT('%', #{keyword}, '%' )
-        OR cnvnncFclty LIKE CONCAT('%', #{keyword}, '%' )
-        OR recrtClturFclty LIKE CONCAT('%', #{keyword}, '%' )
-        OR mvmAmsmtFclty LIKE CONCAT('%', #{keyword}, '%' )
-        OR hospitalityFclty LIKE CONCAT('%', #{keyword}, '%' )
-        OR stayngInfo LIKE CONCAT('%', #{keyword}, '%' )
-        OR sportFclty LIKE CONCAT('%', #{keyword}, '%' )
-        OR trrsrtIntrcn LIKE CONCAT('%', #{keyword}, '%')    
-    </select>
--->
-
     <!-- 키워드 및 지역 기반 검색 -->
     <select id="getSearchKeyRegion" parameterType="map" resultType="tdvo">
         SELECT * 
@@ -51,36 +34,44 @@
     	SELECT * FROM pjweather
     </select>
     
-    <select id="count" parameterType="String" resultType="int">
-  		select count(*) from travellistdb
-  		WHERE 
-		    trrsrtNm LIKE CONCAT('%', #{keyword}, '%') 
-		    OR rdnmadr LIKE CONCAT('%', #{keyword}, '%') 
-		    OR lnmadr LIKE CONCAT('%', #{keyword}, '%') 
-		    OR cnvnncFclty LIKE CONCAT('%', #{keyword}, '%') 
-		    OR recrtClturFclty LIKE CONCAT('%', #{keyword}, '%') 
-		    OR mvmAmsmtFclty LIKE CONCAT('%', #{keyword}, '%') 
-		    OR hospitalityFclty LIKE CONCAT('%', #{keyword}, '%') 
-		    OR stayngInfo LIKE CONCAT('%', #{keyword}, '%') 
-		    OR sportFclty LIKE CONCAT('%', #{keyword}, '%') 
-		    OR trrsrtIntrcn LIKE CONCAT('%', #{keyword}, '%') 
-  	</select>
+	<select id="count" parameterType="Map" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM travellistdb 
+	    WHERE 
+	        (trrsrtNm LIKE CONCAT('%', #{keyword}, '%') 
+	        OR rdnmadr LIKE CONCAT('%', #{keyword}, '%') 
+	        OR lnmadr LIKE CONCAT('%', #{keyword}, '%') 
+	        OR cnvnncFclty LIKE CONCAT('%', #{keyword}, '%') 
+	        OR recrtClturFclty LIKE CONCAT('%', #{keyword}, '%') 
+	        OR mvmAmsmtFclty LIKE CONCAT('%', #{keyword}, '%') 
+	        OR hospitalityFclty LIKE CONCAT('%', #{keyword}, '%') 
+	        OR stayngInfo LIKE CONCAT('%', #{keyword}, '%') 
+	        OR sportFclty LIKE CONCAT('%', #{keyword}, '%') 
+	        OR trrsrtIntrcn LIKE CONCAT('%', #{keyword}, '%'))
+	        <if test="region != null and region != ''">
+	            AND region = #{region}
+	        </if>
+	</select>
   	
-  	 <select id="page_list" parameterType="Map" resultType="tdvo">
-		SELECT * FROM travellistdb 
-		WHERE 
-		    trrsrtNm LIKE CONCAT('%', #{keyword}, '%') 
-		    OR rdnmadr LIKE CONCAT('%', #{keyword}, '%') 
-		    OR lnmadr LIKE CONCAT('%', #{keyword}, '%') 
-		    OR cnvnncFclty LIKE CONCAT('%', #{keyword}, '%') 
-		    OR recrtClturFclty LIKE CONCAT('%', #{keyword}, '%') 
-		    OR mvmAmsmtFclty LIKE CONCAT('%', #{keyword}, '%') 
-		    OR hospitalityFclty LIKE CONCAT('%', #{keyword}, '%') 
-		    OR stayngInfo LIKE CONCAT('%', #{keyword}, '%') 
-		    OR sportFclty LIKE CONCAT('%', #{keyword}, '%') 
-		    OR trrsrtIntrcn LIKE CONCAT('%', #{keyword}, '%') 
-		ORDER BY travelidx DESC 
-		LIMIT #{limit}, #{offset}
+	<select id="page_list" parameterType="Map" resultType="tdvo">
+	    SELECT * 
+	    FROM travellistdb 
+	    WHERE 
+	        (trrsrtNm LIKE CONCAT('%', #{tdvo.keyword}, '%') 
+	        OR rdnmadr LIKE CONCAT('%', #{tdvo.keyword}, '%') 
+	        OR lnmadr LIKE CONCAT('%', #{tdvo.keyword}, '%') 
+	        OR cnvnncFclty LIKE CONCAT('%', #{tdvo.keyword}, '%') 
+	        OR recrtClturFclty LIKE CONCAT('%', #{tdvo.keyword}, '%') 
+	        OR mvmAmsmtFclty LIKE CONCAT('%', #{tdvo.keyword}, '%') 
+	        OR hospitalityFclty LIKE CONCAT('%', #{tdvo.keyword}, '%') 
+	        OR stayngInfo LIKE CONCAT('%', #{tdvo.keyword}, '%') 
+	        OR sportFclty LIKE CONCAT('%', #{tdvo.keyword}, '%') 
+	        OR trrsrtIntrcn LIKE CONCAT('%', #{tdvo.keyword}, '%')) 
+	        <if test="tdvo.region != null and tdvo.region != ''">
+	            AND region = #{tdvo.region} 
+	        </if>
+	    ORDER BY travelidx DESC 
+	    LIMIT #{limit}, #{offset}
 	</select>
 	
 	<insert id="insert" parameterType="tourtvo">

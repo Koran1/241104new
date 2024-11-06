@@ -31,6 +31,12 @@ footer {
 	flex: 1 1 40%;
 }
 
+.footer_center div {
+	text-decoration: none; /* 밑줄 제거 */
+	color: inherit; /* 부모 요소의 텍스트 색상과 동일하게 설정 */
+	flex: 1 1 40%;
+}
+
 .footer_center_top {
 	display: flex;
 	margin: 10px 20px 30px 20px; /* 상하좌우 */
