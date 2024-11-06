@@ -124,6 +124,61 @@
     	text-decoration: none;
     	color: inherit;
 	}
+	/* 페이징 스타일 */
+	table tfoot ol.paging {
+		margin: 0 auto;
+		display: table;
+		text-align: center;
+		margin-bottom: 30px;
+		list-style: none;
+		padding: 0;
+	}
+
+	table tfoot ol.paging li {
+		display: inline-block;
+		margin: 5px;
+	}
+
+	table tfoot ol.paging li a,
+	table tfoot ol.paging li.disable,
+	table tfoot ol.paging li.now {
+		color: #555;
+		padding: 8px 16px;
+		text-decoration: none;
+		transition: background-color 0.3s;
+		background: #eee;
+		border-radius: 4px;
+	}
+
+	table tfoot ol.paging li.disable {
+		background: #ddd;
+		color: #bbb;
+	}
+
+	table tfoot ol.paging li a:hover {
+		background: #ccc;
+	}
+
+	table tfoot ol.paging li.now {
+		background: #008165;
+		color: white;
+		border: none;
+	}
+	
+	table tfoot,
+	table tfoot tr,
+	table tfoot td,
+	table tfoot ol.paging,
+	table tfoot ol.paging li {
+		border: none;
+	}
+	
+	table tfoot,
+	table tfoot tr,
+	table tfoot td {
+		border-top: none !important;
+		border-bottom: none !important;
+	}
 </style>
 </head>
 <body>
@@ -177,14 +232,68 @@
 							</c:otherwise>
 						</c:choose>
 					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="4">
+								<ol class="paging">
+									<!-- 맨 첫 페이지로 -->
+									<c:choose>
+										<c:when test="${paging_qna.nowPage == 1}">
+											<li class="disable">&laquo;</li>
+											<!-- 비활성화 상태 -->
+										</c:when>
+										<c:otherwise>
+											<li><a href="/add_qna?cPage=1">&laquo;</a></li>
+										</c:otherwise>
+									</c:choose>
+									<!-- 이전 -->
+									<c:choose>
+										<c:when test="${paging_qna.beginBlock <= paging_qna.pagePerBlock }">
+											<li class="disable">&lsaquo;</li>
+										</c:when>
+										<c:otherwise>
+											<li><a
+												href="/add_qna?cPage=${paging_qna.beginBlock - paging_qna.pagePerBlock}">&lsaquo;</a></li>
+										</c:otherwise>
+									</c:choose>
+									<!-- 블록안에 들어간 페이지번호들 -->
+									<c:forEach begin="${paging_qna.beginBlock}"
+										end="${paging_qna.endBlock}" step="1" var="k">
+
+										<%-- 현재페이지 (링크X)와 현재 페이지가 아닌 것을 구분하자. --%>
+										<c:if test="${k == paging_qna.nowPage }">
+											<li class="now">${k}</li>
+										</c:if>
+										<c:if test="${k != paging_qna.nowPage }">
+											<li><a href="/add_qna?cPage=${k}">${k}</a></li>
+										</c:if>
+									</c:forEach>
+
+									<!-- 다음 -->
+									<c:choose>
+										<c:when test="${paging_qna.endBlock >= paging_qna.totalPage }">
+											<li class="disable">&rsaquo;</li>
+										</c:when>
+										<c:otherwise>
+											<li><a
+												href="/add_qna?cPage=${paging_qna.beginBlock + paging_qna.pagePerBlock}">&rsaquo;</a></li>
+										</c:otherwise>
+									</c:choose>
+
+									<!-- 맨 마지막 페이지로 -->
+									<c:choose>
+										<c:when test="${paging_qna.nowPage == paging_qna.totalPage}">
+											<li class="disable">&raquo;</li>
+										</c:when>
+										<c:otherwise>
+											<li><a href="/add_qna?cPage=${paging_qna.totalPage}">&raquo;</a></li>
+										</c:otherwise>
+									</c:choose>
+								</ol>
+							</td>
+						</tr>
+					</tfoot>
 				</table>
-				<div class="pagination">
-					<a class="btn-mark" href="#">&laquo;</a>
-					<a class="btn-mark" href="#">&lsaquo;</a>
-					<a class="active" href="#">1</a>
-					<a class="btn-mark" href="#">&rsaquo;</a>
-					<a class="btn-mark" href="#">&raquo;</a>
-				</div>
 			</div>
 		</div>
 	</div>

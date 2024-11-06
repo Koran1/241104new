@@ -44,30 +44,6 @@
 	.logo-img{
 		cursor: pointer;
 	}
-	/*
-	.pagination {
-		margin: 0 auto ; 
-		display: table; 
-		text-align: center; 
-		margin-bottom: 30px;
-	}
-	.pagination a {
-		 color: #555; 
-		 float: left; 
-		 padding: 8px 16px; 
-		 text-decoration: none; 
-		 transition: background-color .3s;
-		 background: #eee;
-	}
-	.pagination a.btn-mark{
-		margin: 5px;
-	}
-	.pagination a.active {
-		background: #008165;
-		margin: 5px;
-		color: white;
-	}
-	*/
 	ul.tab-menu {
         list-style-type: none;
         margin: 0;

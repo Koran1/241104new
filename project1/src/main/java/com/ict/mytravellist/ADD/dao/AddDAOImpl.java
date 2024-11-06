@@ -21,15 +21,15 @@ public class AddDAOImpl implements AddDAO {
 	public List<NoticeVO> getNoticeList() {
 		return sqlSessionTemplate.selectList("adds.noticeList");
 	}
-
-	@Override
-	public List<NoticeVO> getNoticeList2() {
-		return sqlSessionTemplate.selectList("adds.noticeList2");
-	}
 	
 	@Override
 	public NoticeVO getNoticeDetail(String noticeIdx) {
 		return sqlSessionTemplate.selectOne("adds.noticeDetail", noticeIdx);
+	}
+	
+	@Override
+	public List<NoticeVO> getNoticeAll() {
+		return sqlSessionTemplate.selectList("adds.noticeAll");
 	}
 
 	@Override
@@ -37,14 +37,16 @@ public class AddDAOImpl implements AddDAO {
 		return sqlSessionTemplate.selectList("adds.faqList");
 	}
 
+	/*
 	@Override
-	public List<QNAVO> getQNAList() {
-		return sqlSessionTemplate.selectList("adds.qnaList");
+	public List<QNAVO> getQNAList(String userId) {
+		return sqlSessionTemplate.selectList("adds.qnaList", userId);
 	}
+	*/
 
 	@Override
 	public int getQNAInsert(QNAVO qnavo) {
-		return sqlSessionTemplate.update("adds.qnaInsert", qnavo);
+		return sqlSessionTemplate.insert("adds.qnaInsert", qnavo);
 	}
 
 	@Override
@@ -58,8 +60,18 @@ public class AddDAOImpl implements AddDAO {
 	}
 
 	@Override
-	public int getTotalCount() {
+	public int getFAQTotalCount() {
 		return sqlSessionTemplate.selectOne("adds.faqCount");
+	}
+	
+	@Override
+	public int getNoticeTotalCount() {
+		return sqlSessionTemplate.selectOne("adds.noticeCount");
+	}
+	
+	@Override
+	public int getQNATotalCount() {
+		return sqlSessionTemplate.selectOne("adds.qnaCount");
 	}
 
 	@Override
@@ -71,15 +83,24 @@ public class AddDAOImpl implements AddDAO {
 	}
 
 	@Override
-	public List<QNAVO> getQNAList(int offset, int limit) {
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("limit", limit);
-		map.put("offset", offset);
-		return sqlSessionTemplate.selectList("adds.qnaPageList", map);
+	public List<NoticeVO> getNoticeSearch(String keyword) {
+		return sqlSessionTemplate.selectList("adds.noticeSearch", keyword);
 	}
 
 	@Override
-	public List<NoticeVO> getNoticeSearch(String keyword) {
-		return sqlSessionTemplate.selectList("adds.noticeSearch", keyword);
+	public List<NoticeVO> getNoticeList2(int offset, int limit) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("limit", limit);
+        map.put("offset", offset);
+        return sqlSessionTemplate.selectList("adds.noticeList2", map);
+	}
+
+	@Override
+	public List<QNAVO> getQNAList(int offset, int limit, String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("limit", limit);
+		map.put("offset", offset);
+		map.put("userId", userId);	
+		return sqlSessionTemplate.selectList("adds.qnaList", map);
 	}
 }

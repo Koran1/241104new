@@ -20,10 +20,10 @@ public class AddServiceImpl implements AddService {
 	public List<NoticeVO> getNoticeList() {
 		return addDAO.getNoticeList();
 	}
-
+	
 	@Override
-	public List<NoticeVO> getNoticeList2() {
-		return addDAO.getNoticeList2();
+	public List<NoticeVO> getNoticeAll() {
+		return addDAO.getNoticeAll();
 	}
 	
 	@Override
@@ -35,11 +35,13 @@ public class AddServiceImpl implements AddService {
 	public List<FAQVO> getFAQList() {
 		return addDAO.getFAQList();
 	}
-
+	
+	/*
 	@Override
-	public List<QNAVO> getQNAList() {
-		return addDAO.getQNAList();
+	public List<QNAVO> getQNAList(String userId) {
+		return addDAO.getQNAList(userId);
 	}
+	*/
 
 	@Override
 	public int getQNAInsert(QNAVO qnavo) {
@@ -57,22 +59,37 @@ public class AddServiceImpl implements AddService {
 	}
 
 	@Override
-	public int getTotalCount() {
-		return addDAO.getTotalCount();
+	public int getFAQTotalCount() {
+		return addDAO.getFAQTotalCount();
 	}
 
+	@Override
+	public int getNoticeTotalCount() {
+		return addDAO.getNoticeTotalCount();
+	}
+	
+	@Override
+	public int getQNATotalCount() {
+		return addDAO.getQNATotalCount();
+	}
+	
 	@Override
 	public List<FAQVO> getFAOList(int offset, int limit) {
 		return addDAO.getFAOList(offset, limit);
 	}
 
 	@Override
-	public List<QNAVO> getQNAList(int offset, int limit) {
-		return addDAO.getQNAList(offset, limit);
+	public List<NoticeVO> getNoticeSearch(String keyword) {
+		return addDAO.getNoticeSearch(keyword);
 	}
 
 	@Override
-	public List<NoticeVO> getNoticeSearch(String keyword) {
-		return addDAO.getNoticeSearch(keyword);
+	public List<NoticeVO> getNoticeList2(int offset, int limit) {
+		return addDAO.getNoticeList2(offset, limit);
+	}
+
+	@Override
+	public List<QNAVO> getQNAList(int offset, int limit, String userId) {
+		return addDAO.getQNAList(offset, limit, userId);
 	}
 }

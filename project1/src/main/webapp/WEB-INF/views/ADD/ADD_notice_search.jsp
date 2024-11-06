@@ -13,11 +13,11 @@
 		margin: 0;
 		padding: 0;
 	}
-	.notice-table{
+	.notice-table {
 		width: 70%;
 		margin: 20px auto;
 		border-collapse: collapse;
-		border-top: 2px solid #008165;
+		border-top: 2px solid #708090;
 	}
 	th,td{
 		padding: 8px;
@@ -48,12 +48,13 @@
 	}
 	.search-container {
     	width: 70%;
-    	margin: 20px auto 0;
+    	margin: 20px auto ;
     	display: flex;
     	align-items: center;
+    	justify-content: flex-end;
 	}
 	.search-container input[type="text"] {
-    	flex-grow: 1;
+    	flex-grow: 4;
     	padding: 10px;
     	font-size: 16px;
     	border: 1px solid #ddd;
@@ -63,6 +64,7 @@
     	min-width: 0;
 	}
 	.search-container button {
+		margin-left: auto;
     	padding: 10px 20px;
     	font-size: 16px;
     	background-color: #008165;
@@ -160,6 +162,24 @@
                 <li class="tab-button"><a href="/add_qna" class="tab-notice-menu">나의 질문</a></li>
             </ul>
         </div>
+
+		<div class="search-container">
+			<form action="/add_notice_search" onsubmit="return validateSearch()">
+				<input type="text" name="keyword" value="${keyword}">
+				<button type="submit" id="search_btn">검색</button>
+			</form>
+		</div>
+		<script type="text/javascript">
+			function validateSearch() {
+				var keyword = document.getElementsByName("keyword")[0].value
+						.trim();
+				if (keyword === "") {
+					alert("검색어를 입력하세요.");
+					return false;
+				}
+				return true;
+			}
+		</script>
 		
 		<div class="notice-container">
 			<div id="notice-content" class="notice-content">
@@ -180,23 +200,18 @@
 							<c:otherwise>
 								<c:forEach items="${searchResults }" var="k">
 									<tr>
-										<td class="noticeSubject" style="background-color: #99CC99"><a href="/add_notice_detail?noticeIdx=${k.noticeIdx }" class="subject-detail">${k.noticeSubject }</a></td>
-										<td class="noticeReg" style="background-color: #99CC99"	>${k.noticeReg.substring(0, 10)}</td>
+										<td class="noticeSubject"><a href="/add_notice_detail?noticeIdx=${k.noticeIdx }" class="subject-detail">${k.noticeSubject }</a></td>
+										<td class="noticeReg">${k.noticeReg.substring(0, 10)}</td>
 									</tr>
 								</c:forEach>
 							</c:otherwise>
 						</c:choose>
 					</tbody>
+					<tfoot>
+					</tfoot>
 				</table>
 			</div>
-			
-			<div class="search-container">
-				<form action="/add_notice_search">
-					<input type="text" name="keyword" value="${keyword}">
-					<button type="submit" id="search_btn">검색</button>
-				</form>
-			</div>
-			
+
 			<div class="pagination">
                 <a class="btn-mark" href="#">&laquo;</a>
                 <a class="btn-mark" href="#">&lsaquo;</a>

@@ -9,10 +9,10 @@ public class FAQPaging {
 	private int nowBlock = 1 ;
 	
 	// 한 페이지당 6줄
-	private int numPerPage = 14;
+	private int numPerPage = 10;
 	
 	// 한 블록당 3개
-	private int pagePerBlock = 10;
+	private int pagePerBlock = 5;
 	
 	// DB의 게시물의 수	
 	private int totalRecord = 0 ;
