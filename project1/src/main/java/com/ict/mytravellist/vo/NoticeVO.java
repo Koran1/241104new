@@ -1,7 +1,10 @@
 package com.ict.mytravellist.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class NoticeVO {
 	private String noticeIdx, noticeSubject, noticeFile, noticeContent, noticeReg, noticeLevel, noticeStatus, noticeEtc01, noticeEtc02;
+	private MultipartFile fileName;
 
 	public String getNoticeIdx() {
 		return noticeIdx;
@@ -73,5 +76,13 @@ public class NoticeVO {
 
 	public void setNoticeEtc02(String noticeEtc02) {
 		this.noticeEtc02 = noticeEtc02;
+	}
+
+	public MultipartFile getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(MultipartFile fileName) {
+		this.fileName = fileName;
 	}
 }

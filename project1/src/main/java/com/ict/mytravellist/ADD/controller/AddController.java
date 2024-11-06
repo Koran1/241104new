@@ -319,7 +319,7 @@ public class AddController {
 	        
 	        qnavo.setUserId(userId); // userId를 세션에서 가져와 설정
 	        ModelAndView mv = new ModelAndView("redirect:/add_qna");
-	        /*
+	        
 			String path = request.getSession().getServletContext().getRealPath("/resources/upload");
 			MultipartFile file = qnavo.getFileName();
 
@@ -331,7 +331,7 @@ public class AddController {
 				qnavo.setQnaFile(qnaFile);
 				file.transferTo(new File(path, qnaFile));
 			}
-	        */
+	        
 	        int result = addService.getQNAInsert(qnavo);
 	        if (result > 0) {
 	        	return mv;

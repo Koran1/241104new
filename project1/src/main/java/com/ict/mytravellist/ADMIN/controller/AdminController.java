@@ -1,22 +1,30 @@
 package com.ict.mytravellist.ADMIN.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ict.mytravellist.ADMIN.service.AdminService;
 import com.ict.mytravellist.ADMIN.vo.AdminVO;
+import com.ict.mytravellist.vo.NoticeVO;
 import com.ict.mytravellist.vo.UserVO;
 
 @Controller
 public class AdminController {
+	
+	@Autowired
+	private AdminService adminService;
 	
 	@GetMapping("/administrator")
 	public ModelAndView goAdminLoginPage() {
@@ -56,15 +64,52 @@ public class AdminController {
 		mv.addObject("list", list);
 		return mv;
 	}
+	
 	@GetMapping("/admin_notice")
-	public ModelAndView goAdminNotice() {
+	public ModelAndView goAdminNotice(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("ADMIN/notice");
 		
-		return new ModelAndView("ADMIN/notice");
+		List<NoticeVO> notice_list = adminService.getNoticeList();
+		mv.addObject("notice_list", notice_list);
+		
+		return mv;
 	}
+	
+	// 공지사항 작성화면으로 가기
 	@GetMapping("/admin_notice_create")
 	public ModelAndView goAdminNoticeCreate() {
 		return new ModelAndView("ADMIN/notice_create");
 	}
+	
+	// 공지사항 작성하기 화면
+	@PostMapping("/admin_notice_create_ok")
+	public ModelAndView goAdminNoticeCreateOK(NoticeVO noticevo, HttpServletRequest request) {
+		try {
+			ModelAndView mv = new ModelAndView("redirect:/admin_notice");
+			
+			String path = request.getSession().getServletContext().getRealPath("/resources/upload");
+			MultipartFile file = noticevo.getFileName();
+			
+			if (file == null || file.isEmpty()) {
+				noticevo.setNoticeFile("");
+			} else {
+				UUID uuid = UUID.randomUUID();
+				String noticeFile = uuid.toString()+"_"+file.getOriginalFilename();
+				noticevo.setNoticeFile(noticeFile);
+				file.transferTo(new File(path, noticeFile));
+			}
+			
+			int result = adminService.getNoticeInsert(noticevo);
+			if (result > 0) {
+				return mv;
+			}
+			return null;
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
+	}
+	
 	@GetMapping("/admin_faq")
 	public ModelAndView goAdminFAQ() {
 		return new ModelAndView("ADMIN/faq");

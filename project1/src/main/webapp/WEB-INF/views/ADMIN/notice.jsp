@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,12 +62,13 @@
       text-decoration: none;
       cursor: pointer;
     }
-    #noticeSubject{
+    .noticeSubject{
     	color: blue;
-    	text-decoration: underline;
+    	text-decoration: none;
     }
     #noticeSubject:hover, #noticeSubject:focus{
     	cursor: pointer;
+    	color: #666666;
     }
     #modaltable {
     	width: 100%;
@@ -81,6 +83,15 @@
     #modalnoticecontent{
     	height: 50%;
     }
+    .write_btn {
+		margin-left: auto;
+		padding: 10px 30px;
+		background-color: #02B08A;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+	}
 </style>
 </head>
 <body>
@@ -99,30 +110,50 @@
 		</div>
 	
 		<div id="main_container">
-			<div class="main_button"><button onclick='location.href ="/admin_notice_create"'>작성하기</button></div>
-			<table id="table">
+			<div class="main_button">
+				<button class="write_btn" onclick='location.href ="/admin_notice_create"'>작성하기</button>
+			</div>
+			<table class="" id="table">
 				<thead>
 					<tr>
-						<th>등록번호</th> <th>공지사항 명</th> <th>등록일</th> <th>게시글 Lv.</th> <th>게시글보이기</th> 
+						<th>등록번호</th>
+						<th>제목</th>
+						<th>등록일</th>
+						<th>게시글 Lv.</th>
+						<th>게시글보이기</th>
 					</tr>
 				</thead>
 				<tbody id="data">
 					<tr>
-						<td>1</td> <td><p id="noticeSubject" onclick="openModal()">공지사항1</p></td> <td>20241016</td> <td>1</td> <td id=visible>ON</td>
+						<td>1</td>
+						<td><p id="noticeSubject" onclick="openModal()">공지사항1</p></td>
+						<td>20241016</td>
+						<td>1</td>
+						<td id=visible>ON</td>
 					</tr>
 					<c:choose>
-						<c:when test="${empty list}">
-							<tr><td colspan="5">"자료가 존재하지 않습니다"</td></tr>
+						<c:when test="${empty notice_list}">
+							<tr>
+								<td colspan="5">"자료가 존재하지 않습니다"</td>
+							</tr>
 						</c:when>
 						<c:otherwise>
-							<c:forEach var="k" items="${list}">
+							<c:forEach var="k" items="${notice_list}">
 								<tr>
 									<td>${k.noticeIdx}</td>
-									<td><p id="userId" onclick="openModal(
-										'${k.noticeSubject}', '${k.noticeReg}', 
-										'${k.noticeLevel}', '${k.noticeStatus}' 
-										'${k.noticeContent}')">${k.noticeSubject}</p></td>
-									<td>${k.noticeReg}</td>
+									<!-- openModal()에 공지사항 정보를 인자로 전달 -->
+									<td class="noticeSubject">
+										<p id="noticeSubject"
+											onclick="openModal(
+                								'${k.noticeSubject}', 
+                								'${fn:substring(k.noticeReg, 0, 10)}', 
+                								'${k.noticeLevel}',
+                								'${k.noticeStatus}', 
+                								'${k.noticeFile}',
+                								'${k.noticeContent}'
+            									)">${k.noticeSubject}</p>
+									</td>
+									<td>${fn:substring(k.noticeReg, 0, 10)}</td>
 									<td>${k.noticeLevel}</td>
 									<td>${k.noticeStatus}</td>
 								</tr>
@@ -131,7 +162,10 @@
 					</c:choose>
 				</tbody>
 			</table>
-			<div class="main_button"><button>업데이트</button></div>
+			
+			<div class="main_button", id="main_btn">
+				<button>업데이트</button>
+			</div>
 		</div>
 	</div>
 	
@@ -139,27 +173,52 @@
 		<div class="modal-content">
 			<span class="close">&times;</span>
 			<form action="" id="modalform">
-			<table id="modaltable">
-				<tr><td class="modalvars">제목</td><td><input type="text" id="modalnoticeSubject"></td></tr>
-				<tr><td class="modalvars">등록일자</td><td><input type="text" id="modalnoticeReg"></td></tr>
-				<tr><td class="modalvars">게시글 Level</td><td><input type="text" id="modalnoticeLevel"></td></tr>
-				<tr><td class="modalvars">게시글 보이기</td><td><input type="text" id="modalnoticeStatus"></td></tr>
-				<tr><td id="modalnoticecontent" colspan="2"><textarea rows="10" cols="60" id="modalnoticeContent"></textarea></td></tr>
-			</table>
-			<input type="submit" value="수정">
+				<table id="modaltable">
+					<tr>
+						<td class="modalvars">제목</td>
+						<td><input type="text" id="modalnoticeSubject"></td>
+					</tr>
+					<tr>
+						<td class="modalvars">등록일자</td>
+						<td><input type="text" id="modalnoticeReg"></td>
+					</tr>
+					<tr>
+						<td class="modalvars">게시글 Level</td>
+						<td><input type="text" id="modalnoticeLevel"></td>
+					</tr>
+					<tr>
+						<td class="modalvars">게시글 보이기</td>
+						<td><input type="text" id="modalnoticeStatus"></td>
+					</tr>
+					<!-- 첨부파일 표시용 필드 추가 -->
+					<tr>
+						<td class="modalvars">첨부파일</td>
+						<td><span id="modalnoticeFileName"></span> <!-- 기존 파일명 표시 -->
+							<input type="file" id="modalnoticeFile"> <!-- 새 파일 업로드 -->
+						</td>
+					</tr>
+
+					<tr>
+						<td id="modalnoticecontent" colspan="2"><textarea rows="10"
+								cols="60" id="modalnoticeContent"></textarea></td>
+					</tr>
+				</table>
+				<input type="submit" value="수정">
 			<input type="reset" value="취소">
 			</form>
 		</div>
 	</div>
 	<script type="text/javascript">
 		
-		function openModal(noticeSubject, noticeReg, noticeLevel, noticeStatus, noticeContent){
+		function openModal(noticeSubject, noticeReg, noticeLevel, noticeStatus, noticeFile, noticeContent){
 			document.querySelector("#popupModal").style.display = "block";
 			$("#modalnoticeSubject").attr('value', noticeSubject);
 			$("#modalnoticeReg").attr('value', noticeReg);
 			$("#modalnoticeLevel").attr('value', noticeLevel);
 			$("#modalnoticeStatus").attr('value', noticeStatus);
-			$("#modalnoticeContent").attr('value', noticeContent);
+			$("#modalnoticeFileName").text(noticeFile || "첨부파일 없음"); 	
+			// $("#modalnoticeContent").attr('value', noticeContent);
+			$("#modalnoticeContent").val(noticeContent);
 		}
 		
 		function closeModal() {

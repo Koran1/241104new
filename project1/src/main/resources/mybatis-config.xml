@@ -36,6 +36,6 @@
 		<mapper resource="mappers/main_mapper.xml" />
 		<mapper resource="mappers/tourTalk_mapper.xml" />
 		<mapper resource="mappers/project_mapper.xml" />
-		
+		<mapper resource="mappers/admin_mapper.xml" />
 	</mappers>
 </configuration>

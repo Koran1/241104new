@@ -31,7 +31,7 @@
 		</div>
 		
 		<div class="qna-ask-container">
-			<form action="/add_qna_ask_ok" method="post">
+			<form action="/add_qna_ask_ok" method="post" enctype="multipart/form-data">
 			<!-- <form action="/add_qna_ask_ok" method="post"> -->
 				<table class="qna-ask-table">
 					<tbody>
@@ -45,12 +45,12 @@
 							<td><label for="userId">아이디</label></td>
 							<td><input type="text" name="userId"  id="userId" size="20" value="${sessionScope.userId}" readonly></td>
 						</tr>
-							
-							<!-- <tr>
-								<td><label for="fileName">첨부파일</label></td>
-								<td><input type="file" name="fileName" size="20"></td>
-							</tr> -->
-						
+
+						<tr>
+							<td><label for="fileName">첨부파일</label></td>
+							<td><input type="file" name="fileName" size="20"></td>
+						</tr>
+
 						<tr>
 							<td colspan="2">
 								<textarea name="qnaContent" id="qnaContent" required></textarea>
