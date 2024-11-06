@@ -35,7 +35,7 @@ public class SummernoteAjaxController {
         // travelIdx에 해당하는 TourTalk 정보를 가져오기
         List<TourTalkVO> list = tourTalkService.getTourTalkList(travelIdx);
         if (!list.isEmpty()) {
-        	System.out.println();
+        	// System.out.println();
             return list;
         } else {
             return null;

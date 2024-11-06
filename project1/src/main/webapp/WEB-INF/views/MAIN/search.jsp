@@ -30,7 +30,9 @@
 }
 
 .travel_result {
-	font-size: 20px;
+	margin-left: 155px;
+	font-size: 24px;
+	font-weight: bold;
 	display: flex;
 	gap: 50px;
 }
@@ -94,13 +96,10 @@
 }
 
 .travel_image img {
-	max-width: 282px;
-	height: 250px;
-	object-fit: cover;
-	border-radius: 8px;
-	min-height: 250px;
-	margin: 0;
-	padding: 0;
+    max-width: 282px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
 /* 여행 정보 */
@@ -119,7 +118,7 @@
 	font-size: 20px;
 	margin-bottom: 12px;
 	font-weight: bold;
-	color: rgb(100, 50, 15, 10);
+	color: rgba(100, 50, 15, 10);
 }
 
 .travel_location_addr, .travel_location_phone {

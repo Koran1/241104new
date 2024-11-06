@@ -73,7 +73,7 @@ public class MainController {
 		if(list != null) {
 			Gson gson = new Gson();
 			String jsonString = gson.toJson(list);
-			System.out.println(jsonString);
+			// System.out.println(jsonString);
 			return jsonString;
 		}
 		return "fail";
@@ -137,8 +137,8 @@ public class MainController {
 	    mv.addObject("keyword", keyword);
 	    mv.addObject("region", region);
 	    mv.addObject("count", count);
-	    System.out.println("keyword" + tdvo.getKeyword());
-	    System.out.println("region" + tdvo.getRegion());
+	    // System.out.println("keyword" + tdvo.getKeyword());
+	    // System.out.println("region" + tdvo.getRegion());
 	    return mv;
 	}
 

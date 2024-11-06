@@ -42,9 +42,10 @@
 
 /* 메인 컨테이너의 래퍼: 스크롤 없이 고정된 레이아웃 */
 .main_wrapper {
-	margin: 120px 0;
+	margin: 50px 0;
 	display: flex;
 	justify-content: center; /* 중앙 정렬 */
+	align-items: center;
 	gap: 20px; /* 각 박스 사이의 간격 */
 	width: 100%; /* 부모 요소의 전체 너비 사용 */
 	box-sizing: border-box; /* 패딩 포함 너비 계산 */
@@ -56,7 +57,6 @@
 .travel_box {
 	width: 33%;
 	height: 550px; /* 고정된 높이 */
-	/* border: 1px solid #7bbe6e; */
 	border-radius: 12px;
 	box-shadow: 1px 1px 2px 0 gray;
 	overflow: hidden;
@@ -73,7 +73,7 @@
 	font-size: 27px;
 	font-weight: bold;
 	margin-bottom: 15px;
-	color: rgb(100, 50, 15, 10);
+	color: rgba(100, 50, 15, 10);
 }
 
 /* 여행지 이미지 스타일: travel_box 내부 이미지 */
@@ -141,9 +141,8 @@
 }
 
 /* 드디어 박스를 가로로 정렬하는데 성공!!*/
-#travel-list-unlogin {
+#travel-list-unlogin, #travel-list-login {
 	display: flex;
-	justify-content: space-around;
 	justify-content: space-between;
 	width: calc(370px * 3 + 60px); /* 3개 박스 + 간격 계산 */
 	opacity: 1;
@@ -155,12 +154,10 @@
 	width: 100%;
 	height: 100%
 }
-.travel_weather_detail{
-	width: 100%;
-	height: 100%
-}
-.travel_weather_detail{
-	background-color: #ddf7d8; /* 연한 초록색 배경 */
+.travel_weather_detail {
+    width: 100%;
+    height: 100%;
+    background-color: #ddf7d8;
 }
 .travel_weather_detail table {
     width: 100%; /* 테이블 전체 너비 설정 */
@@ -214,9 +211,7 @@
 		    // 페이지 로드 시 리스트 초기 렌더링
 		    loadTravelList();
 
- 		    setInterval(() => {
-		        loadTravelList();
-		    }, 2000000); 
+		    setInterval(loadTravelList, 1000000);
 		    
  		   function countKoreanChars(str) {
  			    if (!str) return 0;  // null 또는 undefined 처리
@@ -228,7 +223,6 @@
  		    function loadTravelList() {
  		        // userId 변수를 HTML에서 JSP로 전달받아 로그인 여부 확인
  		        const isLoggedIn = "${userId}" !== ""; 
- 		      	console.log(isLoggedIn);
  		        const containerId = isLoggedIn ? "#travel-list-login" : "#travel-list-unlogin";
 
  		        $(containerId).empty();
@@ -246,15 +240,13 @@
 		    	        data.forEach(function(list, i) {
 		    	        	let travelIdx = list.travelIdx;
 		    	        	let trrsrtNm = list.trrsrtNm;
-		    	            placeImg01 = list.placeImg01;
-		    	            trrsrtNm = list.trrsrtNm;
+		    	        	placeImg01 = list.placeImg01;
 		    	            region = list.region;
 		    	            regionName = list.touritEtc01;
 		    	            
 		                    let koreanCharCount = countKoreanChars(trrsrtNm);
 		                    let displayTrrsrtNm = (koreanCharCount > 8) ? trrsrtNm.substring(0, 8) + "..." : trrsrtNm;
 		                   	let k = load(region);
-		    	           	//console.log(k[i].wthrDate); 
 		    	           	
 		    	           	function getWeatherImage(wthrSKY_PTY) {
 							    switch (wthrSKY_PTY) {
@@ -276,7 +268,7 @@
 			                    wthrTMin = k[i].wthrTMin;
 			                    wthrTMax = k[i].wthrTMax;
 			                    wthrSKY_PTY = getWeatherImage(k[i].wthrSKY_PTY);
-		    	            
+			                    
 		    	            table += "<div class='travel_box'>";
 		    	            table += "<div class='travel_box_detail'>";
 		    	            table += "<a href='/travelDetail_go?travelIdx=" + travelIdx + "' class='travel_image'><img src='" + placeImg01 + "' alt='" + trrsrtNm + "'></a>";
@@ -328,8 +320,7 @@
 		                    table += "</div>";
 		                }
 		            });
-
-		    	        $("#travel-list-unlogin").html(table); // HTML 주입
+		    	        $(containerId).html(table); // HTML 주입
 		    	    },
 		    	    error: function (xhr, status, error) {
 		    	        console.error("데이터를 가져오는 데 실패했습니다:", error);

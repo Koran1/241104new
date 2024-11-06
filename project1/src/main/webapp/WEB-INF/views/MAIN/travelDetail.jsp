@@ -32,12 +32,13 @@
 	border-right: none;
 	padding: 10px 0;
 	position: fixed;
-	z-index: 5; /* 다른 요소들 위에 위치 */
+	z-index: 5;
 	top: 0;
 }
 .menu_container ul {
 	display: flex;
-	list-style-type: none; /* 목록 스타일 제거 */
+	list-style-type: none;
+	padding: 10px 0;
 }
 /* 메뉴 항목 스타일 */
 .menu_container ul li {
@@ -56,13 +57,13 @@
 
 /* 메뉴 버튼 스타일 */
 .menu-btn {
-	background-color: white;
-	color: black;
-	font-weight: bold;
-	border: none;
-	padding: 10px 20px;
-	cursor: pointer;
-	font-size: 1.2rem;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1.2rem;
 }
 
 /* 전체 컨테이너 */
@@ -71,30 +72,22 @@
 	padding-top: 130px;
 }
 
-.main_left {
-	flex: 1 1 10%;
-	background-color: red; /* 디버깅용 */
+.main_left, .main_right {
+    flex: 1 1 10%;
+    /* background-color: red; 디버깅 완료 후 제거 */
 }
 
 .main_center {
-	flex: 1 1 80%; /* 중앙을 넓게 사용 */
-	padding: 20px;
-	box-sizing: border-box;
-	height: 100%; /* 부모 높이에 맞춤 */
-	align-content: center;
-	justify-content: center;
-}
-
-.main_right {
-	flex: 1 1 10%;
-	background-color: red; /* 디버깅용 */
+    flex: 1 1 80%;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 /* 관광지 이름 컨테이너 */
 .trrname {
 	text-align: center;
 	font-size: 28px;
-	color: rgb(100, 50, 15, 10);
+	color: rgba(100, 50, 15, 10);
 	font-weight: bold;
 	margin: 30px 0;
 	text-decoration: underline;
@@ -179,23 +172,19 @@
     color: #666;
 }
 /* 사용자 정보와 날짜를 가로로 정렬 */
-.tourInfo {
+.tourinfo {
     display: flex;
-    justify-content: flex-start; /* 왼쪽 정렬 */
-    gap: 20px;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+    gap: 10px;
 }
 .tourinfo li{
+	display: flex;
 	margin-right: 20px;
 	color: #666;
 	font-size: 16px;
-
 }
-.tourTId .tourTReg{
+.tourTId, .tourTReg{
 	list-style: none;
-	font-size: 16px;
+	font-size: 18px;
 	color: #666;
 	text-align: left;
 }
