@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="true" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -139,7 +141,7 @@
 }
 
 /* 드디어 박스를 가로로 정렬하는데 성공!!*/
-#travel-list {
+#travel-list-unlogin {
 	display: flex;
 	justify-content: space-around;
 	justify-content: space-between;
@@ -187,9 +189,18 @@
 			<jsp:include page="popup.jsp" />
 		</div>
 
+	<% String userId = (String) session.getAttribute("userId"); %>	
+
 		<div class="main_center">
 			<div class="main_wrapper">
-				<div id="travel-list"></div>
+				<c:choose>
+					<c:when test="${empty userId}">
+						<div id="travel-list-unlogin"></div>
+					</c:when>
+					<c:otherwise>
+						<div id="travel-list-login"></div>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 
@@ -205,22 +216,31 @@
 
  		    setInterval(() => {
 		        loadTravelList();
-		    }, 20000); 
+		    }, 2000000); 
 		    
  		   function countKoreanChars(str) {
  			    if (!str) return 0;  // null 또는 undefined 처리
  			    return str.split('').filter(char => char.match(/[가-힣]/)).length;
  			}
  		    
-		    function loadTravelList() {
-		    	$("#travel-list").empty();
-		    	$.ajax({
-		    	    url: "/random_location",
-		    	    method: "post",
-		    	    dataType: "json",
-		    	    async:false,
+ 		  	const userId = "${userId}";
+ 		   
+ 		    function loadTravelList() {
+ 		        // userId 변수를 HTML에서 JSP로 전달받아 로그인 여부 확인
+ 		        const isLoggedIn = "${userId}" !== ""; 
+ 		      	console.log(isLoggedIn);
+ 		        const containerId = isLoggedIn ? "#travel-list-login" : "#travel-list-unlogin";
+
+ 		        $(containerId).empty();
+ 		        
+ 		        $.ajax({
+ 		            url: isLoggedIn ? "/random_location_login" : "/random_location", // 로그인 상태에 따라 다른 URL 호출
+ 		            method: "post",
+ 		          	data: { userId: "${userId}" }, // userId를 명시적으로 전달
+ 		            dataType: "json",
+ 		            async: false,
 		    	    success: function (data) {
-		    	        // console.log("응답 데이터:", data);
+		    	        console.log("응답 데이터:", data);
 		    	        
 		    	        let table = '';
 		    	        data.forEach(function(list, i) {
@@ -309,7 +329,7 @@
 		                }
 		            });
 
-		    	        $("#travel-list").html(table); // HTML 주입
+		    	        $("#travel-list-unlogin").html(table); // HTML 주입
 		    	    },
 		    	    error: function (xhr, status, error) {
 		    	        console.error("데이터를 가져오는 데 실패했습니다:", error);
@@ -318,8 +338,32 @@
 		    }
 		}); 
 	
+		function load(region){
+			let result_data;
+			$.ajax({
+				url : "/getwthrinfo",
+				method : "post",
+				data : "region="+region,
+				dataType : "json",
+				async:false,
+				success : function(data){
+		            if (data.length > 0) {  // 데이터가 비어 있지 않은 경우에만 접근
+		                wthrDate = data[0].wthrDate;
+		                wthrTMin = data[0].wthrTMin;
+		                wthrTMax = data[0].wthrTMax;
+		                wthrSKY = data[0].wthrSKY;
+		            }
+					result_data = data;
+				},
+			    error : function(){
+			    	alert("날씨정보 가져오기 실패")
+			    }
+			 });
+			return result_data;
+		 } 
+		
 		enableDetail();
-	
+		
 		function enableDetail() {
 		    document.addEventListener("click", function (event) {
 		        const travelBox = event.target.closest('.travel_box');
@@ -346,30 +390,7 @@
 		        }
 		    });
 		}
-
-		function load(region){
-			let result_data;
-			$.ajax({
-				url : "/getwthrinfo",
-				method : "post",
-				data : "region="+region,
-				dataType : "json",
-				async:false,
-				success : function(data){
-		            if (data.length > 0) {  // 데이터가 비어 있지 않은 경우에만 접근
-		                wthrDate = data[0].wthrDate;
-		                wthrTMin = data[0].wthrTMin;
-		                wthrTMax = data[0].wthrTMax;
-		                wthrSKY = data[0].wthrSKY;
-		            }
-					result_data = data;
-				},
-			    error : function(){
-			    	alert("날씨정보 가져오기 실패")
-			    }
-			 });
-			return result_data;
-		 } 
 	</script>
+	
 </body>
 </html>

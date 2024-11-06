@@ -78,4 +78,25 @@
 		insert into tourTalk(tourTalkIdx, userId, tourTalkContent, tourTalkReg, tourTalkEtc01, hit)
 		values(#{tourTalkIdx}, #{userId},#{tourTalkContent}, now(), #{tourTalkEtc01}, 0)
 	</insert>
+	
+	<select id="randomLoginList" parameterType="String" resultType="tdvo">
+		SELECT * FROM (
+		    SELECT * FROM travellistdb 
+		    WHERE region = (SELECT userFavor01 FROM pjcustomer WHERE userId = #{userId})
+		    ORDER BY RAND() LIMIT 1
+		) AS subquery1
+		UNION ALL
+		SELECT * FROM (
+		    SELECT * FROM travellistdb 
+		    WHERE region = (SELECT userFavor02 FROM pjcustomer WHERE userId = #{userId})
+		    ORDER BY RAND() LIMIT 1
+		) AS subquery2
+		UNION ALL
+		SELECT * FROM (
+		    SELECT * FROM travellistdb 
+		    WHERE region = (SELECT userFavor03 FROM pjcustomer WHERE userId = #{userId})
+		    ORDER BY RAND() LIMIT 1
+		) AS subquery3;
+	</select>
+	
 </mapper>

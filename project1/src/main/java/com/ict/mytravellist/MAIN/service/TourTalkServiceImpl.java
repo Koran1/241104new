@@ -13,6 +13,11 @@ public class TourTalkServiceImpl implements TourTalkService{
 
 	@Autowired
 	private TourTalkDAO tourTalkDAO;
+	
+	@Override
+	public List<TourTalkVO> getTourTalkList(String travelIdx) {
+		return tourTalkDAO.getTourTalkList(travelIdx);
+	}
 
 	@Override
 	public int getTourTalkInsert(TourTalkVO tourtvo) {
@@ -20,12 +25,13 @@ public class TourTalkServiceImpl implements TourTalkService{
 	}
 
 	@Override
-	public List<TourTalkVO> getTourTalkList(String travelIdx) {
-		return tourTalkDAO.getTourTalkList(travelIdx);
+	public int getTourTalkUpdate(String userIdx) {
+		return 0;
 	}
 
 	@Override
-	public int getHitUpdate(String userIdx) {
+	public int getTourTalkDelete(String userIdx) {
+		// TODO Auto-generated method stub
 		return 0;
 	} 
 	

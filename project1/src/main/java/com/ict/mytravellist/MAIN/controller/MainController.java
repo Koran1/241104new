@@ -50,7 +50,7 @@ public class MainController {
 		return mv;
 	}
 	
-	// 랜덤 지역 이미지 불러오기
+	// 랜덤 지역 불러오기
 	@RequestMapping(value="/random_location", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String reNewMainPage() {
@@ -58,32 +58,27 @@ public class MainController {
 		if(list != null) {
 			Gson gson = new Gson();
 			String jsonString = gson.toJson(list);
-			// System.out.println();
+			// System.out.println(jsonString);
 			return jsonString;
 		}
 		return "fail";
 	}
-
 	
-	/*
-	 * // 키워드와 지역으로 검색
-	 * 
-	 * @GetMapping("/region_search") public ModelAndView regionSearch(
-	 * 
-	 * @RequestParam("keyword") String keyword,
-	 * 
-	 * @RequestParam(value = "region", required = false) String region) {
-	 * 
-	 * ModelAndView mv = new ModelAndView("MAIN/search"); List<TravelDBVO> list;
-	 * 
-	 * if (region == null || region.isEmpty()) { list =
-	 * mainService.getSearchList(keyword); } else { list =
-	 * mainService.searchKeywordAndRegion(keyword, region); }
-	 * 
-	 * mv.addObject("list", list); mv.addObject("keyword", keyword);
-	 * mv.addObject("region", region);
-	 * System.out.println("region_search Controller 통과"); return mv; }
-	 */
+	// 로그인 userId 기반 랜덤 지역 불러오기
+	@RequestMapping(value="/random_location_login", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String reNewMainPageLogin(
+	        @RequestParam(value = "userId", required = false, defaultValue = "") String userId) {
+	    List<TravelDBVO> list = mainService.getRandomLoginList(userId);  
+		if(list != null) {
+			Gson gson = new Gson();
+			String jsonString = gson.toJson(list);
+			System.out.println(jsonString);
+			return jsonString;
+		}
+		return "fail";
+	}
+	
 
 	@GetMapping("/search_go")
 	public ModelAndView boardList(

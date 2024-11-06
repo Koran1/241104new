@@ -14,6 +14,11 @@ public class TourTalkDAOImpl implements TourTalkDAO{
      
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
+	
+	@Override
+	public List<TourTalkVO> getTourTalkList(String travelIdx) {
+		return sqlSessionTemplate.selectList("tourTalk.list", travelIdx);
+	}
 
 	@Override
 	public int getTourTalkInsert(TourTalkVO tourtvo) {
@@ -21,12 +26,13 @@ public class TourTalkDAOImpl implements TourTalkDAO{
 	}
 
 	@Override
-	public List<TourTalkVO> getTourTalkList(String travelIdx) {
-		return sqlSessionTemplate.selectList("tourTalk.list", travelIdx);
+	public int getTourTalkUpdate(String userIdx) {
+		return 0;
 	}
 
 	@Override
-	public int getHitUpdate(String userIdx) {
+	public int getTourTalkDelete(String userIdx) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 	

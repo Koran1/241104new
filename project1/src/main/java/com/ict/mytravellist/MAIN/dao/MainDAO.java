@@ -10,6 +10,7 @@ import com.ict.mytravellist.vo.WeatherVO;
 @Mapper
 public interface MainDAO {
 	public List<TravelDBVO> getRandomList();
+	public List<TravelDBVO> getRandomLoginList(String userId);
 	public List<TravelDBVO> getSearchList(String keyword) ;
 	public int getSearchCount(Map<String, Object> map);
 	public List<TravelDBVO> getSearchPageList(Map<String, Object> map);

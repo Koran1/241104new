@@ -33,17 +33,17 @@
 	        </a>
 	        <!-- 검색  -->
 	        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search_go" method="get" autocomplete="on">
-	          <input type="search" class="form-control" placeholder="Travel search..." aria-label="Search" name="keyword" value="${keyword}">
+	          <input type="search" class="form-control" placeholder="여행 검색" aria-label="Search" name="keyword" value="${keyword}">
 	        </form>
 	        
 	        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-	          <li><a href="/add_notice" class="nav-link px-2 link-body-emphasis"><b>공지사항</b></a></li>
+	          <li><a href="/add_notice" class="nav-link px-2 link-body-emphasis" style="font-size:18px; font-weight:bold;"><b>공지사항</b></a></li>
 				<c:choose>
 				 <c:when test="${empty userId}">
-	          		<li><a href="/mem_login" class="nav-link px-2 link-body-emphasis"><b>여행계획</b></a></li>
+	          		<li><a href="/mem_login" class="nav-link px-2 link-body-emphasis" style="font-size:18px; font-weight:bold;"><b>여행계획</b></a></li>
 				 </c:when>
 				 <c:otherwise>
-				   	<li><a href="/mytrvlplan" class="nav-link px-2 link-body-emphasis"><b>여행계획</b></a></li>
+				   	<li><a href="/mytrvlplan" class="nav-link px-2 link-body-emphasis" style="font-size:18px; font-weight:bold;"><b>여행계획</b></a></li>
 				 </c:otherwise>
 				</c:choose>
 	        </ul>
@@ -52,18 +52,18 @@
 		<% String userId = (String) session.getAttribute("userId"); %>	
 
 	        <div class="dropdown text-end">
-	          <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-	            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
-	          </a>
-	          <ul class="dropdown-menu text-small">
-	            <li><a class="dropdown-item" href="/go_my_page">My Page</a></li>
-	            <li><hr class="dropdown-divider"></li>
+			        <a href="/go_my_page" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+			            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+			        </a>
+			        <ul class="dropdown-menu text-small">
 	            <c:choose>
 				 <c:when test="${empty userId}">
-	            	<li><a class="dropdown-item" href="/mem_login">Sign in</a></li>
+	            		<li><a class="dropdown-item" href="/mem_login">Sign in</a></li>
 	             </c:when>
 				 <c:otherwise>
-				 	<li><a class="dropdown-item" href="/mem_logout">Sign out</a></li>
+			            <li><a class="dropdown-item" href="/go_my_page">My Page</a></li>
+			            <li><hr class="dropdown-divider"></li>
+					 	<li><a class="dropdown-item" href="/mem_logout">Sign out</a></li>
 				 </c:otherwise>
 				</c:choose>
 	          </ul>

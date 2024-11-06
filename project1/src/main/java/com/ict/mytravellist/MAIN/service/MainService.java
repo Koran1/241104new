@@ -9,6 +9,7 @@ import com.ict.mytravellist.vo.WeatherVO;
 public interface MainService {
 
 	public List<TravelDBVO> getRandomList();
+	public List<TravelDBVO> getRandomLoginList(String userId);
 	public List<TravelDBVO> getSearchList(String keyword) ;
 	public int getSearchCount(String keyword, String region) ;
 	public List<TravelDBVO> getSearchPageList(int limit, int offset, TravelDBVO tdvo) ;

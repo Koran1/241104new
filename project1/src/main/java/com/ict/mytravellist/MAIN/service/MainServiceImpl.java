@@ -29,6 +29,11 @@ public class MainServiceImpl implements MainService {
         // System.out.println("getRandomList MainServiceImpl 통과");
         return list;
     }
+	
+	@Override
+    public List<TravelDBVO> getRandomLoginList(String userId) {
+        return mainDAO.getRandomLoginList(userId);
+    }
 
 	// 키워드와 지역으로 검색
     @Override
