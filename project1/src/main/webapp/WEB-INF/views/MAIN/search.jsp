@@ -162,7 +162,7 @@
 			<div class="travel_result">
 				<p>검색결과: ${keyword} ${count}건</p>
 				<br> <select id="region-filter" onchange="filterByRegion()">
-				    <option value="0" ${region == '' ? 'selected' : ''}>:: 전체 ::</option>
+				    <option value="" ${region == '' ? 'selected' : ''}>:: 전체 ::</option>
 				    <option value="1" ${region == '1' ? 'selected' : ''}>서울</option>
 				    <option value="2" ${region == '2' ? 'selected' : ''}>부산</option>
 				    <option value="3" ${region == '3' ? 'selected' : ''}>대구</option>

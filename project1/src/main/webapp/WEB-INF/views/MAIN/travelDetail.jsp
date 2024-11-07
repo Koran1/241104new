@@ -103,8 +103,8 @@
 }
 
 .photo_big {
-	width: 600px;
-	height: 400px;
+	width: 700px;
+	height: 500px;
 }
 
 .photo_small {
@@ -114,8 +114,8 @@
 }
 
 .small {
-	width: 140px;
-	height: 95px;
+	width: 170px;
+	height: 120px;
 }
 
 /* 상세정보 */
@@ -131,6 +131,7 @@
 	padding: 20px;
 	margin-bottom: 20px;
 	border-bottom: 1px solid #ddd;
+	color: rgb(61, 57, 57);
 }
 
 /* 지도 섹션 */
@@ -154,7 +155,9 @@
 }
 
 .title{
-	font-size: 20px;
+	font-size: 18px;
+	font-weight: bold;
+	color: #666;
 }
 
 .tourTList {
@@ -245,27 +248,28 @@
 				<hr>
 				<div class="details_box">
 					<ul>
-						<li><b>관광지 소개: ${list.trrsrtIntrcn}</b></li>
+						<li><p style="font-weight:bold;">관광지 소개</p>
+							<p>${list.trrsrtIntrcn}</p><br></li>
 						<li>
 							<c:if
 								test="${empty list.rdnmadr and empty list.lnmadr}">
 							</c:if>  
 							<c:if
 								test="${not empty list.rdnmadr and empty list.lnmadr}">
-								<p>주소: ${list.rdnmadr}</p>
+								<p><span style="font-weight:bold;">주소:</span> ${list.rdnmadr}</p>
 							</c:if> 
 							<c:if
 								test="${empty list.rdnmadr and not empty list.lnmadr}">
-								<p>주소: ${list.lnmadr}</p>
+								<p><span style="font-weight:bold;">주소:</span> ${list.lnmadr}</p>
 							</c:if>  
 							<c:if
 								test="${not empty list.rdnmadr and not empty list.lnmadr}">
-								<p>주소: ${list.rdnmadr}</p>
+								<p><span style="font-weight:bold;">주소:</span> ${list.rdnmadr}</p>
 							</c:if>
 						</li>
 						  <c:if test="${not empty list.cnvnncFclty or not empty list.recrtClturFclty or not empty list.mvmAmsmtFclty or not empty list.hospitalityFclty or not empty list.sportFclty}">
 			            <li>
-			                시설정보: 
+			                <span style="font-weight:bold;">시설정보:</span>
 			                <c:if test="${not empty list.cnvnncFclty}">${list.cnvnncFclty} </c:if>
 			                <c:if test="${not empty list.recrtClturFclty}">${list.recrtClturFclty} </c:if>
 			                <c:if test="${not empty list.mvmAmsmtFclty}">${list.mvmAmsmtFclty} </c:if>
@@ -275,23 +279,23 @@
 			        </c:if>
 			
 			        <c:if test="${not empty list.stayngInfo}">
-			            <li>숙박시설: ${list.stayngInfo}</li>
+			            <li><span style="font-weight:bold;">숙박시설:</span> ${list.stayngInfo}</li>
 			        </c:if>
 			
 			        <c:if test="${not empty list.aceptncCo}">
-			            <li>수용인원: <fmt:formatNumber value="${list.aceptncCo}" pattern="#,##0" />명</li>
+			            <li><span style="font-weight:bold;">수용인원:</span> <fmt:formatNumber value="${list.aceptncCo}" pattern="#,##0" />명</li>
 			        </c:if>
 			
 			        <c:if test="${not empty list.prkplceCo}">
-			            <li>주차대수: <fmt:formatNumber value="${list.prkplceCo}" pattern="#,##0" />대</li>
+			            <li><span style="font-weight:bold;">주차대수:</span> <fmt:formatNumber value="${list.prkplceCo}" pattern="#,##0" />대</li>
 			        </c:if>
 			
 			        <c:if test="${not empty list.phoneNumber}">
-			            <li>관리사무소 ☎: ${list.phoneNumber}</li>
+			            <li><span style="font-weight:bold;">☎</span> ${list.phoneNumber}</li>
 			        </c:if>
 			
 			        <c:if test="${not empty list.referenceDate}">
-			            <li>업데이트 일자: ${list.referenceDate}</li>
+			            <li><span style="font-weight:bold;">정보 업데이트:</span> ${list.referenceDate}</li>
 			        </c:if>
 			    </ul>
 			</div>

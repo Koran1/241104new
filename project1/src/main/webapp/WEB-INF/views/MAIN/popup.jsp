@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>쿠키를 이용한 팝업</title>
+<title>팝업(쿠키 저장)</title>
 <style type="text/css">
 /* 메인 페이지 스타일 */
 .main-container {
@@ -23,7 +23,7 @@ img {
 	position: fixed;
 	top: 100px; /* 상단에서 100px 떨어진 위치 */
 	left: 30px; /* 왼쪽에서 10px 떨어진 위치 */
-	width: 250px;
+	width: 350px;
 	background-color: #fff;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	display: none;
@@ -80,7 +80,8 @@ img {
 	<!-- 팝업  -->
 	<div id="cookie-popup" class="popup">
 		<div class="popup-content"></div>
-		<img alt="Sample Image" src="resources/images/popup_img.jpg">
+		<a href="http://localhost:8080/add_notice_detail?noticeIdx=4">
+		<img alt="Top" src="resources/images/popup_img.jpg"></a>
 		<div class="no-show">
 			<label><input type="checkbox" id="no-show-checkbox">오늘 하루 보지않기</label>
 			<button id="close-btn">닫기</button>

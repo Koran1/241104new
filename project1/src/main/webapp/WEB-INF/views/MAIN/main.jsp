@@ -265,8 +265,8 @@
 		    	           	
 			                if (k && k.length > i) {
 			                    wthrDate = k[0].wthrDate;
-			                    wthrTMin = k[i].wthrTMin;
-			                    wthrTMax = k[i].wthrTMax;
+			                    wthrTMin = k[0].wthrTMin;
+			                    wthrTMax = k[0].wthrTMax;
 			                    wthrSKY_PTY = getWeatherImage(k[i].wthrSKY_PTY);
 			                    
 		    	            table += "<div class='travel_box'>";

@@ -30,8 +30,9 @@
 	          <svg class="bi me-2" width="40" height="32" role="img" aria-label="HOME">
 	          <img src="resources/images/logo.png" width="220"></svg>
 	        </a>
+	        
 	        <!-- 검색  -->
-	        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search_go" method="get" autocomplete="on">
+	        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search_go" method="get" autocomplete="on" onsubmit="return validateSearch()">
 	          <input type="search" class="form-control" placeholder="여행 검색" aria-label="Search" name="keyword" value="${keyword}">
 	        </form>
 	        
@@ -72,5 +73,15 @@
 	  </header>
 	</main>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    function validateSearch() {
+        const keyword = document.querySelector("input[name='keyword']").value.trim();
+        if (keyword === "") {
+            alert("검색어를 입력하세요");
+            return false; // 폼 제출 중단
+        }
+        return true; // 폼 제출 진행
+    }
+</script>
 </body>
 </html>
