@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ict.mytravellist.MAIN.dao.MainDAO;
 import com.ict.mytravellist.MAIN.dao.TourTalkDAO;
+import com.ict.mytravellist.vo.ReportVO;
 import com.ict.mytravellist.vo.TourTalkVO;
 import com.ict.mytravellist.vo.TravelDBVO;
 import com.ict.mytravellist.vo.WeatherVO;
@@ -74,15 +75,4 @@ public class MainServiceImpl implements MainService {
 	    return mainDAO.getSearchPageList(map);
 	}
 
-	@Override
-	public List<TravelDBVO> getSearchList(String keyword) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int insertTourTalk(TourTalkVO tourtvo) {
-		return mainDAO.insertTourTalk(tourtvo);
-		
-	}
 }

@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ict.mytravellist.vo.ReportVO;
 import com.ict.mytravellist.vo.TourTalkVO;
 import com.ict.mytravellist.vo.TravelDBVO;
 import com.ict.mytravellist.vo.WeatherVO;
@@ -36,17 +37,13 @@ public class MainDAOImpl implements MainDAO{
 	}
 	
     // 키워드로 검색하는 메서드
-	@Override
-    public List<TravelDBVO> getSearchList(String keyword) {
-        try {
-            List<TravelDBVO> list = sqlSessionTemplate.selectList("main.getSearchList", keyword);
-            System.out.println("getSearchList MainDAO 통과");
-            return list;
-        } catch (Exception e) {
-            System.out.println("getSearchList 검색 중 오류 발생: " + e.getMessage());
-            return null;
-        }
-    }
+	/*
+	 * @Override public List<TravelDBVO> getSearchList(String keyword) { try {
+	 * List<TravelDBVO> list = sqlSessionTemplate.selectList("main.getSearchList",
+	 * keyword); System.out.println("getSearchList MainDAO 통과"); return list; }
+	 * catch (Exception e) { System.out.println("getSearchList 검색 중 오류 발생: " +
+	 * e.getMessage()); return null; } }
+	 */
 	
 	 // 키워드와 지역으로 검색하는 메서드
 	@Override
@@ -94,9 +91,8 @@ public class MainDAOImpl implements MainDAO{
         return sqlSessionTemplate.selectList("main.page_list", map);
     }
 
-	@Override
-	public int insertTourTalk(TourTalkVO tourtvo) {
-		return sqlSessionTemplate.insert("tourTalk.insert", tourtvo);		
-	}
+
+
+	
 
 }

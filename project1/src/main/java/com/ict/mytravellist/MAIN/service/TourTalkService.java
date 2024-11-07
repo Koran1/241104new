@@ -3,6 +3,7 @@ package com.ict.mytravellist.MAIN.service;
 
 import java.util.List;
 
+import com.ict.mytravellist.vo.ReportVO;
 import com.ict.mytravellist.vo.TourTalkVO;
 
 public interface TourTalkService{
@@ -19,5 +20,8 @@ public interface TourTalkService{
     // 삭제
     public int getTourTalkDelete(String userIdx);
 	
-    
+	public int insertTourTalk(TourTalkVO tourtvo);
+    void saveReport(ReportVO repvo);
+    int getReportCount(int tourTalkIdx);
+    void deactivatePost(int tourTalkIdx);
 }

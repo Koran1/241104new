@@ -11,4 +11,22 @@
 		insert into tourTalk(userId, tourTalkContent, tourTalkReg, travelIdx) 
 		values(#{userId},#{tourTalkContent},now(),#{travelIdx})
 	</insert>
+	
+	<insert id="insertReport" parameterType="repvo">
+	    INSERT INTO report (reporter, reportedUser, reportContent, tourTalkIdx, reportreg)
+	    VALUES (#{reporter}, #{reportedUser}, #{reportContent}, #{tourTalkIdx}, NOW())
+	</insert>
+	
+	<update id="increaseReportCount" parameterType="int">
+    	UPDATE tourtalk SET report = report + 1 WHERE tourTalkIdx = #{tourTalkIdx}
+	</update>
+	
+	<select id="getReportCount" parameterType="int" resultType="int">
+	    SELECT report FROM tourtalk WHERE tourTalkIdx = #{tourTalkIdx}
+	</select>
+	
+	<update id="deactivatePost" parameterType="int">
+	    UPDATE tourtalk SET active = 1 WHERE tourTalkIdx = #{tourTalkIdx}
+	</update>
+	
 </mapper>

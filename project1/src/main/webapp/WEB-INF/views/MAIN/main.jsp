@@ -42,7 +42,7 @@
 
 /* 메인 컨테이너의 래퍼: 스크롤 없이 고정된 레이아웃 */
 .main_wrapper {
-	margin: 50px 0;
+	margin: 100px 0;
 	display: flex;
 	justify-content: center; /* 중앙 정렬 */
 	align-items: center;

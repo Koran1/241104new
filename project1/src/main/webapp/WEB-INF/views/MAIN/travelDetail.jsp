@@ -191,6 +191,9 @@
 	color: #666;
 	text-align: left;
 }
+.userReport{
+	flex: right;
+}
 </style>
 </head>
 <body>
@@ -325,7 +328,9 @@
 				 	</c:choose>
 			    </form>
 			    <div id="tourTalkList"></div>
+				<div><jsp:include page="report.jsp" /></div>
 			</div>
+			
 			
 		</div>
 	</div>
@@ -336,6 +341,7 @@
 </div>
 
 	<div><jsp:include page="footer.jsp" /></div>
+
 
 	<script type="text/javascript">
 		function mem_login() {
@@ -404,12 +410,19 @@
 		function updateRecentlists(lists) {
 		    let talkHtml = "";
 		    lists.forEach(list => {
+		        const tourTalkIdx = list.tourTalkIdx;
+		        const userId = list.userId;
+		
 		        talkHtml += "<div class='tourTList'>";
 		        talkHtml += "<div class='tourTContent'><p>" + list.tourTalkContent + "</p></div>";
-		        talkHtml += "<ul class='tourinfo'>"
-		        talkHtml += "<li class='tourTId'>" + list.userId + "</li>";
+		        talkHtml += "<ul class='tourinfo'>";
+		        talkHtml += "<li class='tourTId'>" + userId + "</li>";
 		        talkHtml += "<li class='tourTReg'>" + formatDateTime(list.tourTalkReg) + "</li>";
 		        talkHtml += "</ul>";
+		        talkHtml += "<div class='userReport'>";
+		        // 신고 버튼 클릭 시 openReportForm 함수 호출
+		        talkHtml += "<button onclick='openReportForm(" + tourTalkIdx + ", \"" + userId + "\")'>신고</button>";
+		        talkHtml += "</div>";
 		        talkHtml += "</div>";
 		    });
 		    $('#tourTalkList').html(talkHtml);
