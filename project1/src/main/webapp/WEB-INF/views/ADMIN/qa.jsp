@@ -64,6 +64,43 @@
     #modalnoticecontent{
     	height: 50%;
     }
+    	/* paging */
+table tfoot ol.paging {
+	list-style: none;
+}
+
+table tfoot ol.paging li {
+	float: left;
+	margin-right: 8px;
+}
+
+table tfoot ol.paging li a {
+	display: block;
+	padding: 3px 7px;
+	border: 1px solid #00B3DC;
+	color: #2f313e;
+	font-weight: bold;
+}
+
+table tfoot ol.paging li a:hover {
+	background: #00B3DC;
+	color: white;
+	font-weight: bold;
+}
+
+.disable {
+	padding: 3px 7px;
+	border: 1px solid silver;
+	color: silver;
+}
+
+.now {
+	padding: 3px 7px;
+	border: 1px solid #ff4aa5;
+	background: #ff4aa5;
+	color: white;
+	font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -85,37 +122,75 @@
 			<table id="table">
 				<thead>
 					<tr>
-						<th>등록번호</th> <th>아이디</th> <th>Question</th> <th>등록일</th> <th>답변상태</th>
+						<th>등록번호</th> <th>아이디</th> <th>Question</th> <th>질문 등록일</th> <th>답변 등록일</th> <th>답변상태</th>
 					</tr>
 				</thead>
 				<tbody id="data">
-					<tr>
-						<td>1</td> <td><p id="userSubject" onclick="openModal()">ID에요1</p></td> 
-						<td><a href="/admin_qa_question">질문1</a></td> <td>20241016</td> <td id=answered></td>
-					</tr>
 					<c:choose>
-						<c:when test="${empty list}">
-							<tr><td colspan="5">"자료가 존재하지 않습니다"</td></tr>
+						<c:when test="${empty qna_list}">
+							<tr><td colspan="6">자료가 존재하지 않습니다</td></tr>
 						</c:when>
 						<c:otherwise>
-							<c:forEach var="k" items="${list}">
+							<c:forEach var="k" items="${qna_list}">
 								<tr>
 									<td>${k.qnaIdx}</td>
-									<td><p id="userSubject" onclick="openModal()">${k.userId}</p></td>
-									<td>${k.qnaSubject}</td>
+									<%-- <td><p id="userSubject" onclick="openModal('${k.userId}')">${k.userId}</p></td> --%>
+									<td>${k.userId}</td>
+									<td><a href="/admin_qa_question?qnaIdx=${k.qnaIdx}">${k.qnaSubject}</a></td>
 									<td>${k.qnaReg}</td>
-									<td>${k.qnaStatus}</td>
+									<td>${k.qnaReRegdate}</td>
+									<td class="qnaStatus">${k.qnaStatus}</td>
 								</tr>
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
 				</tbody>
+				<tfoot>
+				<tr>
+					<td colspan="6" align="center">
+						<ol class="paging">
+							<!-- 이전 -->
+							<c:choose>
+								<c:when test="${qna_paging.beginBlock <= qna_paging.pagePerBlock}">
+									<li class="disable">◀ 이전</li>
+								</c:when>
+								<c:otherwise>
+									<li><a
+										href="/admin_qa?qna_cPage=${qna_paging.beginBlock-qna_paging.pagePerBlock}">◀ 이전</a></li>
+								</c:otherwise>
+							</c:choose>
+
+							<!-- 블록안에 들어간 페이지번호들 -->
+							<c:forEach begin="${qna_paging.beginBlock}" end="${qna_paging.endBlock}"
+								step="1" var="k">
+								<!-- 현재 페이지와 현재 페이지가 아닌 것을 구분하자 -->
+								<c:if test="${k == qna_paging.nowPage}">
+									<li class="now">${k}</li>
+								</c:if>
+								<c:if test="${k != qna_paging.nowPage}">
+									<li><a href="/admin_qa?qna_cPage=${k}">${k}</a></li>
+								</c:if>
+							</c:forEach>
+
+							<!-- 다음 -->
+							<c:choose>
+								<c:when test="${qna_paging.endBlock >= qna_paging.totalPage}">
+									<li class="disable">다음 ▶</li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="/admin_qa?qna_cPage=${qna_paging.endBlock+1}">다음 ▶</a></li>
+								</c:otherwise>
+							</c:choose>
+						</ol>
+					</td>
+				</tr>
+			</tfoot>
 			</table>
 		</div>
 	</div>
 
 	
-	<div id="popupModal" class="modal">
+	<!-- <div id="popupModal" class="modal">
 		<div class="modal-content">
 			<span class="close">&times;</span>
 			<form action="" id="modalform">
@@ -137,10 +212,11 @@
 				<input type="reset" value="취소">
 			</form>
 		</div>
-	</div>
+	</div> -->
 	<script type="text/javascript">
-		function openModal(userId){
+		/* function openModal(userId){
 			document.querySelector("#popupModal").style.display = "block";
+			
 			
 			// userId를 이용해서 나머지 값 가져오기
 			$("#modaluserId").attr('value', userId);
@@ -152,8 +228,17 @@
 			$("#modaluserFavor03").attr('value', userFavor03);
 			$("#modaluserReg").attr('value', userReg);
 			$("#modaluserLevel").attr('value', userLevel);
-		} 
+		}  */
 		
+		function tableStyle() {
+			const qnaStatusAll = document.querySelectorAll(".qnaStatus");
+			qnaStatusAll.forEach(items => {
+				if(items.innerText === '답변완료'){
+					items.closest("tr").style.backgroundColor  = "#ddd";
+				}
+			})
+		}
+		tableStyle();
 		function closeModal() {
 			document.querySelector("#popupModal").style.display = "none";
 			document.querySelector("#modalform").reset();

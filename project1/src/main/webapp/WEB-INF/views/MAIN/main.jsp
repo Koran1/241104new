@@ -234,7 +234,6 @@
  		            dataType: "json",
  		            async: false,
 		    	    success: function (data) {
-		    	        console.log("응답 데이터:", data);
 		    	        
 		    	        let table = '';
 		    	        data.forEach(function(list, i) {

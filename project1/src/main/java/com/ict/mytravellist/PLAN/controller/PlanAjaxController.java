@@ -68,11 +68,6 @@ public class PlanAjaxController {
 			
 			for (int i = 0; i < coordinates_string_final.size(); i++) {
 				orders[i] = map.get(coordinates_string_final.get(i));
-				
-			}
-			
-			for (String s : orders) {
-				System.out.println(s);
 			}
 			
 			boolean isOrigin = false;
@@ -99,6 +94,46 @@ public class PlanAjaxController {
 		return null;
 	}
 
+	@RequestMapping(value = "/kakaoRoadLine2", produces = "application/json; charset=utf-8")
+	public List<RouteInfoVO> kakaoRoad2(
+			@RequestParam("positions[]") double[] positions,
+			@RequestParam("idx_container[]") String[] idx_container,
+			HttpServletRequest request) {
+		try {
+			List<String> coordinates_string = new ArrayList<>();
+			
+			for (int i = 0; i < positions.length; i += 2) {
+				String coord = String.valueOf(positions[i]) + "," + String.valueOf(positions[i + 1]);
+				coordinates_string.add(coord);
+			}
+			
+			boolean isOrigin = false;
+			List<RouteInfoVO> list = new ArrayList<RouteInfoVO>();
+			for (int i = 0; i < coordinates_string.size() - 1; i++) {
+				String origin2 = coordinates_string.get(i);
+				String destination = coordinates_string.get(i + 1);
+				RouteInfoVO rvo = getRouteInfo(origin2, destination);
+				
+				if(!isOrigin) {
+					rvo.getRoutes().get(0).getSummary().getOrigin().setName(idx_container[0]);
+					isOrigin = true;
+				}
+				rvo.getRoutes().get(0).getSummary().getDestination().setName(idx_container[i+1]);
+				
+				list.add(rvo);
+			}
+			
+			
+			
+			return list;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 	public int getDistance(String mark1, String mark2) {
 		try {
 			String origin = mark1;

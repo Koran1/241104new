@@ -75,7 +75,7 @@
 	</select>
 	
 	<insert id="insert" parameterType="tourtvo">
-		insert into tourTalk(tourTalkIdx, userId, tourTalkContent, tourTalkReg, tourTalkEtc01, hit, travelIdx)
+		insert into pjtourtalk (tourTalkIdx, userId, tourTalkContent, tourTalkReg, tourTalkEtc01, hit, travelIdx)
 		values(#{tourTalkIdx}, #{userId},#{tourTalkContent}, now(), #{tourTalkEtc01}, 0, #{tourTalkEtc01})
 	</insert>
 	

@@ -5,36 +5,37 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>마이페이지_내댓글보기</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MyPage - 내댓글보기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style type="text/css">
-	#container{display: flex;}
-	#flex_left{width: 15%;  background-color: Whitesmoke;}
-	#flex_write{width: 85%;}
-	#logo{width: 200px; height: 70px;} 
-	#name{font-size: 50px; font-weight: bold;}
-	#article_container{display: flex; flex-direction: column;}
-	article{font-size: 30px; padding: 20px; margin: 10px;}
-	#title{font-size: 50px; margin-left: 20px;}
-	table{border: 1px solid gray; border-collapse: collapse; width: 80%; height: 300px; margin-top: 20px; }
-	th, td{border: 1px solid gray; text-align: center; padding: 10px; }
-	button{width: 100px; height: 50px;}
-	#del_all_btn{float: right; margin-right: 490px; margin-top: 20px;}
-	a {text-decoration: none; color: black}
-	#now {border: 1px solid black;font-weight: bold; padding: 3px 7px;}
-	ul{list-style-type: none;}
-	li{display: inline;}
-	tfoot{margin: 50px;}
-	.page_num{padding: 3px 7px;}
-	.page_btn{padding: 3px 7px;}
+	#container{display: flex; padding-top: 75px;}
+	#container #flex_left{width: 15%;  background-color: Whitesmoke;}
+	#container #flex_write{width: 85%;}
+	#container #logo{width: 200px; height: 70px;} 
+	#container #name{font-size: 50px; font-weight: bold;}
+	#container #article_container{display: flex; flex-direction: column;}
+	#container article{font-size: 30px; padding: 20px; margin: 10px;}
+	#container #title{font-size: 50px; margin-left: 20px;}
+	#container table{border: 1px solid gray; border-collapse: collapse; width: 80%; height: 300px; margin-top: 20px; }
+	#container th, #container td{border: 1px solid gray; text-align: center; padding: 10px; }
+	#container button{width: 100px; height: 50px;}
+	#container #del_all_btn{float: right; margin-right: 490px; margin-top: 20px;}
+	#container a {text-decoration: none; color: black}
+	#container #now {border: 1px solid black;font-weight: bold; padding: 3px 7px;}
+	#container ul{list-style-type: none;}
+	#container li{display: inline;}
+	#container tfoot{margin: 50px;}
+	#container .page_num{padding: 3px 7px;}
+	#container .page_btn{padding: 3px 7px;}
 
 </style>
 </head>
 <body>
+<jsp:include page="MEM_header.jsp" />
 	<div id="container">
 		<section id="flex_left">
-			<a href="/go_main"><img id="logo" alt="" src="resources/images/logo.png"></a>
-			<p id="name">홍길동님</p>
+			<p id="name"><a href="/go_my_page">${userId}님</a></p>
 			<div id="article_container">
 			<article style="background-color: lightgray">
 				<img alt="" src="resources/images/my_comment.png" style="float: left;">
@@ -210,7 +211,7 @@
 							}
 						}, 
 						error: function() {
-							alert("에러 발생");
+							alert("댓글이 없습니다!");
 						}
 						}); 
 				}

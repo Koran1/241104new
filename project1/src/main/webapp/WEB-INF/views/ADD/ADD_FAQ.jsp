@@ -4,16 +4,26 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>FAQ - MyTravelList</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyTravelList - FAQ</title>
+<link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css" rel="stylesheet">
 <link type="text/css" href="/resources/css/style.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style type="text/css">
+
 	body{
 		margin: 0;
 		padding: 0;
 	}
+	.main-container{
+		margin: 0;
+		padding-top: 100px;
+		width: 100%;
+		height: 90vh;
+	}
 	table{
 		width: 70%;
+		height: 100%;
 		margin: 20px auto;
 		border-collapse: collapse;
 		border-top: 2px solid #708090;
@@ -25,16 +35,39 @@
 		padding: 15px;
 		text-align: left;
 	}
+	.tab-container{
+		margin-bottom: 20px;
+	}
+	.faq-container{
+		width: 100%;
+		height: 100%;
+	}
+	.faq-table{
+		margin: 0px auto;
+		width: 70%;
+		height: 100%;
+	}
 	.faq-question{
 		cursor: pointer;
+		border-top: 1px solid #ddd;
+	}
+	.faq-question td{
+		padding-top: 10px;
+		padding-left: 10px;
+		height: 10%;
 	}
 	.faq-answer{
+		height: 10%;
 		display: none;
 		color: #222222;
 		background: #f9f9f9;
 	}
 	.faq-answer.visible{
 		display: table-row;
+	}
+	.faq-answer.visible td{
+		padding-left: 10px;
+		padding-top: 10px;
 	}
 	.toggle-btn{
 		cursor: pointer;
@@ -158,15 +191,12 @@
 	table tfoot ol.paging li {
 		border: none;
 	}
+	
 </style>
 </head>
 <body>
-<div class="container">
-	<div class="header-wrap">
-		<img alt="" src="<c:url value='/resources/images/logo.png' />" class="logo-img" style="width: 250px; height: 50px;" onclick="location.href='/'" />
-		<p class="notice-title" style="text-align: center;">공지사항</p>
-		<hr color="008615">
-	</div>
+<jsp:include page="../MAIN/header.jsp" />
+<div class="main-container">
 	<div class="tab-container">
 		<ul class="tab-menu">
 			<li class="tab-button"><a href="/add_notice" class="tab-notice-menu">공지사항</a></li>
@@ -255,19 +285,11 @@
 			</tfoot>
 		</table>
 	</div>
-	<!--
- 	<div class="pagination">
-		<a class="btn-mark" href="#">&laquo;</a>
-		<a class="btn-mark" href="#">&lsaquo;</a>
-		<a class="active" href="#">1</a>
-		<a class="btn-mark" href="#">&rsaquo;</a>
-		<a class="btn-mark" href="#">&raquo;</a>
-	</div>
-	-->
+
 	<script type="text/javascript">
 		function toggleAnswer(id, btnId) {
-			var answer = document.getElementById(id);
-			var button = document.getElementById(btnId);
+			let answer = document.getElementById(id);
+			let button = document.getElementById(btnId);
 			if (answer.classList.contains("visible")) {
 				answer.classList.remove("visible");
 				button.textContent = "∨";
@@ -277,8 +299,8 @@
 			}
 		}
 		window.onload = function() {
-			var firstAnswer = document.querySelector('.faq-answer');
-			var firstButton = document.querySelector('.toggle-btn');
+			let firstAnswer = document.querySelector('.faq-answer');
+			let firstButton = document.querySelector('.toggle-btn');
 			if (firstAnswer && firstButton) {
 				firstAnswer.classList.add("visible");
 				firstButton.textContent = "∧";
@@ -286,5 +308,9 @@
 		};
 	</script>
 </div>
+<br>
+<br>
+<br>
+	<jsp:include page="../MAIN/footer.jsp" />
 </body>
 </html>

@@ -85,7 +85,7 @@ public class ProjectRestController {
 				return map;
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -97,7 +97,7 @@ public class ProjectRestController {
 		  String result = projectService.delTTOne(tourTalkIdx);
 		  return result;
 	  } catch (Exception e) {
-		System.out.println(e);
+		e.printStackTrace();
 		return "error";
 	  }
 	  }
@@ -110,7 +110,7 @@ public class ProjectRestController {
 			  
 			  return result;
 		  } catch (Exception e) {
-			  System.out.println(e);
+			  e.printStackTrace();
 			  return "error";
 		  }
 	  }
@@ -119,7 +119,6 @@ public class ProjectRestController {
 	  @ResponseBody
 	  public String sendCode(@RequestParam("userMail") String userMail, HttpSession session ) {
 		  try {
-			  System.out.println("레스트 컨트롤러 도착");
 			  Random random = new Random();
 				// 0 ~ 1000000 미만의 정수를 무작위로 생성(6자리 숫자 중 하나를 랜덤으로 만듦)
 				String ranNum = String.valueOf(random.nextInt(1000000));

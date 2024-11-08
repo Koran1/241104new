@@ -37,13 +37,6 @@ public class AddDAOImpl implements AddDAO {
 		return sqlSessionTemplate.selectList("adds.faqList");
 	}
 
-	/*
-	@Override
-	public List<QNAVO> getQNAList(String userId) {
-		return sqlSessionTemplate.selectList("adds.qnaList", userId);
-	}
-	*/
-
 	@Override
 	public int getQNAInsert(QNAVO qnavo) {
 		return sqlSessionTemplate.insert("adds.qnaInsert", qnavo);

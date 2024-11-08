@@ -5,40 +5,54 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>마이페이지-나의정보수정</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MyPage - 나의정보수정</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
  <style type="text/css">
-	#container{display: flex;}
-	#flex_left{width: 15%;  background-color: Whitesmoke;}
-	#flex_write{width: 85%;}
-	#logo{width: 200px; height: 70px;} 
-	#name{font-size: 50px; font-weight: bold;}
-	#article_container{display: flex; flex-direction: column;}
-	article{font-size: 30px; padding: 20px; margin: 10px;}
-	#title{font-size: 50px; margin-left: 20px;}
-	#msg{margin-left: 100px;  font-size: 30px;}
-	a {text-decoration: none; color: black}
-	#update_form{width: 1000px; min-height: 1000px; margin: 0 auto;}
-	#modal{
-		border: 1px solid lightgray; 
-	    position:fixed; 
-	    left: 750px; 
-	    top: 100px; 
-	    display: none;
-	    background-color: #F0F8FF;
-	    width: 1200px;
-	 }
-    .write {width: 60%;  padding: 25px; margin-left: 20px; margin-bottom: 20px;}
-    input[type="text"], input[type="email"] {font-size: 20px;}
-    input[type="submit"] {width: 130px; height: 60px;}
-    input[type="button"] {width: 130px; height: 60px;}
-    .btn_action{
+	#container{display: flex; padding-top: 75px;}
+	#container #flex_left{width: 15%;  background-color: Whitesmoke;}
+	#container #flex_write{width: 85%;}
+	#container #logo{width: 200px; height: 70px;} 
+	#container #name{font-size: 50px; font-weight: bold;}
+	#container #article_container{display: flex; flex-direction: column;}
+	#container article{font-size: 30px; padding: 20px; margin: 10px;}
+	#container #title{font-size: 50px; margin-left: 20px;}
+	#container #msg{margin-left: 100px;  font-size: 30px;}
+	#container a {text-decoration: none; color: black}
+	#container #update_form{width: 1000px; min-height: 1000px; margin: 0 auto;}
+	#container #modal {
+      display: none; /* 처음에 보이지 않음 */
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    }
+
+	#container #modal-content{
+		background-color: white;
+		margin: 15% auto;
+		padding: 20px;
+		border: 1px solid #888;
+		width: 70%;
+		height: 70%;
+		text-align: center;
+		overflow: scroll;
+	}
+
+    #container .write {width: 60%;  padding: 25px; margin-left: 20px; margin-bottom: 20px;}
+    #container input[type="text"], input[type="email"] {font-size: 20px;}
+    #container input[type="submit"] {width: 130px; height: 60px;}
+    #container input[type="button"] {width: 130px; height: 60px;}
+    #container .btn_action{
     	margin-right: 100px;
     	width: 130px; height: 60px;
     }
-    span {font-size: 20px;}
-    i {font-size: 20px;}
-    td{
+    #container span {font-size: 20px;}
+    #container i {font-size: 20px;}
+    #container td{
 	    margin: 100px;  
 	    border: 1px solid black; 
 	    background-color: white;
@@ -47,23 +61,22 @@
 	    text-align: center;
 	    
 	 }
-	 #buttons{display: flex; justify-content: center; margin-top: 20px; } 
-	 #region_table{margin: 32px auto; border-collapse: separate; border-spacing: 8px;}
-	 .clicked{background-color: #4682B4; color: white}
-	 td:hover{background-color: #4682B4; color: white}
-	 input[name="userName"], input[name="userId"] {background-color: lightgray;}
-	 #u_emailCode{width: 25%; margin-left: 20px; margin-bottom: 20px;}
-	 #judgeMsg{margin-left:  100px; margin-top: 0px;}
+	 #container #buttons{display: flex; justify-content: center; margin-top: 20px; align-content: center;} 
+	 #container #region_table{margin: 32px auto; border-collapse: separate; border-spacing: 8px;}
+	 #container .clicked{background-color: #4682B4; color: white}
+	 #container td:hover{background-color: #4682B4; color: white}
+	 #container input[name="userName"], input[name="userId"] {background-color: lightgray;}
+	 #container #u_emailCode{width: 25%; margin-left: 20px; margin-bottom: 20px;}
+	 #container #judgeMsg{margin-left:  100px; margin-top: 0px;}
 </style>
 </head>
 <script type="text/javascript">
 </script>
 <body>
-
+<jsp:include page="MEM_header.jsp" />
 <div id="container">
 		<section id="flex_left">
-			<a href="/go_main"><img id="logo" alt="" src="resources/images/logo.png"></a>
-			<p id="name">홍길동님</p>
+			<p id="name"><a href="/go_my_page">${userId}님</a></p>
 			<div id="article_container">
 			<article><a href="/go_my_comment">
 				<img alt="" src="resources/images/my_comment.png" style="float: left;">
@@ -110,9 +123,9 @@
 				 		</label>
 				 		<input type="button" onclick="sample6_execDaumPostcode()" value="주소 찾기"><br> 
 			 			<label>내 관심지역:
-			 				<span>1. <i id="userFavor01">${detail.userFavor01}</i> &nbsp; &nbsp;</span> 
-			 				<span>2. <i id="userFavor02">${detail.userFavor02}</i> &nbsp; &nbsp;</span> 
-			 				<span>3. <i id="userFavor03">${detail.userFavor03}</i>  &nbsp; &nbsp;</span> 
+			 				<span>1. <i id="userFavor01"></i> &nbsp; &nbsp;</span> 
+			 				<span>2. <i id="userFavor02"></i> &nbsp; &nbsp;</span> 
+			 				<span>3. <i id="userFavor03"></i>  &nbsp; &nbsp;</span> 
 			 				<input type="button" id="change_flavor" value="변경하기" onclick="changeFlavor()">
 			 			</label>
 			 			<input type="hidden" name="userFavor01" value="${detail.userFavor01}">
@@ -120,25 +133,27 @@
 			 			<input type="hidden" name="userFavor03" value="${detail.userFavor03}">
 				</fieldset>
 				<div id="buttons">
-				<input type="button"  id="btn_cancel" class="btn_action" value="취소" onclick="goMyPage()">
-				<input type="button" id="btn_update" class="btn_action" value="수정" onclick="goUpdate(this.form)">
+					<input type="button" id="btn_update" class="btn_action" value="수정" onclick="goUpdate(this.form)">
+					<input type="button"  id="btn_cancel" class="btn_action" value="취소" onclick="goMyPage()">
 				</div>
 			 </form>
 		<div id="modal">
+			<div id="modal-content">
 				<table id="region_table">
 					<tbody>
-					<tr><td>강원도</td><td>경기도</td><td>경상북도</td></tr>
-					<tr><td>경상남도</td><td>광주광역시</td><td>대전광역시</td></tr>
-					<tr><td>부산광역시</td><td>서울특별시</td><td>세종특별자치시</td></tr>
-					<tr><td>울산광역시</td><td>인천광역시</td><td>전라남도</td></tr>
-					<tr><td>전라북도</td><td>제주특별자치도</td><td>충청남도</td></tr>
-					<tr><td>충청북도</td><td>대구광역시</td></tr>
+					<tr><td data-region="9">강원도</td> <td data-region="8">경기도</td> <td data-region="14">경상북도</td></tr>
+					<tr><td data-region="15">경상남도</td> <td data-region="5">광주광역시</td> <td data-region="3">대구광역시</td></tr>
+					<tr><td data-region="6">대전광역시</td> <td data-region="2">부산광역시</td> <td data-region="1">서울특별시</td></tr>
+					<tr><td data-region="7">울산광역시</td> <td data-region="4">인천광역시</td> <td data-region="13">전라남도</td></tr>
+					<tr><td data-region="12">전라북도</td> <td data-region="16">제주특별자치도</td> <td data-region="11">충청남도</td></tr>
+					<tr><td data-region="10">충청북도</td></tr>
 					</tbody>
 				</table>
 				<div id="buttons">
-					<input type="button" id="modal_close" class="btn_action" value="닫기" >
 					<input type="button" id="modal_confirm" class="btn_action" value="확인">
+					<input type="button" id="modal_close" class="btn_action" value="닫기" >
 				</div>
+			</div>
 		</div>
 		</section>				
 	</div>
@@ -175,6 +190,36 @@
 				modal.style.display = "block";
 		   }
            
+           function changeUserFavs() {
+        	  let userFavor01 = document.querySelector("#userFavor01"); 
+        	  let userFavor02 = document.querySelector("#userFavor02"); 
+        	  let userFavor03 = document.querySelector("#userFavor03");
+        	  
+        	  userFavor01.innerText = getRegionName(${detail.userFavor01});
+        	  userFavor02.innerText = getRegionName(${detail.userFavor02});
+        	  userFavor03.innerText = getRegionName(${detail.userFavor03});
+			}
+           changeUserFavs();
+           function getRegionName(num_region){
+        	   if(num_region === 1) return "서울광역시";
+        	   else if(num_region === 2) return "부산광역시";
+        	   else if(num_region === 3) return "대구광역시";
+        	   else if(num_region === 4) return "인천광역시";
+        	   else if(num_region === 5) return "광주광역시";
+        	   else if(num_region === 6) return "대전광역시";
+        	   else if(num_region === 7) return "울산광역시";
+        	   else if(num_region === 8) return "경기도";
+        	   else if(num_region === 9) return "강원도";
+        	   else if(num_region === 10) return "충청북도";
+        	   else if(num_region === 11) return "충청남도";
+        	   else if(num_region === 12) return "전라북도";
+        	   else if(num_region === 13) return "전라남도";
+        	   else if(num_region === 14) return "경상북도";
+        	   else if(num_region === 15) return "경상남도";
+        	   else if(num_region === 16) return "제주특별자치도";
+        	   else return null;
+           }
+           
           // 모달창 닫을 때 클래스 초기화
            let closeBtn = document.querySelector("#modal_close");
            closeBtn.addEventListener("click", function() {
@@ -210,6 +255,7 @@
 				alert("관심 지역을 반드시 3곳 선택해 주세요.");
 			}else {
 	        	  let clicked_region = Array.from(clicked).map(item => item = item.innerText);
+	        	  let num_region = Array.from(clicked).map(item => item = item.getAttribute("data-region"));
 	        	  
 	        	  let userFavor01 = document.querySelector("#userFavor01"); 
 	        	  let userFavor02 = document.querySelector("#userFavor02"); 
@@ -223,9 +269,9 @@
 	        	  let hidden2 = document.querySelector("input[name='userFavor02']"); 
 	        	  let hidden3 = document.querySelector("input[name='userFavor03']"); 
 	        	  
-	        	  hidden1.value = clicked_region[0];
-	        	  hidden2.value = clicked_region[1];
-	        	  hidden3.value = clicked_region[2];
+	        	  hidden1.value = num_region[0];
+	        	  hidden2.value = num_region[1];
+	        	  hidden3.value = num_region[2];
 	        	  
 				  let modal = document.querySelector("#modal");
 				  modal.style.display = "none";
@@ -310,8 +356,16 @@
 				}
 			});  
 			
- 
-		   
+			 function closeModal() {
+					document.querySelector("#modal").style.display = "none";
+			}
+			// 모달 창 바깥쪽 클릭 시 이벤트
+			window.onclick = (e) => {
+				const modal = document.querySelector("#modal");
+				if(e.target === modal){
+					closeModal();
+				}
+			}
 
            
     </script>

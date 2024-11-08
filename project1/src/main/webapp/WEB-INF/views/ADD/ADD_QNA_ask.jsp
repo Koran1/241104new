@@ -4,15 +4,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>QNA - MyTravelList</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyTravelList - QNA</title>
 <link rel="stylesheet" href="resources/css/summernote-lite.css">
 <style type="text/css">
-	body{
+	.main-container{
 		margin: 0;
-		padding: 0;	
+		padding-top: 100px;
+		width: 100%;
+		height: 90vh;
 	}
 	.qna-ask-table{
-		width: 50%;
+		width: 60%;
 		margin: 50px auto;
 		padding: 20px;
 	}
@@ -21,18 +24,10 @@
 </style>
 </head>
 <body>
-	<div class="container">
-		<div class="header-wrap">
-    		<img alt="" src="<c:url value='/resources/images/logo.png' />"
-				class="logo-img" style="width: 250px; height: 50px;"
-				onclick="location.href='/'" />
-			<p class="agreement-title" style="text-align: center;">공지사항</p>
-			<hr color="008615">
-		</div>
-		
+<jsp:include page="../MAIN/header.jsp" />
+	<div class="main-container">
 		<div class="qna-ask-container">
 			<form action="/add_qna_ask_ok" method="post" enctype="multipart/form-data">
-			<!-- <form action="/add_qna_ask_ok" method="post"> -->
 				<table class="qna-ask-table">
 					<tbody>
 						<tr>

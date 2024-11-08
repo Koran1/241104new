@@ -1,9 +1,16 @@
 package com.ict.mytravellist.vo;
 
 public class TrvlPlanVO {
-	private String trvlPlanIdx, userId, region, trvlPlanSubject, trvlPlanDate, trvlPlantrrsrtNm1, trvlPlantrrsrtNm2,
-			trvlPlantrrsrtNm3, trvlPlantrrsrtNm4, trvlPlantrrsrtNm5, trvlPlanContent, trvlPlanEtc01, trvlPlanEtc02,
-			trvlPlanEtc03;
+	private String trvlPlanIdx, userId, region, trvlPlanSubject, trvlPlanDate, trvlPlanRegDate, trvlPlantrrsrtNm1, trvlPlantrrsrtNm2,
+			trvlPlantrrsrtNm3, trvlPlantrrsrtNm4, trvlPlantrrsrtNm5, trvlPlanContent, trvlPlanEtc01, trvlPlanEtc02;
+
+	public String getTrvlPlanRegDate() {
+		return trvlPlanRegDate;
+	}
+
+	public void setTrvlPlanRegDate(String trvlPlanRegDate) {
+		this.trvlPlanRegDate = trvlPlanRegDate;
+	}
 
 	public String getTrvlPlanIdx() {
 		return trvlPlanIdx;
@@ -107,14 +114,6 @@ public class TrvlPlanVO {
 
 	public void setTrvlPlanEtc02(String trvlPlanEtc02) {
 		this.trvlPlanEtc02 = trvlPlanEtc02;
-	}
-
-	public String getTrvlPlanEtc03() {
-		return trvlPlanEtc03;
-	}
-
-	public void setTrvlPlanEtc03(String trvlPlanEtc03) {
-		this.trvlPlanEtc03 = trvlPlanEtc03;
 	}
 
 }

@@ -55,7 +55,7 @@ public class EmailController {
 			
 			return mv;
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 			return null;
 		}
 	}

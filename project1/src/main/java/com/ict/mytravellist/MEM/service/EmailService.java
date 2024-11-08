@@ -62,7 +62,7 @@ public class EmailService {
 			sendMail.send();
 			
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 }

@@ -26,6 +26,43 @@
 		width: 100%;
 		margin: 20px 0;
 	}
+	    	/* paging */
+table tfoot ol.paging {
+	list-style: none;
+}
+
+table tfoot ol.paging li {
+	float: left;
+	margin-right: 8px;
+}
+
+table tfoot ol.paging li a {
+	display: block;
+	padding: 3px 7px;
+	border: 1px solid #00B3DC;
+	color: #2f313e;
+	font-weight: bold;
+}
+
+table tfoot ol.paging li a:hover {
+	background: #00B3DC;
+	color: white;
+	font-weight: bold;
+}
+
+.disable {
+	padding: 3px 7px;
+	border: 1px solid silver;
+	color: silver;
+}
+
+.now {
+	padding: 3px 7px;
+	border: 1px solid #ff4aa5;
+	background: #ff4aa5;
+	color: white;
+	font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -48,35 +85,72 @@
 			<table id="table">
 				<thead>
 					<tr>
-						<th>등록번호</th><th>관광지명</th><th>등록일</th><th>게시글보이기</th>
+						<th>Index번호</th><th>관광지명</th><th>최신화날짜</th><th>지역</th>
 					</tr>
 				</thead>
 				<tbody id="data">
-					<tr>
-						<td>1</td><td><a href="">관광지에요</a></td><td>20241016</td><td id=visible>ON</td>
-					</tr>
-					<tr>
-						<td>2</td><td><a href="">관광지에요2</a></td><td>20241016</td><td id=visible>OFF</td>
-					</tr>
+				<c:choose>
+					<c:when test="${empty main_list}">
+						<td colspan="4">표기할 정보가 없습니다</td>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="k" items="${main_list}">
+							<tr>
+								<td>${k.travelIdx}</td>
+								<td><a href="/admin_main_update?travelIdx=${k.travelIdx}">${k.trrsrtNm}</a></td>
+								<td>${k.referenceDate}</td>
+								<td>${k.touritEtc01}</td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 				</tbody>
+				<tfoot>
+				<tr>
+					<td colspan="4">
+						<ol class="paging">
+							<!-- 이전 -->
+							<c:choose>
+								<c:when test="${main_Paging.beginBlock <= main_Paging.pagePerBlock}">
+									<li class="disable">◀ 이전</li>
+								</c:when>
+								<c:otherwise>
+									<li><a
+										href="/admin_main?main_cPage=${main_Paging.beginBlock-main_Paging.pagePerBlock}">◀ 이전</a></li>
+								</c:otherwise>
+							</c:choose>
+
+							<!-- 블록안에 들어간 페이지번호들 -->
+							<c:forEach begin="${main_Paging.beginBlock}" end="${main_Paging.endBlock}"
+								step="1" var="k">
+								<!-- 현재 페이지와 현재 페이지가 아닌 것을 구분하자 -->
+								<c:if test="${k == main_Paging.nowPage}">
+									<li class="now">${k}</li>
+								</c:if>
+								<c:if test="${k != main_Paging.nowPage}">
+									<li><a href="/admin_main?main_cPage=${k}">${k}</a></li>
+								</c:if>
+							</c:forEach>
+
+							<!-- 다음 -->
+							<c:choose>
+								<c:when test="${main_Paging.endBlock >= main_Paging.totalPage}">
+									<li class="disable">다음 ▶</li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="/admin_main?main_cPage=${main_Paging.endBlock+1}">다음 ▶</a></li>
+								</c:otherwise>
+							</c:choose>
+						</ol>
+					</td>
+				</tr>
+			</tfoot>
+				
 			</table>
-			<div class="main_button"><button>업데이트</button></div>
 		</div>
 	</div>
 	
-	<%-- DB 연결해서 관광지명 링크타는 거 추가해야함 --%>
-	<%-- ON/OFF 저장 기능 추가해야함 --%>
-	
 	<script type="text/javascript">
-	$(document).ready(function() {
-	    $('#data tr').each(function() {
-	        var visibleText = $(this).find('td#visible').text().trim();
-
-	        if (visibleText === 'ON') {
-	            $(this).css('background-color', 'lightgreen');
-	        }
-	    });
-	});
 	
 	
 	</script>

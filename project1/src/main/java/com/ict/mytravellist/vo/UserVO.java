@@ -2,8 +2,32 @@ package com.ict.mytravellist.vo;
 
 public class UserVO {
 	private String userIdx, userId, n_userId, k_userId, userPw, userName, userPhone, userMail, userAddr, userLevel,
-		userReg, userUpdReg, userConnReg, userFavor01, userFavor02, userFavor03,
-		userEtc01, userEtc02, userEtc03, userEtc04;
+			userReg, userUpdReg, userConnReg, userFavor01, userFavor02, userFavor03, userEtc01, userEtc02, userEtc03,
+			userEtc04;
+
+	public String getUserPhone() {
+		return userPhone;
+	}
+
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
+
+	public String getN_userId() {
+		return n_userId;
+	}
+
+	public void setN_userId(String n_userId) {
+		this.n_userId = n_userId;
+	}
+
+	public String getK_userId() {
+		return k_userId;
+	}
+
+	public void setK_userId(String k_userId) {
+		this.k_userId = k_userId;
+	}
 
 	public String getUserIdx() {
 		return userIdx;

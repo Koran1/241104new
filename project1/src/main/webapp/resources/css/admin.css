@@ -27,7 +27,7 @@
 
 #button_container {
 	margin-left: 2%;
-	width: 300px;
+	width: 250px;
 	border: 1px solid black;
 	display: flex;
 	flex-flow: column;
@@ -45,7 +45,6 @@
 	background-color: black;
 	color: white;
 	font-weight: bold;
-	font-size: 18px;
 }
 
 #main_container {

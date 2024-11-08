@@ -54,7 +54,7 @@ public class KakaoUserInfoController {
 
 			// 응답코드 확인
 			int responseCode = conn.getResponseCode();
-			System.out.println("responseCode : " + responseCode);
+			System.out.println("responseCode(KakaoUserResponse) : " + responseCode);
 
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				// 토큰 요청 성공 후 결과 받기 (JSON 타입)
@@ -80,20 +80,11 @@ public class KakaoUserInfoController {
 				// id 가지고 사용자 DB에 검색해서 id가 있으면 사용자 정보를 더 가져올수 있다.
 				// id 가지고 사용자 DB에 검색해서 id가 있으면 처음 카카오로 로그인 한 사람이므로 등록한다.
 				
-				
-				System.out.println("id: " + id);
-				System.out.println("nickname: " + nickname);
-				System.out.println("profileImage: " + profileImage);
-				System.out.println("email: " + email);
-				// System.out.println("fullName: " + fullName);
-				
 				//  세션에 저장
 				request.getSession().setAttribute("nickname", nickname);
 				request.getSession().setAttribute("profileImage", profileImage);
 				request.getSession().setAttribute("email", email);
-				// request.getSession().setAttribute("fullName", nickname);
 
-			    System.out.println(sb2.toString());		
 				return sb2.toString();
 			}
 		} catch (Exception e) {

@@ -5,13 +5,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 - MyTravelList</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyTravelList - 공지사항</title>
 <link type="text/css" href="/resources/css/style.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style type="text/css">
 	body{
 		margin: 0;
 		padding: 0;
+	}
+	.main-container{
+		margin: 0;
+		padding-top: 100px;
+		width: 100%;
 	}
 	.notice-table {
 		width: 70%;
@@ -34,6 +40,11 @@
 	}
 	.noticeSubject {
 		text-align: left;
+	}
+	.noticeReg{
+		width: 30%;
+		text-align: center;
+		border-left: 1px solid #ddd;
 	}
 	.subject-detail {
 		text-decoration: none;
@@ -79,8 +90,15 @@
 	.search-container button:hover {
     	background-color: #007f3b;
 	}
+	.noticeSubject, .noticeReg {
+		padding: 10px;
+	}
 	.logo-img{
 		cursor: pointer;
+	}
+	.notice-table th, td{
+		padding: 10px;
+		margin: 10px;
 	}
 	ul.tab-menu {
         list-style-type: none;
@@ -164,14 +182,8 @@
 </style>
 </head>
 <body>
-	<div class="container">
-		<div class="header-wrap">
-			<img alt="" src="<c:url value='/resources/images/logo.png' />"
-				class="logo-img" style="width: 250px; height: 50px;" onclick="location.href='/'" />
-			<p class="notice-title" style="text-align: center;">공지사항</p>
-			<hr color="008615">
-		</div>
-		
+<jsp:include page="../MAIN/header.jsp" />
+	<div class="main-container">
 		<div class="tab-container">
             <ul class="tab-menu">
                 <li class="tab-button active"><a href="/add_notice" class="tab-notice-menu">공지사항</a></li>
@@ -182,13 +194,13 @@
         
        <div class="search-container">
 			<form action="/add_notice_search" onsubmit="return validateSearch()">
-				<input type="text" name="keyword" value="${keyword}">
+				<input type="text" name="notice_keyword" value="${notice_keyword}">
 				<button type="submit" id="search_btn">검색</button>
 			</form>
 		</div>
 		<script type="text/javascript">
 			function validateSearch() {
-				var keyword = document.getElementsByName("keyword")[0].value
+				var keyword = document.getElementsByName("notice_keyword")[0].value
 						.trim();
 				if (keyword === "") {
 					alert("검색어를 입력하세요.");
@@ -204,7 +216,7 @@
 					<thead>
 						<tr>
 							<th>제목</th>
-							<th>작성일</th>
+							<th class="noticeReg">작성일</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -294,5 +306,6 @@
 			</div>
 		</div>
 	</div>
+    <jsp:include page="../MAIN/footer.jsp" />
 </body>
 </html>

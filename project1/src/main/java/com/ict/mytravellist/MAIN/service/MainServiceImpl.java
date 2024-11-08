@@ -27,7 +27,6 @@ public class MainServiceImpl implements MainService {
 	@Override
     public List<TravelDBVO> getRandomList() {
     	List<TravelDBVO> list = mainDAO.getRandomList();
-        // System.out.println("getRandomList MainServiceImpl 통과");
         return list;
     }
 	
@@ -40,7 +39,6 @@ public class MainServiceImpl implements MainService {
     @Override
     public List<TravelDBVO> searchKeywordAndRegion(String keyword, String region) {
         List<TravelDBVO> list = mainDAO.searchKeywordAndRegion(keyword, region);
-        System.out.println("searchKeywordAndRegion MainService 통과");
         return list;
     }
 
@@ -48,7 +46,6 @@ public class MainServiceImpl implements MainService {
     @Override
     public List<TravelDBVO> getDetailList(String travelIdx) {
         List<TravelDBVO> list = mainDAO.getDetailList(travelIdx);
-        // System.out.println("getDetailList MainService 통과");
         return list;
     }
 

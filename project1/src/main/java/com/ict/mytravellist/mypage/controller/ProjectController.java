@@ -27,7 +27,7 @@ public class ProjectController {
 	
 	@GetMapping("/go_main")
 	public ModelAndView goMain(HttpSession session) {
-		ModelAndView mav = new ModelAndView("project_view/main_page");
+		ModelAndView mav = new ModelAndView("index");
 		session.removeAttribute("identityChk");
 		return mav ;
 	}
@@ -46,7 +46,6 @@ public class ProjectController {
 			if (session.getAttribute("identityChk") == "ok") {
 				mav.setViewName("redirect:/" + cmd);
 			}else {
-				session.setAttribute("userId",  "testid");
 				String userId = (String) session.getAttribute("userId");
 				mav.addObject("userId", userId);
 				mav.setViewName("project_view/MEM_myPage_identityCheck");
@@ -63,14 +62,13 @@ public class ProjectController {
 	public ModelAndView goPwChk(UserVO uvo, @RequestParam("cmd") String cmd, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		try {
-			/*String pw = uvo.getUserPw();
-			
+			String pw = uvo.getUserPw();
 			String userId = uvo.getUserId();
+			
 			UserVO dbUvo = projectService.getUserDetail(userId);
 			
-			String dbPw = dbUvo.getUserPw();*/
-	//		if (passwordEncoder.matches(pw, dbPw)) { 
-			if (true) { // 임시코드임. 추후에 위 코드로 변경
+			String dbPw = dbUvo.getUserPw();
+			if (passwordEncoder.matches(pw, dbPw)) { 
 				mav.setViewName("redirect:/" + cmd);
 				session.setAttribute("identityChk", "ok");
 			}else {
@@ -78,7 +76,6 @@ public class ProjectController {
 				mav.addObject("pwChk", false);
 			}
 		} catch (Exception e) {
-			System.out.println(e);
 			e.printStackTrace();
 			mav.setViewName("project_view/error");
 		}
@@ -104,7 +101,7 @@ public class ProjectController {
 			mav.addObject("detail", detail);
 			mav.setViewName("project_view/MEM_myPage_update");
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 			mav.setViewName("project_view/error");
 		}
 		return mav ;
@@ -135,7 +132,7 @@ public class ProjectController {
 				mav.setViewName("project_view/error");
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 			mav.setViewName("project_view/error");
 		}
 		return mav;
@@ -158,7 +155,7 @@ public class ProjectController {
 			mav.setViewName("project_view/error");
 		}
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 			mav.setViewName("project_view/error");
 		}
 		return mav ;
@@ -177,7 +174,7 @@ public class ProjectController {
 				mav.setViewName("project_view/error");
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 			mav.setViewName("project_view/error");
 		}
 		return mav ;

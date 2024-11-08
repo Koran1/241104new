@@ -70,7 +70,7 @@ public class JoinController {
 				mv.addObject("result", 0);
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 			redirectAttributes.addFlashAttribute("message", "회원가입에 실패했습니다. 다시 시도해 주세요.");
 			mv.setViewName("redirect:/mem_joinPage");
 			mv.addObject("result", 0);

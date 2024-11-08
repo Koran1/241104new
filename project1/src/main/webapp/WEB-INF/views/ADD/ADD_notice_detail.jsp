@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 - MyTravelList</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyTravelList - 공지사항</title>
 <link type="text/css" href="/resources/css/style.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style type="text/css">
@@ -14,6 +15,11 @@
         padding: 0;
         background-color: #f9f9f9;
     }
+	.main-container{
+		margin: 0;
+		padding-top: 100px;
+		width: 100%;
+	}
     .notice-table {
         width: 70%;
         margin: 20px auto;
@@ -93,13 +99,8 @@
 </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header-wrap">
-            <img alt="" src="<c:url value='/resources/images/logo.png' />"
-                class="logo-img" style="width: 250px; height: 50px;" onclick="location.href='/'" />
-            <p class="notice-title" style="text-align: center;">공지사항</p>
-            <hr color="008615">
-        </div>
+<jsp:include page="../MAIN/header.jsp" />
+    <div class="main-container">
         <div class="notice-detail-container">
             <table class="notice-table">
                 <thead>
@@ -151,5 +152,6 @@
             <button class="list_btn" onclick="location.href='/add_notice';">목록</button>
         </div>
     </div>
+    <jsp:include page="../MAIN/footer.jsp" />
 </body>
 </html>

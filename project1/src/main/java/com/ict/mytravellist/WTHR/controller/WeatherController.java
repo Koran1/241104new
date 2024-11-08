@@ -28,19 +28,21 @@ public class WeatherController {
 	private WeatherService weatherService;
 
 	@GetMapping("/load_weather")
-	public void getWthrDatas(HttpServletRequest request) {
+	public ModelAndView getWthrDatas() {
 		try {
+			ModelAndView mv = new ModelAndView("ADMIN/index");
 			// DB 초기화
 			weatherService.deleteWthrInfo();
 
 			for (int i = 1; i < 17; i++) {
 				getWthrDataRegion(i);
-				System.out.println(i + "번째 성공");
+				System.out.println(i + " 지역 최신화 완료");
 			}
-
-			request.setAttribute("result", "1");
+			mv.addObject("result", "1");
+			return mv;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 
 	}

@@ -5,12 +5,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>아이디 안내 - MyTravelList</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyTravelList - 아이디 안내</title>
 <link type="text/css" href="/resources/css/style.css" rel="stylesheet" />
 <style type="text/css">
 	body {
 		margin: 0;
 		padding: 0;
+	}
+	.main-container{
+		margin: 0;
+		padding-top: 100px;
+		width: 100%;
+		height: 90vh;
 	}
 	.logo-img {
 		cursor: pointer;
@@ -60,15 +67,8 @@
 </style>
 </head>
 <body>
-<div class="container">
-	<div class="header-wrap">
-    	<img alt="" src="<c:url value='/resources/images/logo.png' />" 
-         class="logo-img" style="width: 250px; height: 50px;" 
-         onclick="location.href='/'" />
-    <p class="agreement-title" style="text-align: center;">아이디 안내</p>
-    <hr color="008165">
-	</div>
-	
+<jsp:include page="../MAIN/header.jsp" />
+<div class="main-container">
 	<div class="findidok-container">
 		<h2>아이디 안내</h2>
 		<p>찾으시는 아이디는 <b>${userId}</b> 입니다.</p>
@@ -79,6 +79,7 @@
 		<a href="/mem_findPW"><button type="submit" class="btn">비밀번호 찾기</button></a>
 	</div>
 </div>
+<jsp:include page="../MAIN/footer.jsp" />
 </body>
 </html>
 	

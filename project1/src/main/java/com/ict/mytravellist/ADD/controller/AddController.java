@@ -100,13 +100,13 @@ public class AddController {
 
 	// 검색 결과 화면
     @GetMapping("/add_notice_search")
-    public ModelAndView addNoticeSearch(@RequestParam("keyword") String keyword) {
+    public ModelAndView addNoticeSearch(@RequestParam("notice_keyword") String notice_keyword) {
         ModelAndView mv = new ModelAndView("ADD/ADD_notice_search");
 
-        List<NoticeVO> searchResults = addService.getNoticeSearch(keyword);
+        List<NoticeVO> searchResults = addService.getNoticeSearch(notice_keyword);
 
         mv.addObject("searchResults", searchResults);
-        mv.addObject("keyword", keyword);
+        mv.addObject("notice_keyword", notice_keyword);
         return mv;
     }
     
@@ -206,10 +206,6 @@ public class AddController {
 	@GetMapping("/add_qna")
 	public ModelAndView add_qna(HttpServletRequest request) {
 		String userId = getSessionUserId(request);
-	    
-	    if (userId == null) {
-	        return new ModelAndView("redirect:/mem_login"); // 로그인 페이지로 리다이렉트
-	    }
 		ModelAndView mv = new ModelAndView("ADD/ADD_QNA");
 
 		// 1. 전체 게시물의 수를 구한다.
@@ -265,26 +261,8 @@ public class AddController {
 	// Q&A 질문하기 상세 화면 테스트-User
 	@GetMapping("/add_qna_detail")
 	public ModelAndView addQnaDetail(@RequestParam("qnaIdx") String qnaIdx, HttpServletRequest request) {
-		String userId = getSessionUserId(request);
-	    
-	    if (userId == null) {
-	        return new ModelAndView("redirect:/login"); // 로그인 페이지로 리다이렉트
-	    }
-		
 		ModelAndView mv = new ModelAndView("ADD/ADD_QNA_detail");
 		QNAVO qnavo = addService.getQNADetail(qnaIdx);
-		if (qnavo != null) {
-			mv.addObject("qnavo", qnavo);
-			return mv;
-		}
-		return null;
-	}
-	
-	// Q&A 질문하기 상세 화면 테스트-Admin
-	@GetMapping("/add_qna_detail_admin")
-	public ModelAndView addQnaDetailAdmin(@RequestParam("qnaIdx") String qnaIdx) {
-		ModelAndView mv = new ModelAndView("ADD/ADD_QNA_detail_admin");
-		QNAVO qnavo = addService.getQNADetailAdmin(qnaIdx);
 		if (qnavo != null) {
 			mv.addObject("qnavo", qnavo);
 			return mv;
@@ -295,12 +273,6 @@ public class AddController {
 	// Q&A 질문하기 화면
 	@GetMapping("/add_qna_ask")
 	public ModelAndView addQnaAsk(HttpServletRequest request, HttpSession session) {
-		String userId = getSessionUserId(request);
-		
-	    if (userId == null) {
-	        return new ModelAndView("redirect:/login"); // 로그인 페이지로 리다이렉트
-	    }
-		
 		ModelAndView mv = new ModelAndView("ADD/ADD_QNA_ask");
 		return mv;
 	}
@@ -310,13 +282,6 @@ public class AddController {
 	public ModelAndView addQnaAskOK(QNAVO qnavo, HttpServletRequest request) {
 	    try {
 	        String userId = getSessionUserId(request);
-	        System.out.println(request.getParameter("qnaSubject"));
-	        System.out.println("qnavo : " +qnavo.getQnaSubject());
-	      
-	        if (userId == null) {
-	            return new ModelAndView("redirect:/login"); // 로그인 페이지로 리다이렉트
-	        }
-	        
 	        qnavo.setUserId(userId); // userId를 세션에서 가져와 설정
 	        ModelAndView mv = new ModelAndView("redirect:/add_qna");
 	        
@@ -367,28 +332,15 @@ public class AddController {
 		}
 	}
 	
-	// FAQ 초기 화면
-	/*
-	@GetMapping("/add_faq")
-	public ModelAndView addFaq() {
-		ModelAndView mv = new ModelAndView("ADD/ADD_FAQ");
-		List<FAQVO> faq_list = addService.getFAQList();
-		mv.addObject("faq_list", faq_list);
-		return mv;
-	}
-	*/
-	
-	// 공지사항 상세 화면
-    /*
-	@GetMapping("/add_notice_detail")
-	public ModelAndView addNoticeDetail(@RequestParam("noticeIdx") String noticeIdx) {
-		ModelAndView mv = new ModelAndView("ADD/ADD_notice_detail");
-		NoticeVO noticevo = addService.getNoticeDetail(noticeIdx);
-		if (noticevo != null) {
-			mv.addObject("noticevo", noticevo);
+	@GetMapping("/add_qna_detail_admin")
+	public ModelAndView addQnaDetailAdmin(@RequestParam("qnaIdx") String qnaIdx) {
+		ModelAndView mv = new ModelAndView("ADD/ADD_QNA_detail_admin");
+		QNAVO qnavo = addService.getQNADetail(qnaIdx);
+		if (qnavo != null) {
+			mv.addObject("qnavo", qnavo);
 			return mv;
 		}
 		return null;
 	}
-	*/
+	
 }

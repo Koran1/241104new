@@ -92,6 +92,43 @@
 		border-radius: 5px;
 		cursor: pointer;
 	}
+	/* paging */
+table tfoot ol.paging {
+	list-style: none;
+}
+
+table tfoot ol.paging li {
+	float: left;
+	margin-right: 8px;
+}
+
+table tfoot ol.paging li a {
+	display: block;
+	padding: 3px 7px;
+	border: 1px solid #00B3DC;
+	color: #2f313e;
+	font-weight: bold;
+}
+
+table tfoot ol.paging li a:hover {
+	background: #00B3DC;
+	color: white;
+	font-weight: bold;
+}
+
+.disable {
+	padding: 3px 7px;
+	border: 1px solid silver;
+	color: silver;
+}
+
+.now {
+	padding: 3px 7px;
+	border: 1px solid #ff4aa5;
+	background: #ff4aa5;
+	color: white;
+	font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -113,7 +150,7 @@
 			<div class="main_button">
 				<button class="write_btn" onclick='location.href ="/admin_notice_create"'>작성하기</button>
 			</div>
-			<table class="" id="table">
+			<table class="notice-table" id="table">
 				<thead>
 					<tr>
 						<th>등록번호</th>
@@ -124,13 +161,6 @@
 					</tr>
 				</thead>
 				<tbody id="data">
-					<tr>
-						<td>1</td>
-						<td><p id="noticeSubject" onclick="openModal()">공지사항1</p></td>
-						<td>20241016</td>
-						<td>1</td>
-						<td id=visible>ON</td>
-					</tr>
 					<c:choose>
 						<c:when test="${empty notice_list}">
 							<tr>
@@ -145,6 +175,7 @@
 									<td class="noticeSubject">
 										<p id="noticeSubject"
 											onclick="openModal(
+                								'${k.noticeIdx}', 
                 								'${k.noticeSubject}', 
                 								'${fn:substring(k.noticeReg, 0, 10)}', 
                 								'${k.noticeLevel}',
@@ -154,71 +185,149 @@
             									)">${k.noticeSubject}</p>
 									</td>
 									<td>${fn:substring(k.noticeReg, 0, 10)}</td>
-									<td>${k.noticeLevel}</td>
-									<td>${k.noticeStatus}</td>
+									<td class="noticeLevel">${k.noticeLevel}</td>
+									<td class="noticeStatus">
+									${k.noticeStatus}</td>
 								</tr>
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
 				</tbody>
+				<tfoot>
+				<tr>
+					<td colspan="5">
+						<ol class="paging">
+							<!-- 이전 -->
+							<c:choose>
+								<c:when test="${notice_paging.beginBlock <= notice_paging.pagePerBlock}">
+									<li class="disable">◀ 이전</li>
+								</c:when>
+								<c:otherwise>
+									<li><a
+										href="/admin_notice?notice_cPage=${notice_paging.beginBlock-notice_paging.pagePerBlock}">◀ 이전</a></li>
+								</c:otherwise>
+							</c:choose>
+
+							<!-- 블록안에 들어간 페이지번호들 -->
+							<c:forEach begin="${notice_paging.beginBlock}" end="${notice_paging.endBlock}"
+								step="1" var="k">
+								<!-- 현재 페이지와 현재 페이지가 아닌 것을 구분하자 -->
+								<c:if test="${k == notice_paging.nowPage}">
+									<li class="now">${k}</li>
+								</c:if>
+								<c:if test="${k != notice_paging.nowPage}">
+									<li><a href="/admin_notice?notice_cPage=${k}">${k}</a></li>
+								</c:if>
+							</c:forEach>
+
+							<!-- 다음 -->
+							<c:choose>
+								<c:when test="${notice_paging.endBlock >= notice_paging.totalPage}">
+									<li class="disable">다음 ▶</li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="/admin_notice?notice_cPage=${notice_paging.endBlock+1}">다음 ▶</a></li>
+								</c:otherwise>
+							</c:choose>
+						</ol>
+					</td>
+				</tr>
+			</tfoot>
 			</table>
-			
-			<div class="main_button", id="main_btn">
-				<button>업데이트</button>
-			</div>
 		</div>
 	</div>
 	
 	<div id="popupModal" class="modal">
 		<div class="modal-content">
 			<span class="close">&times;</span>
-			<form action="" id="modalform">
+			<form action="/admin_notice_update" id="modalform" method="post" enctype="multipart/form-data">
 				<table id="modaltable">
 					<tr>
 						<td class="modalvars">제목</td>
-						<td><input type="text" id="modalnoticeSubject"></td>
+						<td><input type="text" id="modalnoticeSubject" name="noticeSubject"></td>
 					</tr>
 					<tr>
 						<td class="modalvars">등록일자</td>
-						<td><input type="text" id="modalnoticeReg"></td>
+						<td><input type="text" id="modalnoticeReg" name="noticeReg"></td>
 					</tr>
 					<tr>
 						<td class="modalvars">게시글 Level</td>
-						<td><input type="text" id="modalnoticeLevel"></td>
+						<td><select id="modalnoticeLevel" name="noticeLevel">
+							<option value="1">1</option>
+							<option value="2">2</option>
+						</select>
+						</td>
 					</tr>
 					<tr>
 						<td class="modalvars">게시글 보이기</td>
-						<td><input type="text" id="modalnoticeStatus"></td>
+						<td>
+						<select id="modalnoticeStatus" name="noticeStatus" >
+							<option value="on" >ON</option>
+							<option value="off">OFF</option>
+						</select>
+						</td>
 					</tr>
 					<!-- 첨부파일 표시용 필드 추가 -->
 					<tr>
 						<td class="modalvars">첨부파일</td>
 						<td><span id="modalnoticeFileName"></span> <!-- 기존 파일명 표시 -->
-							<input type="file" id="modalnoticeFile"> <!-- 새 파일 업로드 -->
+							<input type="file" name="fileName" id="modalnoticeFile"> <!-- 새 파일 업로드 -->
+							<input type="hidden" name="old_f_name" id="modalnoticeFile_origin">
 						</td>
 					</tr>
 
 					<tr>
-						<td id="modalnoticecontent" colspan="2"><textarea rows="10"
-								cols="60" id="modalnoticeContent"></textarea></td>
+						<td id="modalnoticecontent" colspan="2"><textarea cols="60" rows="20"
+						 id="modalnoticeContent" name="noticeContent" ></textarea></td>
 					</tr>
 				</table>
+				<input type="hidden" id="modalnoticeIdx" name="noticeIdx">
 				<input type="submit" value="수정">
-			<input type="reset" value="취소">
+				<input type="reset" value="취소">
 			</form>
 		</div>
 	</div>
 	<script type="text/javascript">
 		
-		function openModal(noticeSubject, noticeReg, noticeLevel, noticeStatus, noticeFile, noticeContent){
+		function styleTable(){
+			const noticeLevelAll = document.querySelectorAll(".noticeLevel");
+			noticeLevelAll.forEach(items => {
+				if(items.innerText === "1"){
+					items.closest("tr").style.backgroundColor  = "#99CC66";
+				}
+			})
+			
+			const noticeStatusAll = document.querySelectorAll(".noticeStatus");
+			noticeStatusAll.forEach(items => {
+				if(items.innerText === "off"){
+					items.closest("tr").style.backgroundColor  = "#ddd";
+				}
+			})
+		}
+		styleTable();
+		
+		function openModal(noticeIdx, noticeSubject, noticeReg, noticeLevel, noticeStatus, noticeFile, noticeContent){
 			document.querySelector("#popupModal").style.display = "block";
+			$("#modalnoticeIdx").attr('value', noticeIdx);
 			$("#modalnoticeSubject").attr('value', noticeSubject);
 			$("#modalnoticeReg").attr('value', noticeReg);
-			$("#modalnoticeLevel").attr('value', noticeLevel);
-			$("#modalnoticeStatus").attr('value', noticeStatus);
+			
+			if(noticeLevel === '1'){
+				$("#modalnoticeLevel option[value=1]").prop("selected", true);
+			}else{
+				$("#modalnoticeLevel option[value=2]").prop("selected", true);
+			}
+			
+			if(noticeStatus === 'on'){
+				$("#modalnoticeStatus option[value=on]").prop("selected", true);
+			}else{
+				$("#modalnoticeStatus option[value=off]").prop("selected", true);
+			}
+			
 			$("#modalnoticeFileName").text(noticeFile || "첨부파일 없음"); 	
-			// $("#modalnoticeContent").attr('value', noticeContent);
-			$("#modalnoticeContent").val(noticeContent);
+			$("#modalnoticeFile_origin").attr('value', noticeFile); 	
+			
+			$("#modalnoticeContent").html(noticeContent);
 		}
 		
 		function closeModal() {

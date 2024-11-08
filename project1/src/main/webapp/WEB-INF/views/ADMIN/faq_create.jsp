@@ -36,16 +36,44 @@
 		</div>
 	
 		<div id="main_container">
-			<table id="table">
-				<tr><td class="vars">제목</td><td>noticeSubject</td></tr>
-				<tr><td class="vars">게시글 보이기</td><td>noticeStatus</td></tr>
-				<tr><td id="faqcontent" colspan="2">FAQ 내용</td></tr>
-			</table>
-			<button>저장</button>
-			<button>취소</button>
+			<form action="/admin_faq_create_ok" method="post">
+				<table id="table">
+					<tbody>
+						<tr>
+							<td class="vars"><label for="faqQuestion">FAQ제목</label></td>
+							<td><textarea rows="15" cols="60" name="faqQuestion" required></textarea>
+						</tr>
+						<tr>
+							<td class="vars"><label for="faqAnswer">Answer</label></td>
+							<td><textarea rows="15" cols="60" name="faqAnswer" required></textarea>
+						</tr>
+						<tr>
+							<td class="vars"><label for="faqStatus">게시글 보이기</label></td>
+							<td>
+								<select name="faqStatus">
+									<option value="on">on</option>
+									<option value="off">off</option>
+								</select>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="2">
+							<input type="button" value="저장" onclick="admin_faq_create_ok(this.form)">
+							<button type="button" onclick="location.href='/admin_faq';">취소</button>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
 		</div>
 	</div>
 	
-	
+	<script type="text/javascript">
+	   function admin_faq_create_ok(f) {
+			f.submit();
+		}
+	</script>
 </body>
 </html>

@@ -12,6 +12,23 @@
 	#main_container{
 		flex-direction: row;
 	}
+	#main_container button{
+		width: 100%;
+		padding: 10px 20px;
+		width: 150px;
+	}
+	
+	#main_container button:hover{
+		background-color: black;
+		color: white;
+		font-weight: bold;
+	}
+	#main_container .main_button{
+		display: flex;
+		justify-content: flex-end;
+		width: 100%;
+		margin: 20px 0;
+	}
 	#dashboard{
 		display: flex;
 		flex-direction: column;
@@ -26,9 +43,16 @@
 		padding: 10px 20px;
 	}
 	#graph {
-		width: 500px;
-		height: 500px;
+		width: 100%;
+		height: 100%;
 		margin-left: 50px;
+	}
+	#list{
+		border-collapse: collapse;
+	}
+	#list th, td{
+		padding: 10px;
+		border: 1px solid black;
 	}
 </style>
 <script type="text/javascript">
@@ -43,7 +67,7 @@
 <body>
 	<div id="header">
 		<a href="/admin_index">
-		<img id="logo" alt="logo" src="../resources/images/logo.png" style="width: 250px">
+		<img id="logo" alt="logo" src="../resources/images/logo.png">
 		</a>
 		<h2>admin index</h2>
 	</div>
@@ -61,10 +85,67 @@
 				<p>오늘 방문자 수 : 32</p>
 				<p>추가된 댓글 수 : 12</p>
 				<p>신규 가입 수 : 8</p>
-				<a href="/load_weather">날씨 정보 최신화하기</a>
+				<p><a href="/load_weather">날씨 정보 최신화하기</a></p>
 			</div>
 			<div id="graph">
-				<img alt="" src="../resources/images/test.jpg">
+				<h2>날씨 정보 확인하기</h2><br>
+				<select name="region" id="region">
+					<option value="1" selected>서울</option>
+					<option value="2">부산</option>
+					<option value="3">대구</option>
+					<option value="4">인천</option>
+					<option value="5">광주</option>
+					<option value="6">대전</option>
+					<option value="7">울산</option>
+					<option value="8">경기</option>
+					<option value="9">강원</option>
+					<option value="10">충북</option>
+					<option value="11">충남</option>
+					<option value="12">전북</option>
+					<option value="13">전남</option>
+					<option value="14">경북</option>
+					<option value="15">경남</option>
+					<option value="16">제주</option>
+				</select>
+				<button onclick="load()">지역 선택</button>
+				
+				<div>
+					<table id="list">
+						<thead>
+							<tr><th>날짜</th><th>최저기온 ℃</th><th>최고기온 ℃</th><th>SKY+PTY(날씨)</th><th>POP(강수확률)</th></tr>
+						</thead>
+						<tbody id="tbody">
+						</tbody>
+					</table>
+				</div>
+				
+				<script type="text/javascript">
+				function load(){
+					$("#tbody").empty();
+					$.ajax({
+						url : "/getwthrinfo",
+						method : "post",
+						data : "region="+$("#region").val(),
+						dataType : "json",
+						success : function(data){
+							let tbody = "";
+							$.each(data, function(index, obj){
+								tbody += "<tr>";
+								tbody += "<td>" + obj.wthrDate +"</td>"
+								tbody += "<td>" + obj.wthrTMin +"</td>"
+								tbody += "<td>" + obj.wthrTMax +"</td>"
+								tbody += "<td>" + obj.wthrSKY_PTY +"</td>"
+								tbody += "<td>" + obj.wthrPOP +"</td>"
+								tbody += "</tr>"
+							});
+							$("#tbody").append(tbody);
+						},
+						error : function(){
+							alert("날씨 정보 최신화 필요!")
+						}
+					})
+				}
+				</script>
 			</div>
 		</div>
 	</div>

@@ -5,19 +5,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MyTravelList - MyPage</title>
 <style type="text/css">
-	#container{margin: 0px auto;}
-	#logo{width: 200px; height: 70px; margin-bottom: 0px; display: block}
-	#title{text-align: center; font-size: 60px; margin: 0px auto; margin-bottom: 0px;}
-	#profile_container{text-align: center; position: relative; margin-top: 20px;}
-	span{display: inline-block; font-size: 60px; position: relative; top: -30px;}
-	#flex_container{display: flex;  text-align: center; justify-content: center; margin-top: 100px; height: 200px; }
-	#flex1{width: 25%; border-right: 1px solid lightgray; }
-	#flex2{width: 25%; border-right: 1px solid lightgray;}
-	#flex3{width: 25%; border-right: 1px solid lightgray;}
-	#flex4{width: 25%;}
-	a {text-decoration: none; color: black}
+	#container{margin: 0px auto; padding-top: 100px;}
+	#container #logo{width: 200px; height: 70px; margin-bottom: 0px; display: block}
+	#container #title{text-align: center; font-size: 60px; margin: 0px auto; margin-bottom: 0px;}
+	#container #profile_container{text-align: center; position: relative; margin-top: 20px;}
+	#container span{display: inline-block; font-size: 60px; position: relative; top: -30px;}
+	#container #flex_container{display: flex;  text-align: center; justify-content: center; margin-top: 100px; height: 200px; }
+	#container #flex1{width: 25%; border-right: 1px solid lightgray; }
+	#container #flex2{width: 25%; border-right: 1px solid lightgray;}
+	#container #flex3{width: 25%; border-right: 1px solid lightgray;}
+	#container #flex4{width: 25%;}
+	#container a {text-decoration: none; color: black}
 	
 </style>
 </head>
@@ -27,14 +28,12 @@
 	alert("정상적으로 완료되었습니다.");
 </c:if>
 </script>
+<jsp:include page="MEM_header.jsp" />
 <div id="container">
-	<a href="/go_main"><img id="logo" alt="" src="resources/images/logo.png"></a>
-	<br>
 	<p id="title">마이페이지</p>
-	
 	<div id="profile_container">
 		<img id="profile" alt="" src="resources/images/profile.png">
-		<span>홍길동님</span>
+		<span>${userId }님</span>
 	</div>
 	<hr>
 	<div id="flex_container">

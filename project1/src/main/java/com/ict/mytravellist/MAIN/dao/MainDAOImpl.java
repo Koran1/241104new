@@ -26,24 +26,13 @@ public class MainDAOImpl implements MainDAO{
 	// 랜덤 지역 이미지 불러오기
 	@Override
 	public List<TravelDBVO> getRandomList() {
-	    // System.out.println("getRandomList MainDAO 통과");
 	    return sqlSessionTemplate.selectList("main.randomList");  // 랜덤한 여행지 반환
 	}
 	
 	@Override
 	public List<TravelDBVO> getRandomLoginList(String userId) {
-	    // System.out.println("getRandomList MainDAO 통과");
 	    return sqlSessionTemplate.selectList("main.randomLoginList", userId);  // 랜덤한 여행지 반환
 	}
-	
-    // 키워드로 검색하는 메서드
-	/*
-	 * @Override public List<TravelDBVO> getSearchList(String keyword) { try {
-	 * List<TravelDBVO> list = sqlSessionTemplate.selectList("main.getSearchList",
-	 * keyword); System.out.println("getSearchList MainDAO 통과"); return list; }
-	 * catch (Exception e) { System.out.println("getSearchList 검색 중 오류 발생: " +
-	 * e.getMessage()); return null; } }
-	 */
 	
 	 // 키워드와 지역으로 검색하는 메서드
 	@Override
@@ -54,10 +43,8 @@ public class MainDAOImpl implements MainDAO{
             map.put("region", region);
 
             List<TravelDBVO> list = sqlSessionTemplate.selectList("main.getSearchKeyRegion", map);
-            System.out.println("searchKeywordAndRegion MainDAO 통과");
             return list;
         } catch (Exception e) {
-            System.out.println("searchKeywordAndRegion 검색 중 오류 발생: " + e.getMessage());
             return null;
         }
     }
@@ -67,9 +54,9 @@ public class MainDAOImpl implements MainDAO{
     public List<TravelDBVO> getDetailList(String travelIdx) {
         try {
             List<TravelDBVO> list = sqlSessionTemplate.selectList("main.getDetailList", travelIdx);
-            // System.out.println("getDetailList MainDAO 통과");
             return list;
         } catch (Exception e) {
+        	e.printStackTrace();
             System.out.println("getDetailList 검색 중 오류 발생: " + e.getMessage());
             return null;
         }
@@ -82,7 +69,6 @@ public class MainDAOImpl implements MainDAO{
 
 	@Override
 	public int getSearchCount(Map<String, Object> map) {
-		// System.out.println("getSearchCount MainDAOImpl 통과");
 		return sqlSessionTemplate.selectOne("main.count", map);
 	}
 
@@ -90,9 +76,5 @@ public class MainDAOImpl implements MainDAO{
     public List<TravelDBVO> getSearchPageList(Map<String, Object> map) {
         return sqlSessionTemplate.selectList("main.page_list", map);
     }
-
-
-
-	
 
 }

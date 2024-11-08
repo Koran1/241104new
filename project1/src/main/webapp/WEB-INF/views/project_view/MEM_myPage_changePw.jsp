@@ -5,32 +5,33 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>마이페이지-본인인증</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MyPage - 본인인증</title>
 <style type="text/css">
-	#container{display: flex;}
-	#flex_left{width: 15%;  background-color: Whitesmoke;}
-	#flex_write{width: 85%;}
-	#logo{width: 200px; height: 70px;} 
-	#name{font-size: 50px; font-weight: bold;}
-	#article_container{display: flex; flex-direction: column;}
-	article{font-size: 30px; padding: 20px; margin: 10px;}
-	#title{font-size: 50px; margin-left: 20px;}
-	#msg{text-align: center;}
-	#change_pw_form{width: 1300px; min-height: 1000px; margin: 0 auto;}
-	input {width: 40%;  padding: 30px; margin-left: 20px;}
-	button {width: 130px; height: 60px; margin-right: 100px; }
-	#buttons{display: flex; justify-content: center; margin-top: 20px; }
-	a {text-decoration: none; color: black}
-	input[type="password"]{font-size: 45px;}
-	i{font-size: 15px; font-weight: bold; margin-left: 20px;}
-	.scLv{display: inline-block; width: 20px; border: 1px solid black; height: 13px; }
+	#container{display: flex; padding-top: 75px;}
+	#container #flex_left{width: 15%;  background-color: Whitesmoke;}
+	#container #flex_write{width: 85%;}
+	#container #logo{width: 200px; height: 70px;} 
+	#container #name{font-size: 50px; font-weight: bold;}
+	#container #article_container{display: flex; flex-direction: column;}
+	#container article{font-size: 30px; padding: 20px; margin: 10px;}
+	#container #title{font-size: 50px; margin-left: 20px;}
+	#container #msg{text-align: center;}
+	#container #change_pw_form{width: 1300px; min-height: 1000px; margin: 0 auto;}
+	#container input {width: 40%;  padding: 30px; margin-left: 20px;}
+	#container button {width: 130px; height: 60px; margin-right: 100px; }
+	#container #buttons{display: flex; justify-content: center; margin-top: 20px; }
+	#container a {text-decoration: none; color: black}
+	#container input[type="password"]{font-size: 45px;}
+	#container i{font-size: 15px; font-weight: bold; margin-left: 20px;}
+	#container .scLv{display: inline-block; width: 20px; border: 1px solid black; height: 13px; }
 </style>
 </head>
 <body>
+<jsp:include page="MEM_header.jsp" />
 	<div id="container">
 		<section id="flex_left">
-			<a href="/go_main"><img id="logo" alt="" src="resources/images/logo.png"></a>
-			<p id="name">홍길동님</p>
+			<p id="name"><a href="/go_my_page">${userId}님</a></p>
 			<div id="article_container">
 			<article><a href="/go_my_comment">
 				<img alt="" src="resources/images/my_comment.png" style="float: left;">

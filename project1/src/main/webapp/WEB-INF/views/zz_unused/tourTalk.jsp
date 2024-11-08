@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>MyTravelList - 여행톡</title>
 <link rel="stylesheet" href="resources/css/summernote-lite.css">
 <style type="text/css">
 .content_box{

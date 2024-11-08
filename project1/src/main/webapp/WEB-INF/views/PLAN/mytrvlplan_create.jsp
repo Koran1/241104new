@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Plan - create</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyTravelList - 여행계획짜기</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link href="resources/css/admin.css" rel="stylesheet" />
@@ -75,6 +76,11 @@
 }
 
 /* Layout Styles */
+#main_form{
+	width: 100%;
+	height: 100%;
+}
+
 #top-bar {
 	display: flex;
 	flex-direction: row;
@@ -158,16 +164,18 @@
 	margin-top: 20px;
 	padding: 10px;
 }
+#container{
+		margin: 0;
+		padding-top: 100px;
+		width: 100%;
+		height: 95vh;
+	}
 </style>
 </head>
 
 <body>
 	<!-- Header Section -->
-	<div id="header">
-		<a href="/index"><img id="logo" alt="logo"
-			src="../resources/images/logo.png"></a>
-		<h2>right side</h2>
-	</div>
+	<jsp:include page="../MAIN/header.jsp" />
 
 	<!-- Container Section -->
 	<div id="container">
@@ -179,46 +187,53 @@
 		</div>
 
 		<div id="main_container">
-			<!-- Top Bar -->
-			<div id="top-bar">
-				<input type="date"> <select id="region-filter">
-					<option value="0">선택</option>
-					<option value="1">서울</option>
-					<option value="2">부산</option>
-					<option value="3">대구</option>
-					<option value="4">인천</option>
-					<option value="5">광주</option>
-					<option value="6">대전</option>
-					<option value="7">울산</option>
-					<option value="8">경기</option>
-					<option value="9">강원</option>
-					<option value="10">충북</option>
-					<option value="11">충남</option>
-					<option value="12">전북</option>
-					<option value="13">전남</option>
-					<option value="14">경북</option>
-					<option value="15">경남</option>
-					<option value="16">제주</option>
-				</select>
-				<button onclick="getRoadLine()">경로 그리기</button>
-
-			</div>
-
-			<!-- Main Content -->
-			<div id="main-content">
-				<div class="travelplans">
-					<button onclick="openModal()" id="create-plan" disabled>+</button>
+		
+			<form action="mytrvlplan_create_ok" method="post" id="main_form">
+				
+				<!-- Top Bar -->
+				<div id="top-bar">
+					<input type="date" name="trvlPlanDate" id="trvlPlanDate"> 
+					<select id="region-filter" name="region">
+						<option value="0">선택</option>
+						<option value="1">서울</option>
+						<option value="2">부산</option>
+						<option value="3">대구</option>
+						<option value="4">인천</option>
+						<option value="5">광주</option>
+						<option value="6">대전</option>
+						<option value="7">울산</option>
+						<option value="8">경기</option>
+						<option value="9">강원</option>
+						<option value="10">충북</option>
+						<option value="11">충남</option>
+						<option value="12">전북</option>
+						<option value="13">전남</option>
+						<option value="14">경북</option>
+						<option value="15">경남</option>
+						<option value="16">제주</option>
+					</select>
+					<input type="text" name="trvlPlanSubject" placeholder="제목을 입력해주세요" id="trvlPlanSubject">
+					<button onclick="getRoadLine()" type="button">자동 최단 경로</button>
+					<button onclick="getRoadLine2()" type="button">수동 경로 그리기</button>
+	
 				</div>
-				<div id="map-content">
-					<div id="map"></div>
-				</div>
-			</div>
+	
+				<!-- Main Content -->
+				<div id="main-content">
+					<div class="travelplans">
+						<button onclick="openModal()" id="create-plan" disabled type="button">+</button>
+					</div>
+					<div id="map-content">
+						<div id="map"></div>
+					</div>
+				</div>	
 
-			<!-- Bottom Bar -->
-			<div id="bottom-bar">
-				<button onclick="addPlan()">저장</button>
-				<button onclick="resetPlan()">취소</button>
-			</div>
+				<!-- Bottom Bar -->
+				<div id="bottom-bar">
+					<button onclick="createPlan(this.form)" type="button">저장하기</button>
+					<button onclick="resetPlan()" type="button">취소</button>
+				</div>
+			</form>
 
 			<!-- Modal Popup -->
 			<div id="popupModal" class="modal">
@@ -228,11 +243,11 @@
 					<button id="add-item">추가하기</button>
 					<div class="image-grid">
 						<c:choose>
-							<c:when test="${empty list}">
+							<c:when test="${empty list_trvlfav}">
 								<h2>자료가 존재하지 않습니다</h2>
 							</c:when>
 							<c:otherwise>
-								<c:forEach var="k" items="${list}">
+								<c:forEach var="k" items="${list_trvlfav}">
 									<div class="image-item" data-category="${k.region}"
 										data-lat="${k.latitude}"
 										data-lng="${k.longitude}"
@@ -250,24 +265,25 @@
 			</div>
 		</div>
 	</div>
-
+	<jsp:include page="../MAIN/footer.jsp" />
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3ab528374e287b067bf7ce3808786127"></script>
 	<script>
         let map;
         let isMapInit = false;
-
+		let isCreateOK = false;
+		
         function initMap(lat, lng) {
             let mapOption = {
                 center: new kakao.maps.LatLng(lat, lng),
-                level: 8
+                level: 6
             };
             map = new kakao.maps.Map(document.getElementById('map'), mapOption);
         }
 		
         let markers = [];
         let infowindows = [];
-        let polyline;
+        let polylines = [];
         
         function addMarker(lat, lng, iwcontent) {
             let marker = new kakao.maps.Marker({
@@ -323,15 +339,17 @@
         	if (e.target === document.querySelector("#popupModal")) closeModal(); 
         };
 		
-        let addedItems = [];
-        
         // Check items from Modal
+        let addedItems = [];
         
         document.getElementById('add-item').addEventListener('click', function () {
            const selectedItems = document.querySelectorAll('.image-item input[type="checkbox"]:checked');
            try{
+        	   if (addedItems.length + selectedItems.length > 5) {
+                   throw new Error('최대 5개까지 선택 가능합니다!');
+               }
+        	   
 	           selectedItems.forEach(item => {
-	            	const region = document.getElementById('region-filter').selectedOptions[0].text;
 	                const name = item.getAttribute('data-name');
 	                const imgSrc = item.getAttribute('data-img');
 	                const dataindex = item.closest('.image-item').getAttribute('data-index');
@@ -361,20 +379,19 @@
 	                travelPlan.setAttribute('data-img', imgSrc);
 	                travelPlan.setAttribute('data-lng', lng);
 	                travelPlan.setAttribute('data-lat', lat);
-	                travelPlan.innerHTML ='<p>'+region+'</p><p>'+name+'</p><img src="'+imgSrc+'" alt="img"><p>- km</p><p>- 분</p>'+
-	                '<button class="delete-btn" onclick="deleteTravelplan(this)">-</button>';
+	                travelPlan.innerHTML ='<p>'+name+'</p><img src="'+imgSrc+'" alt="img"><div class="dist_time"> - km<br> - 분</div>'+
+	                '<button class="delete-btn" onclick="deleteTravelplan(this)" type="button">-</button>';
 	                document.querySelector('.travelplans').insertBefore(travelPlan, null);
 	            });
 
             	closeModal();
             	dragDrop();
-            	
+		        map.setCenter(new kakao.maps.LatLng(markers[0].lat, markers[0].lng));
 	           } catch(error){
 	        	   selectedItems.forEach(cb => cb.checked = false);
-	        	   alert(error);
+	        	   alert(error.message);
 	           }
         });
-        
 
         
         // Drag & Drop
@@ -429,7 +446,7 @@
                     }
                     return true;
                 });
-
+				console.log(markers);
                 infowindows = infowindows.filter(({ infowindow, lat: iwLat, lng: iwLng }) => {
                     if (iwLat === lat && iwLng === lng) {
                         infowindow.close(); 
@@ -437,129 +454,334 @@
                     }
                     return true;
                 });
-                if(polyline !== undefined){
-	                polyline.setMap(null);
-                }
+                
+                for (let i = 0; i < polylines.length; i++) {
+					polylines[i].setMap(null);
+				}
                 
                 const name = travelPlan.getAttribute('data-name');
 				addedItems = addedItems.filter((element) => element !== name);
+				
+				document.querySelectorAll(".dist_time").forEach(dist_time => {
+					dist_time.innerHTML = " - km<br> - 분";
+				})
+				
+				map.setCenter(new kakao.maps.LatLng(markers[0].lat, markers[0].lng));
+	            isCreateOK = false;
+				
              }
 		}
         
 		function getRoadLine() {
-			let linePath = [];
-			let positions = [];
-			let idx_container = [];
-			if(polyline !== undefined){
-                polyline.setMap(null);
-            }
 			
-			document.querySelectorAll('.travelplan').forEach(item =>{
-				const data_idx = item.getAttribute('data-index');
-	            const lng = parseFloat(item.getAttribute('data-lng'));
-				const lat = parseFloat(item.getAttribute('data-lat'));
-				positions.push(lng);
-			    positions.push(lat);
-			    idx_container.push(data_idx);
-			})
-			$.ajax({	
-				url : "/kakaoRoadLine",
-				method : "get",
-				data : {positions : positions, idx_container : idx_container},
-				dataType : "json",
-				success : function(data) {
-					console.log(data);
-					
-			        const data_container = document.querySelectorAll('.travelplan');
-			        console.log(data_container);
-			        
-			        const container = document.querySelector('.travelplans');
-			     	// Clear previous plans
-			        container.innerHTML = ''; 
-			        
-			        const createBtn = document.createElement('button');
-				     createBtn.textContent = '+';
-				     createBtn.onclick = openModal; // Set the onclick function
-				     createBtn.id = 'create-plan'; // Set the ID
-				     container.appendChild(createBtn); // Change `document.body` to the specific container you want
-
-					
-			        const region = document.getElementById('region-filter').selectedOptions[0].text;
-	                const name = data_container[0].getAttribute('data-name');
-	                const imgSrc = data_container[0].getAttribute('data-img');
-			        // First is fixed
-			        const travelPlan = document.createElement('div');
-		            travelPlan.classList.add('travelplan');
-		            travelPlan.setAttribute('draggable', "true");
-		            travelPlan.setAttribute('data-name', name);
-		            travelPlan.setAttribute('data-index', data[0].routes[0].summary.origin.name);
-		            travelPlan.setAttribute('data-img', imgSrc);
-		            travelPlan.setAttribute('data-lat', data_container[0].getAttribute('data-lat')) ;
-		            travelPlan.setAttribute('data-lng', data_container[0].getAttribute('data-lng')) ;
-		            travelPlan.innerHTML = '<p>'+region+'</p><p>'+name+'</p><img src="'+imgSrc+'" alt="img"><p> - km</p><p> - 분</p><button class="delete-btn" onclick="deleteTravelplan(this)">-</button>';
-		            container.appendChild(travelPlan);
-			        
-					data.forEach(plan => {
-						for (let i = 0; i < data_container.length; i++) {
-							if(plan.routes[0].summary.destination.name === data_container[i].getAttribute('data-index')){
-								let lat = plan.routes[0].summary.destination.y ;
-					        	let lng = plan.routes[0].summary.destination.x ;
-					        	let name = data_container[i].getAttribute('data-name');
-					        	let imgSrc = data_container[i].getAttribute('data-img');
-					        	
-					            const travelPlan = document.createElement('div');
-					            travelPlan.classList.add('travelplan');
-					            travelPlan.setAttribute('draggable', "true");
-					            travelPlan.setAttribute('data-name', name);
-					            travelPlan.setAttribute('data-index', plan.routes[0].summary.destination.name);
-					            travelPlan.setAttribute('data-img', imgSrc);
-					            travelPlan.setAttribute('data-lat',  data_container[i].getAttribute('data-lat'));
-					            travelPlan.setAttribute('data-lng',  data_container[i].getAttribute('data-lng'));
-					            travelPlan.innerHTML = '<p>'+region+'</p><p>'+name
-								+'</p><img src="'+imgSrc+'"alt="img"><p>'
-								+Math.ceil(plan.routes[0].sections[0].distance/10)/100+'km</p><p>'
-								+Math.ceil(plan.routes[0].sections[0].duration/60)+' 분</p><button class="delete-btn" onclick="deleteTravelplan(this)">-</button>';
-					            container.appendChild(travelPlan);
-							}
-						}
-			        });
-	                	
-					
-			        // Re-enable drag-and-drop
-			        dragDrop();
-					
-		            // Drawing part
-					data.forEach(route => {
-						route.routes[0].sections[0].roads.forEach(item => {
-							  item.vertexes.forEach((vertex, index) => {
-								if (index % 2 === 0) {
-									linePath.push(new kakao.maps.LatLng(item.vertexes[index + 1], item.vertexes[index]));
+			try {
+				if (addedItems.length < 2) {
+	                   throw new Error('최소 2개 이상 선택해주세요!');
+	            }
+				let linePath = [];
+				let positions = [];
+				let idx_container = [];
+				
+				document.querySelectorAll('.travelplan').forEach(item =>{
+					const data_idx = item.getAttribute('data-index');
+		            const lng = parseFloat(item.getAttribute('data-lng'));
+					const lat = parseFloat(item.getAttribute('data-lat'));
+					positions.push(lng);
+				    positions.push(lat);
+				    idx_container.push(data_idx);
+				})
+				
+				
+				$.ajax({	
+					url : "/kakaoRoadLine",
+					method : "get",
+					data : {positions : positions, idx_container : idx_container},
+					dataType : "json",
+					success : function(data) {
+						console.log(data);
+				        const data_container = document.querySelectorAll('.travelplan');
+				        
+				        const container = document.querySelector('.travelplans');
+				     	// Clear previous plans
+				        container.innerHTML = ''; 
+				        
+				        const createBtn = document.createElement('button');
+					     createBtn.textContent = '+';
+					     createBtn.onclick = openModal; // Set the onclick function
+					     createBtn.id = 'create-plan'; // Set the ID
+					     createBtn.type = 'button';
+					     container.appendChild(createBtn); // Change `document.body` to the specific container you want
+	
+						
+				        const region = document.getElementById('region-filter').selectedOptions[0].text;
+		                const name = data_container[0].getAttribute('data-name');
+		                const imgSrc = data_container[0].getAttribute('data-img');
+				        // First is fixed
+				        const travelPlan = document.createElement('div');
+			            travelPlan.classList.add('travelplan');
+			            travelPlan.setAttribute('draggable', "true");
+			            travelPlan.setAttribute('data-name', name);
+			            travelPlan.setAttribute('data-index', data[0].routes[0].summary.origin.name);
+			            travelPlan.setAttribute('data-img', imgSrc);
+			            travelPlan.setAttribute('data-lat', data_container[0].getAttribute('data-lat')) ;
+			            travelPlan.setAttribute('data-lng', data_container[0].getAttribute('data-lng')) ;
+			            travelPlan.innerHTML = '<p>'+name+'</p><img src="'+imgSrc+'" alt="img"><div class="dist_time"> - km<br> - 분</div><button class="delete-btn" onclick="deleteTravelplan(this)" type="button">-</button>';
+			            container.appendChild(travelPlan);
+				        
+			            const input = document.createElement('input');
+						input.setAttribute("type", "hidden");
+						input.setAttribute("name", "trvlPlantrrsrtNm"+1);
+						input.setAttribute("value", data[0].routes[0].summary.origin.name);
+						container.appendChild(input);
+						
+						let j = 2;
+						data.forEach(plan => {
+							for (let i = 0; i < data_container.length; i++) {
+								if(plan.routes[0].summary.destination.name === data_container[i].getAttribute('data-index')){
+									let lat = plan.routes[0].summary.destination.y ;
+						        	let lng = plan.routes[0].summary.destination.x ;
+						        	let name = data_container[i].getAttribute('data-name');
+						        	let imgSrc = data_container[i].getAttribute('data-img');
+						        	
+						            const travelPlan = document.createElement('div');
+						            travelPlan.classList.add('travelplan');
+						            travelPlan.setAttribute('draggable', "true");
+						            travelPlan.setAttribute('data-name', name);
+						            travelPlan.setAttribute('data-index', plan.routes[0].summary.destination.name);
+						            travelPlan.setAttribute('data-img', imgSrc);
+						            travelPlan.setAttribute('data-lat',  data_container[i].getAttribute('data-lat'));
+						            travelPlan.setAttribute('data-lng',  data_container[i].getAttribute('data-lng'));
+						            travelPlan.innerHTML = '<p>'+name+'</p><img src="'+imgSrc+'"alt="img"><div class="dist_time"><p>'
+									+Math.ceil(plan.routes[0].sections[0].distance/10)/100+'km</p><p>'
+									+Math.ceil(plan.routes[0].sections[0].duration/60)+' 분</p></div><button class="delete-btn" onclick="deleteTravelplan(this)" type="button">-</button>';
+									container.appendChild(travelPlan);
+									
+									const input = document.createElement('input');
+									input.setAttribute("type", "hidden");
+									input.setAttribute("name", "trvlPlantrrsrtNm"+j);
+									input.setAttribute("value", plan.routes[0].summary.destination.name);
+									container.appendChild(input);
+									j++;
 								}
+							}
+				        });
+
+						const input_reg = document.createElement('input');
+						input_reg.setAttribute("type", "hidden");
+						input_reg.setAttribute("name", "trvlPlanEtc01");
+						input_reg.setAttribute("value", region);
+						container.appendChild(input_reg);
+						
+				        // Re-enable drag-and-drop
+				        dragDrop();
+						
+				        
+				        for (let i = 0; i < polylines.length; i++) {
+							polylines[i].setMap(null);
+						}
+				        
+				        let zidx = 5;
+			            // Drawing part
+						data.forEach(route => {
+							linePath = [];
+							route.routes[0].sections[0].roads.forEach(item => {
+								  item.vertexes.forEach((vertex, index) => {
+									if (index % 2 === 0) {
+										linePath.push(new kakao.maps.LatLng(item.vertexes[index + 1], item.vertexes[index]));
+									}
+								});
 							});
-						});
-					})
-					  
-					polyline = new kakao.maps.Polyline({
-					  path: linePath,
-					  strokeWeight: 5,
-					  strokeColor: '#0000ff',
-					  strokeOpacity: 0.5,
-					  strokeStyle: 'solid'
-					}); 
-					polyline.setMap(map);
-					
-				}, 
-				error : function() {
-					alert("읽기 실패!");
-				}
-			})
-		}
-		
-		function addPlan() {
-			alert("추가")
-			location.href='/mytrvlplan_list';
+							
+							let polyline = new kakao.maps.Polyline({
+								map : map,
+								endArrow : true,
+								path: linePath,
+								strokeWeight: 4,
+								strokeColor: '#0000FF',
+								strokeOpacity: 0.8,
+								strokeStyle: 'solid',
+								zIndex: zidx
+							}); 
+							
+							kakao.maps.event.addListener(polyline, 'mouseover', function(mouseEvent) { 
+								polyline.setOptions({
+									
+									strokeWeight: 6,
+									strokeColor: '#FF0000',
+									strokeOpacity: 1,
+									strokeStyle: 'solid'        
+								}); 
+							});
+							
+							kakao.maps.event.addListener(polyline, 'mouseout', function(mouseEvent) {  
+								polyline.setOptions({
+									strokeWeight: 4,
+									strokeColor: '#0000FF',
+									strokeOpacity: 0.8,
+									strokeStyle: 'solid'      
+								}); 	
+							});
+							
+							zidx--;
+							polylines.push(polyline);
+						})
+						  
+						
+						isCreateOK = true;
+					}, 
+					error : function() {
+						alert("읽기 실패!");
+					}
+				})
+			} catch (error) {
+				alert(error.message);
+			}
 		}
         
+		function getRoadLine2() {
+			try {
+				if (addedItems.length < 2) {
+	                   throw new Error('최소 2개 이상 선택해주세요!');
+	            }
+				let linePath = [];
+				let positions = [];
+				let idx_container = [];
+				
+				document.querySelectorAll('.travelplan').forEach(item =>{
+					const data_idx = item.getAttribute('data-index');
+				    idx_container.push(data_idx);
+		            const lng = parseFloat(item.getAttribute('data-lng'));
+					const lat = parseFloat(item.getAttribute('data-lat'));
+					positions.push(lng);
+				    positions.push(lat);
+				})
+				
+				$.ajax({	
+					url : "/kakaoRoadLine2",
+					method : "get",
+					data : {positions : positions, idx_container : idx_container},
+					dataType : "json",
+					success : function(data) {
+						console.log(data);
+				        const region = document.getElementById('region-filter').selectedOptions[0].text;
+				        const dist_times = document.querySelectorAll(".dist_time");
+				        const container = document.querySelector('.travelplans');
+				        
+			            const input = document.createElement('input');
+						input.setAttribute("type", "hidden");
+						input.setAttribute("name", "trvlPlantrrsrtNm"+1);
+						input.setAttribute("value", data[0].routes[0].summary.origin.name);
+						container.appendChild(input);
+						
+						let i = 1;
+						let j = 2;
+						data.forEach(plan => {
+							dist_times[i].innerHTML = '<p>'
+							+Math.ceil(plan.routes[0].sections[0].distance/10)/100+'km</p><p>'
+							+Math.ceil(plan.routes[0].sections[0].duration/60)+' 분</p>';
+							
+							const input = document.createElement('input');
+							input.setAttribute("type", "hidden");
+							input.setAttribute("name", "trvlPlantrrsrtNm"+j);
+							input.setAttribute("value", plan.routes[0].summary.destination.name);
+							container.appendChild(input);
+							
+							j++;
+							i++;
+				        });
+
+						const input_reg = document.createElement('input');
+						input_reg.setAttribute("type", "hidden");
+						input_reg.setAttribute("name", "trvlPlanEtc01");
+						input_reg.setAttribute("value", region);
+						container.appendChild(input_reg);
+						
+				        // Re-enable drag-and-drop
+				        dragDrop();
+						
+				        
+				        for (let i = 0; i < polylines.length; i++) {
+							polylines[i].setMap(null);
+						}
+				        
+				        let zidx = 5;
+			            // Drawing part
+						data.forEach(route => {
+							linePath = [];
+							route.routes[0].sections[0].roads.forEach(item => {
+								  item.vertexes.forEach((vertex, index) => {
+									if (index % 2 === 0) {
+										linePath.push(new kakao.maps.LatLng(item.vertexes[index + 1], item.vertexes[index]));
+									}
+								});
+							});
+							
+							let polyline = new kakao.maps.Polyline({
+								map : map,
+								endArrow : true,
+								path: linePath,
+								strokeWeight: 4,
+								strokeColor: '#0000FF',
+								strokeOpacity: 0.8,
+								strokeStyle: 'solid',
+								zIndex: zidx
+							}); 
+							
+							kakao.maps.event.addListener(polyline, 'mouseover', function(mouseEvent) { 
+								polyline.setOptions({
+									strokeWeight: 6,
+									strokeColor: '#FF0000',
+									strokeOpacity: 1,
+									strokeStyle: 'solid'        
+								}); 
+							});
+							
+							kakao.maps.event.addListener(polyline, 'mouseout', function(mouseEvent) {  
+								polyline.setOptions({
+									strokeWeight: 4,
+									strokeColor: '#0000FF',
+									strokeOpacity: 0.8,
+									strokeStyle: 'solid'      
+								}); 	
+							});
+							
+							zidx--;
+							polylines.push(polyline);
+						})
+						  
+						
+						isCreateOK = true;
+					}, 
+					error : function() {
+						alert("읽기 실패!");
+					}
+				})
+			} catch (error) {
+				alert(error.message);
+			}
+			
+			
+		}
+		
+		
+		function createPlan(f) {
+			if(document.getElementById("trvlPlanDate").value == 0){
+				alert("여행 날짜를 입력하세요");
+				return;
+			}
+			if(document.getElementById("trvlPlanSubject").value == 0){
+				alert("여행 제목을 입력하세요");
+				return;
+			}
+			if(isCreateOK){
+				f.submit();
+			}else{
+				alert("여행 계획을 그려주세요!");
+				return;
+			}
+			
+		}
+		
         function resetPlan() {
         	if(confirm("취소하시겠습니까?")) location.href='/mytrvlplan';
 		}

@@ -4,25 +4,6 @@
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="adds">
  	<!-- 공지사항 초기화면 -->
-	<!--
-    <select id="noticeList" resultType="noticevo">
-        (
-        SELECT *
-        FROM pjnotice
-        WHERE noticeStatus = 'on' AND noticeLevel = 1
-        ORDER BY noticeidx DESC
-        LIMIT 5
-		)
-        UNION ALL
-		(
-        SELECT *
-        FROM pjnotice
-        WHERE noticeStatus = 'on'
-        ORDER BY noticeidx DESC
-        LIMIT 10000
-        )
-    </select> -->
-    
     <select id="noticeList" resultType="noticevo">
     	SELECT *
         FROM pjnotice
@@ -32,7 +13,7 @@
     </select>
     
     <select id="noticeCount" resultType = "int">
-		select count(*) from pjnotice
+		select count(*) from pjnotice where noticeStatus = 'on'
 	</select>
     
     <select id="noticeList2" resultType="noticevo" parameterType="map">
@@ -61,15 +42,9 @@
     </select>
     
     <!-- FAQ 초기화면 -->
-    <!--
-    <select id="faqList" resultType="faqvo">
-    	select * from pjfaq
-    </select>
-    -->
     <select id="faqCount" resultType = "int">
 		select count(*) from pjfaq
 	</select>
-	
 	
 	<select id="faqPageList" parameterType="Map"  resultType = "faqvo">
 		select * from pjfaq limit #{limit} offset #{offset}
@@ -87,12 +62,6 @@
 		order by qnaReg desc  
     	limit #{limit} offset #{offset}
     </select>
-    
-   <!--  <select id="qnaList" parameterType="String" resultType="qnavo">
-    	select * from pjqna 
-		where userId=#{userId} 
-		order by qnaReg desc 
-    </select> -->
     
     <!-- QNA 상세화면-User -->
     <select id="qnaDetail" parameterType="String" resultType="qnavo">

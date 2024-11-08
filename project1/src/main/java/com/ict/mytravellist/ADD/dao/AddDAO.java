@@ -19,9 +19,6 @@ public interface AddDAO {
 	// FAQ 초기화면
 	public List<FAQVO> getFAQList();
 	
-	// QNA 초기화면
-	// public List<QNAVO> getQNAList(String userId);
-	
 	// QNA 작성화면
 	public int getQNAInsert(QNAVO qnavo);
 	

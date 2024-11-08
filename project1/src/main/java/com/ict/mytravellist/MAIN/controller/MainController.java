@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
@@ -42,9 +44,10 @@ public class MainController {
 	
 	// main
 	@GetMapping("/main_go")
-	public ModelAndView maiPage(Model model) {
+	public ModelAndView maiPage(Model model, HttpSession session) {
 		ModelAndView mv = new ModelAndView("MAIN/main");
-		// System.out.println("main_go controller 통과");
+		session.removeAttribute("list_trvlfav");
+		session.removeAttribute("list_detail");
 		List<WeatherVO> list = mainService.getWeatherList();
 		mv.addObject("list", list);
 		return mv;
@@ -58,7 +61,6 @@ public class MainController {
 		if(list != null) {
 			Gson gson = new Gson();
 			String jsonString = gson.toJson(list);
-			// System.out.println(jsonString);
 			return jsonString;
 		}
 		return "fail";
@@ -73,7 +75,6 @@ public class MainController {
 		if(list != null) {
 			Gson gson = new Gson();
 			String jsonString = gson.toJson(list);
-			// System.out.println(jsonString);
 			return jsonString;
 		}
 		return "fail";
@@ -92,7 +93,6 @@ public class MainController {
 		int count = mainService.getSearchCount(keyword, region);		// 키워드 총 갯수 구하기
 		paging.setTotalRecord(count);					// 집어 넣는다
 		
-		// System.out.println("count : " + count);
 		// 전체 페이지의 수를 구한다
 		if(paging.getTotalRecord() <= paging.getNumPerPage()) {// 전체 게시물의 수가 1 page 전체 줄 표시 보다 작으면
 			paging.setTotalPage(1);						// 1페이지를 보여라
@@ -137,8 +137,6 @@ public class MainController {
 	    mv.addObject("keyword", keyword);
 	    mv.addObject("region", region);
 	    mv.addObject("count", count);
-	    // System.out.println("keyword" + tdvo.getKeyword());
-	    // System.out.println("region" + tdvo.getRegion());
 	    return mv;
 	}
 
@@ -149,9 +147,9 @@ public class MainController {
         List<TravelDBVO> list = mainService.getDetailList(travelIdx);
         if (!list.isEmpty()) {
             mv.addObject("list", list.get(0));
-            // System.out.println("detail_go Controller 통과: " + list);
         } else {
             System.out.println("해당 관광지 정보를 찾을 수 없습니다: " + travelIdx);
+            return null;
         }
         return mv;
     }

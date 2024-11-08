@@ -2,15 +2,49 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="traveldb">
-	<select id="list" resultType="tdvo">
-		select * from travellistdb
+<mapper namespace="trvlplan">
+	<select id="list" parameterType="String" resultType="tdvo">
+		select * from travellistdb 
+		where travelIdx in (select travelIdx from pjuserinterest where userId = #{userId})
+		order by travelIdx
+	</select>
+	<select id="list_paged" parameterType="map" resultType="tdvo">
+		select * from travellistdb 
+		where travelIdx in (select travelIdx from pjuserinterest where userId = #{userId})
+		order by travelIdx limit #{limit} offset #{offset}
 	</select>
 	<select id="onelist" parameterType="String" resultType="tdvo">
 		select * from travellistdb where travelIdx = #{travelIdx}
 	</select>
-	<select id="onereg" parameterType="String" resultType="tdvo">
-		select * from travellistdb
-		where region = #{region} order by rand() limit 1;
+	
+	<insert id="insert_trvlplan" parameterType="tplvo">
+		insert into pjtrvlplan (userId, region, trvlPlanSubject, trvlPlanDate, trvlPlanRegDate,
+		trvlPlantrrsrtNm1, trvlPlantrrsrtNm2, trvlPlantrrsrtNm3, trvlPlantrrsrtNm4, trvlPlantrrsrtNm5, trvlPlanEtc01)
+		values (#{userId}, #{region}, #{trvlPlanSubject}, #{trvlPlanDate}, now(),
+		#{trvlPlantrrsrtNm1}, #{trvlPlantrrsrtNm2}, #{trvlPlantrrsrtNm3}, #{trvlPlantrrsrtNm4}, #{trvlPlantrrsrtNm5}, #{trvlPlanEtc01})
+	</insert>
+	<select id="select_trvlplans" parameterType="map" resultType="tplvo">
+		select * from pjtrvlplan where userId = #{userId} order by trvlPlanRegDate desc
+		limit #{limit} offset #{offset}
 	</select>
+	<select id="select_onetrvlplan" parameterType="String" resultType="tplvo">
+		select * from pjtrvlplan where trvlPlanIdx = #{trvlPlanIdx}
+	</select>
+	<update id="update_trvlplan" parameterType="tplvo">
+		update pjtrvlplan set trvlPlanSubject = #{trvlPlanSubject}, trvlPlanDate = #{trvlPlanDate},
+		trvlPlanRegDate = now(),
+		trvlPlantrrsrtNm1 = #{trvlPlantrrsrtNm1}, trvlPlantrrsrtNm2 = #{trvlPlantrrsrtNm2},
+		trvlPlantrrsrtNm3 = #{trvlPlantrrsrtNm3}, trvlPlantrrsrtNm4 = #{trvlPlantrrsrtNm4},
+		trvlPlantrrsrtNm5 = #{trvlPlantrrsrtNm5} where trvlPlanIdx = #{trvlPlanIdx}
+	</update>
+	
+	<select id="count" parameterType="String" resultType="int">
+		select count(*) from pjuserinterest where userId = #{userId}
+	</select>
+	<select id="plan_count" parameterType="String" resultType="int">
+		select count(*) from pjtrvlplan where userId = #{userId}
+	</select>
+	<delete id="unlike" parameterType="map">
+		delete from pjuserinterest where userId = #{userId} and travelIdx = #{travelIdx}
+	</delete>
 </mapper>

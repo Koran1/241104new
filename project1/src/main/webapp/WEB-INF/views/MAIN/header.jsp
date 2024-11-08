@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My travel list</title>
+    <title>MyTravelList</title>
         <style type="text/css">
     header{ 
     	width: 100%;

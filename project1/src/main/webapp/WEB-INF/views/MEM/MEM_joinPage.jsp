@@ -5,13 +5,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입 - MyTravelList</title>
+<title>MyTravelList - 회원가입</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link type="text/css" href="/resources/css/style.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style type="text/css">
 	body {
 		margin: 0;
 		padding: 0;
+	}
+	.main-container{
+		margin: 0;
+		padding-top: 10px;
+		width: 100%;
+		height: 200vh;
 	}
 	.join-container {
 		width: 50%;
@@ -135,14 +142,8 @@
 </style>
 </head>
 <body>
-	<div class="container">
-		<div class="header-wrap">
-			<img alt="" src="<c:url value='/resources/images/logo.png' />"
-				class="logo-img" style="width: 250px; height: 50px;"
-				onclick="location.href='/'" />
-			<p class="agreement-title" style="text-align: center;">회원가입</p>
-			<hr color="008615">
-		</div>
+<jsp:include page="../MAIN/header.jsp" />
+	<div class="main-container">
 		<div class="join-container">
 			<c:if test="${not empty message}">
                 <p style="color: red; text-align: center;">${message}</p>
@@ -752,5 +753,6 @@
 	    }
 		</script>
 	</div>
+	<jsp:include page="../MAIN/footer.jsp" />
 </body>
 </html>

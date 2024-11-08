@@ -3,12 +3,134 @@
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="admin">
- 	<select id="notice_list" resultType="noticevo">
- 		select * from pjnotice order by noticeIdx desc
+ 
+ 	<select id="getUserList" resultType="uservo" parameterType="map">
+ 		select * from pjcustomer limit #{limit} offset #{offset}
  	</select>
- 	
+ 	<select id="countTotalData" resultType="int">
+ 		select count(*) from pjcustomer
+ 	</select>
+ 	<select id="getTTRecentOne" parameterType="String" resultType="tourtvo">
+ 		select * from pjtourtalk where userId = #{userId} order by tourTalkReg desc limit 1
+ 	</select>
+ 	<select id="getQNARecentOne" parameterType="String" resultType="qnavo">
+ 		select * from pjqna where userId = #{userId} order by qnaReg desc limit 1
+ 	</select>
+ 	<select id="getCountTT" parameterType="String" resultType="int">
+ 		select count(*) from pjtourtalk where userId = #{userId}
+ 	</select>
+ 	<select id="getCountQNA" parameterType="String" resultType="int">
+ 		select count(*) from pjqna where userId = #{userId}
+ 	</select>
+ 	<update id="getManageUser" parameterType="uservo">
+ 		update pjcustomer set userLevel = #{userLevel}, userEtc01 = #{userEtc01} where userId = #{userId}
+ 	</update>
+ 	<select id="getFilteredList" parameterType="map" resultType="uservo">
+ 		select * from pjcustomer where  
+ 		<choose>
+ 			<when test="filter_lev == 0">
+ 				 Lower(userId) like concat('%', Lower(#{f_keyword}), '%') OR Lower(n_userId) like concat('%', Lower(#{f_keyword}), '%') OR Lower(k_userId) like concat('%', Lower(#{f_keyword}), '%') OR Lower(userName) like concat('%', Lower(#{f_keyword}), '%') limit #{limit} offset #{offset}
+ 			</when>
+ 			<when test="filter_lev > 0">
+ 				 userLevel = #{filter_lev} AND  (Lower(userId) like concat('%', Lower(#{f_keyword}), '%') OR Lower(n_userId) like concat('%', Lower(#{f_keyword}), '%') OR Lower(k_userId) like concat('%', Lower(#{f_keyword}), '%') OR Lower(userName) like concat('%', Lower(#{f_keyword}), '%')) limit #{limit} offset #{offset}
+ 			</when>
+ 		</choose>
+ 	</select>
+ 	<select id="countFilteredData" parameterType="map" resultType="int">
+ 		select count(*) from pjcustomer where  
+ 		<choose>
+ 			<when test="filter_lev == 0">
+ 				 Lower(userId) like concat('%', Lower(#{f_keyword}), '%') OR Lower(n_userId) like concat('%', Lower(#{f_keyword}), '%') OR Lower(k_userId) like concat('%', Lower(#{f_keyword}), '%') OR Lower(userName) like concat('%', Lower(#{f_keyword}), '%')
+ 			</when>
+ 			<when test="filter_lev > 0">
+ 				 userLevel = #{filter_lev} AND  (Lower(userId) like concat('%', Lower(#{f_keyword}), '%') OR Lower(n_userId) like concat('%', Lower(#{f_keyword}), '%') OR Lower(k_userId) like concat('%', Lower(#{f_keyword}), '%') OR Lower(userName) like concat('%', Lower(#{f_keyword}), '%'))
+ 			</when>
+ 		</choose>
+ 	</select>
+ 
+ 	<select id="notice_count" resultType="int">
+ 		select count(*) from pjnotice
+ 	</select>
+ 	<select id="notice_list" parameterType="map" resultType="noticevo">
+ 		select * from pjnotice order by noticeIdx desc limit #{limit} offset #{offset}
+ 	</select>
  	<insert id="notice_insert" parameterType="noticevo">
  		insert into pjnotice(noticeSubject, noticeFile, noticeContent, noticeReg, noticeLevel, noticeStatus) 
  		values(#{noticeSubject}, #{noticeFile}, #{noticeContent}, now(), #{noticeLevel}, #{noticeStatus})
  	</insert>
+ 	<update id="notice_update" parameterType="noticevo">
+ 	 	update pjnotice set noticeSubject = #{noticeSubject}, noticeFile = #{noticeFile}, 
+ 	 	noticeContent = #{noticeContent}, noticeLevel = #{noticeLevel}, noticeStatus = #{noticeStatus}
+ 	 	where noticeIdx = #{noticeIdx}
+ 	</update>
+ 	
+ 	<select id="faq_count" resultType="int">
+ 		select count(*) from pjfaq
+ 	</select>
+ 	<select id="faq_list" parameterType="map" resultType="faqvo">
+ 		select * from pjfaq order by faqIdx desc limit #{limit} offset #{offset}
+ 	</select>
+ 	<insert id="faq_insert" parameterType="faqvo">
+ 		insert into pjfaq (faqQuestion, faqAnswer, faqReg, faqStatus) 
+ 		values (#{faqQuestion}, #{faqAnswer}, now(), #{faqStatus})
+ 	</insert>
+ 	<update id="faq_update" parameterType="faqvo">
+ 	 	update pjfaq set faqQuestion = #{faqQuestion}, faqAnswer = #{faqAnswer}, 
+ 	 	faqStatus = #{faqStatus} where faqIdx = #{faqIdx}
+ 	</update>
+ 	
+ 	<select id="qna_count" resultType="int">
+ 		select count(*) from pjqna
+ 	</select>
+ 	<select id="qna_list" parameterType="map" resultType="qnavo">
+ 		select * from pjqna order by qnaIdx desc limit #{limit} offset #{offset}
+ 	</select>
+ 	<select id="qna_onelist" parameterType="String" resultType="qnavo">
+ 		select * from pjqna where qnaIdx = #{qnaIdx}
+ 	</select>
+ 	<update id="qna_update" parameterType="qnavo">
+ 	 	update pjqna set qnaReSubject = #{qnaReSubject}, qnaReContent = #{qnaReContent}, 
+ 	 	qnaReRegdate = now(), qnaStatus = '답변완료' where qnaIdx = #{qnaIdx}
+ 	</update>
+ 	
+ 	<select id="main_count" resultType="int">
+ 		select count(*) from travellistdb
+ 	</select>
+ 	<select id="main_list" parameterType="map" resultType="tdvo">
+ 		select * from travellistdb order by travelIdx desc limit #{limit} offset #{offset}
+ 	</select>
+ 	<select id="main_onelist" parameterType="String" resultType="tdvo">
+ 		select * from travellistdb where travelIdx = #{travelIdx}
+ 	</select>
+ 	<insert id="main_insert" parameterType="tdvo">
+ 		INSERT INTO travellistdb (
+	    trrsrtNm, trrsrtSe, rdnmadr, region, lnmadr, latitude, longitude,
+	    ar, cnvnncFclty, recrtClturFclty, mvmAmsmtFclty, hospitalityFclty, stayngInfo,
+	    appnDate, sportFclty, aceptncCo, prkplceCo, trrsrtIntrcn, phoneNumber,
+	    institutionNm, institutionAdr, referenceDate, instt_code, placeImg01, placeImg02,
+	    placeImg03, placeImg04
+		) VALUES (
+	    #{trrsrtNm}, #{trrsrtSe}, #{rdnmadr}, #{region}, #{lnmadr}, #{latitude}, #{longitude},
+	    #{ar}, #{cnvnncFclty}, #{recrtClturFclty}, #{mvmAmsmtFclty}, #{hospitalityFclty}, #{stayngInfo},
+	    #{appnDate}, #{sportFclty}, #{aceptncCo}, #{prkplceCo}, #{trrsrtIntrcn}, #{phoneNumber},
+	    #{institutionNm}, #{institutionAdr}, #{referenceDate}, #{instt_code}, #{placeImg01}, #{placeImg02},
+	    #{placeImg03}, #{placeImg04}
+		)
+ 	</insert>
+ 	<update id="main_update" parameterType="tdvo">
+ 	 	UPDATE travellistdb SET trrsrtNm = #{trrsrtNm}, trrsrtSe = #{trrsrtSe}, rdnmadr = #{rdnmadr},
+ 	 	region = #{region}, lnmadr = #{lnmadr}, latitude = #{latitude}, longitude = #{longitude},
+ 	 	ar = #{ar}, cnvnncFclty = #{cnvnncFclty}, recrtClturFclty = #{recrtClturFclty},
+ 	 	mvmAmsmtFclty = #{mvmAmsmtFclty}, hospitalityFclty = #{hospitalityFclty}, stayngInfo = #{stayngInfo},
+ 	 	appnDate = #{appnDate}, sportFclty = #{sportFclty}, aceptncCo = #{aceptncCo}, prkplceCo = #{prkplceCo},
+ 	 	trrsrtIntrcn = #{trrsrtIntrcn}, phoneNumber = #{phoneNumber}, institutionNm = #{institutionNm},
+ 	 	institutionAdr = #{institutionAdr}, referenceDate = #{referenceDate}, instt_code = #{instt_code},
+ 	 	placeImg01 = #{placeImg01}, placeImg02 = #{placeImg02}, placeImg03 = #{placeImg03},
+ 	 	placeImg04 = #{placeImg04}, touritEtc01 = #{touritEtc01} WHERE travelIdx = #{travelIdx}
+ 	</update>
+ 	
+ 	<select id="get_admininfo" parameterType="String" resultType="adminvo">
+ 		select * from pjadmin where adminID = #{adminID}
+ 	</select>
+ 	
  </mapper>

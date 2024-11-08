@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>MyTravelList - 비밀번호 오류</title>
 </head>
 <body>
 	$(function() {

@@ -35,13 +35,6 @@ public class AddServiceImpl implements AddService {
 	public List<FAQVO> getFAQList() {
 		return addDAO.getFAQList();
 	}
-	
-	/*
-	@Override
-	public List<QNAVO> getQNAList(String userId) {
-		return addDAO.getQNAList(userId);
-	}
-	*/
 
 	@Override
 	public int getQNAInsert(QNAVO qnavo) {

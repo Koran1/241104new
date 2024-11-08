@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>QNA - MyTravelList</title>
+<title>MyTravelList - QNA</title>
 <link rel="stylesheet" href="resources/css/summernote-lite.css">
 <style type="text/css">
 	body{

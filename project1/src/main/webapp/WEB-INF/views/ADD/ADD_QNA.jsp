@@ -5,13 +5,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Q&A - MyTravelList</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyTravelList - Q&A</title>
 <link type="text/css" href="/resources/css/style.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style type="text/css">
 	body{
 		margin: 0;
 		padding: 0;
+	}
+	.main-container{
+		margin: 0;
+		padding-top: 100px;
+		width: 100%;
+		height: 90vh;
 	}
 	.write-cotainer{
 		display: flex;
@@ -50,7 +57,9 @@
 		text-align: left;
 	}
 	.qnaReg{
+		width: 30%;
 		text-align: center;
+		border-left: 1px solid #ddd;
 	}
 	.subject-detail{
 		text-decoration: none;
@@ -60,8 +69,16 @@
 		text-decoration: underline;
 		color: #666666;
 	}
+	
+	.qnaSubject, .qnaReg {
+		padding: 10px;
+	}
 	.logo-img{
 		cursor: pointer;
+	}
+	.qna-table th, td{
+		padding: 10px;
+		margin: 10px;
 	}
 	.pagination {
 		margin: 0 auto ; 
@@ -182,13 +199,8 @@
 </style>
 </head>
 <body>
-	<div class="container">
-		<div class="header-wrap">
-			<img alt="" src="<c:url value='/resources/images/logo.png' />"
-				class="logo-img" style="width: 250px; height: 50px;" onclick="location.href='/'" />
-			<p class="notice-title" style="text-align: center;">공지사항</p>
-			<hr color="008615">
-		</div>
+<jsp:include page="../MAIN/header.jsp" />
+	<div class="main-container">
 		<div class="tab-container">
 			<ul class="tab-menu">
 				<li class="tab-button"><a href="/add_notice" class="tab-notice-menu">공지사항</a></li>
@@ -205,7 +217,7 @@
 					<thead>
 						<tr>
 							<th>제목</th>
-							<th>작성일</th>
+							<th class="qnaReg">등록일</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -223,9 +235,9 @@
 									</tr>
 									<c:if test="${not empty k.qnaReSubject }">
 										<tr>
-											<td class="qnaSubject"><a href="add_qna_detail_admin?qnaIdx=${k.qnaIdx }" class="subject-detail">${k.qnaReSubject }</a></td>
+											<td class="qnaSubject"><a href="add_qna_detail_admin?qnaIdx=${k.qnaIdx }" class="subject-detail">
+											&nbsp;&#8618;&nbsp;${k.qnaReSubject }</a></td>
 											<td class="qnaReg">${k.qnaReRegdate != null ? k.qnaReRegdate.substring(0, 10) : '-'}</td>
-											<%-- <td class="qnaReg">${k.qnaReRegdate.substring(0, 10) }</td>	 --%>
 										</tr>
 									</c:if>
 								</c:forEach>
@@ -297,5 +309,6 @@
 			</div>
 		</div>
 	</div>
+	<jsp:include page="../MAIN/footer.jsp" />
 </body>
 </html>

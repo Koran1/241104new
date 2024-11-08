@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Plan - index</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyTravelList - Plan</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link href="resources/css/admin.css" rel="stylesheet" />
@@ -38,16 +39,54 @@
 .image-item:hover{
 	border: 5px solid pink;
 }
+
+/* paging */
+ol.paging {
+	list-style: none;
+}
+
+ol.paging li {
+	float: left;
+	margin-right: 8px;
+}
+
+ol.paging li a {
+	display: block;
+	padding: 3px 7px;
+	border: 1px solid #00B3DC;
+	color: #2f313e;
+	font-weight: bold;
+}
+
+ol.paging li a:hover {
+	background: #00B3DC;
+	color: white;
+	font-weight: bold;
+}
+
+.disable {
+	padding: 3px 7px;
+	border: 1px solid silver;
+	color: silver;
+}
+
+.now {
+	padding: 3px 7px;
+	border: 1px solid #ff4aa5;
+	background: #ff4aa5;
+	color: white;
+	font-weight: bold;
+}
+#container{
+		margin: 0;
+		padding-top: 100px;
+		width: 100%;
+		height: 95vh;
+	}
 </style>
 </head>
 <body>
-
-	<div id="header">
-		<a href="/index"><img id="logo" alt="logo"
-			src="../resources/images/logo.png"></a>
-		<h2>right side</h2>
-	</div>
-
+	<jsp:include page="../MAIN/header.jsp" />
 	<div id="container">
 		<div id="button_container">
 			<button style="color: red" onclick="location.href='/mytrvlplan'">나의
@@ -78,35 +117,70 @@
 				<option value="16">제주</option>
 			</select>
 
+			<form action="/mytrvlplan_unlike" method="post" style="display: inline;">
+				<div class="image-grid">
+					<c:choose>
+						<c:when test="${empty list_trvlfav_paged}">
+							<h2>자료가 존재하지 않습니다</h2>
+						</c:when>
+						<c:otherwise>
+						<c:forEach var="k" items="${list_trvlfav_paged}">
+							<div class="image-item" data-category="${k.region}" data-idx="${k.travelIdx}">
+								<img src="${k.placeImg01}" alt="test1">
+								<p><input type="checkbox" name="travelIdx" value="${k.travelIdx}">
+								<a href="/travelDetail_go?travelIdx=${k.travelIdx}">${k.trrsrtNm}</a></p>
+							</div>
+						</c:forEach>
+						</c:otherwise>
+					</c:choose>
+				</div>
+				<div>
+					<ol class="paging">
+						<!-- 이전 -->
+						<c:choose>
+							<c:when test="${intrst_Paging.beginBlock <= intrst_Paging.pagePerBlock}">
+								<li class="disable">◀ 이전</li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="/mytrvlplan?intrst_cPage=${intrst_Paging.beginBlock-intrst_Paging.pagePerBlock}">◀ 이전</a></li>
+							</c:otherwise>
+						</c:choose>
 
-			<div class="image-grid">
-				<c:choose>
-					<c:when test="${empty list}">
-						<h2>자료가 존재하지 않습니다</h2>
-					</c:when>
-					<c:otherwise>
-					<c:forEach var="k" items="${list}">
-						<div class="image-item" data-category="${k.region}" data-idx="${k.travelIdx}">
-							<img src="${k.placeImg01}" alt="test1">
-							<p><input type="checkbox"><a href="/main_detail?travelIdx=${k.travelIdx}">${k.trrsrtNm}</a></p>
-						</div>
-					</c:forEach>
-					</c:otherwise>
-				</c:choose>
-			</div>
-			<br>
-			<br>
-			<button id="unlike-item" onclick="unlikeItem()">관심해제</button>
+						<!-- 블록안에 들어간 페이지번호들 -->
+						<c:forEach begin="${intrst_Paging.beginBlock}" end="${intrst_Paging.endBlock}"
+							step="1" var="k">
+							<!-- 현재 페이지와 현재 페이지가 아닌 것을 구분하자 -->
+							<c:if test="${k == intrst_Paging.nowPage}">
+								<li class="now">${k}</li>
+							</c:if>
+							<c:if test="${k != intrst_Paging.nowPage}">
+								<li><a href="/mytrvlplan?intrst_cPage=${k}">${k}</a></li>
+							</c:if>
+						</c:forEach>
+
+						<!-- 다음 -->
+						<c:choose>
+							<c:when test="${intrst_Paging.endBlock >= intrst_Paging.totalPage}">
+								<li class="disable">다음 ▶</li>
+							</c:when>
+							<c:otherwise>
+								<%-- <li><a href="/bbs?cPage=${paging.beginBlock+paging.pagePerBlock}">다음으로</a></li> --%>
+								<li><a href="/mytrvlplan?intrst_cPage=${intrst_Paging.endBlock+1}">다음 ▶</a></li>
+							</c:otherwise>
+						</c:choose>
+					</ol>
+				</div>
+			<br><br>
+			<button id="unlike-item" onclick="unlikeItem()" type="button">관심해제</button>
+			</form>
 		</div>
 
 	</div>
-
+<jsp:include page="../MAIN/footer.jsp" />
 	<script type="text/javascript">
 		document.getElementById('region-filter').addEventListener('change', function () {
 		    const selectedCategory = this.value;
 		    const imageItems = document.querySelectorAll('.image-item');
-			console.log(selectedCategory);
-		
 		    imageItems.forEach((item) => {
 		        const itemCategory = item.getAttribute('data-category');
 		        if (selectedCategory === 'all' || itemCategory === selectedCategory) {
