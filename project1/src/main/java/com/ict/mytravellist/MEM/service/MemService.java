@@ -11,11 +11,23 @@ public interface MemService {
 	// 회원가입 컨트롤러에 필요한 전화번호 중복 체크
 	public UserVO userPhoneCheck(String userPhone);
 	
-	// 전화번호 중복O-사용자 정보 업데이트
+	// 일반 전화번호 중복O-사용자 정보 업데이트
 	public int userUpdate(UserVO uservo);
 	
-	// 전화번호 중복X-회원가입
+	// 일반 전화번호 중복X-회원가입
 	public int userJoin(UserVO uservo);
+	
+	// 네이버 전화번호 중복O-사용자 정보 업데이트
+	public int userNaverUpdate(UserVO uservo);
+	
+	// 네이버 전화번호 중복X-회원가입
+	public int userNaverJoin(UserVO uservo);
+
+	// 카카오 전화번호 중복O-사용자 정보 업데이트
+	public int userKakaoUpdate(UserVO uservo);
+	
+	// 카카오 전화번호 중복X-회원가입
+	public int userKakaoJoin(UserVO uservo);
 	
 	// 아이디 중복 체크
 	public String userIdChk(String userId);

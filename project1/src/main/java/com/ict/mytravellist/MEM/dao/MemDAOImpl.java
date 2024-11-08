@@ -101,4 +101,24 @@ public class MemDAOImpl implements MemDAO {
 	public List<UserVO> userPhoneChk2(String userPhone) {
 		return sqlSessionTemplate.selectList("mems.phonechk2", userPhone);
 	}
+
+	@Override
+	public int userNaverUpdate(UserVO uservo) {
+		return sqlSessionTemplate.update("mems.naverupdate", uservo);
+	}
+
+	@Override
+	public int userNaverJoin(UserVO uservo) {
+		return sqlSessionTemplate.insert("mems.naverinsert", uservo);
+	}
+
+	@Override
+	public int userKakaoUpdate(UserVO uservo) {
+		return sqlSessionTemplate.update("mems.kakaoupdate", uservo);
+	}
+
+	@Override
+	public int userKakaoJoin(UserVO uservo) {
+		return sqlSessionTemplate.insert("mems.kakaoinsert", uservo);
+	}
 }

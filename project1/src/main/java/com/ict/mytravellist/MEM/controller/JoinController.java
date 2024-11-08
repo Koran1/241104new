@@ -70,7 +70,7 @@ public class JoinController {
 				mv.addObject("result", 0);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e);
 			redirectAttributes.addFlashAttribute("message", "회원가입에 실패했습니다. 다시 시도해 주세요.");
 			mv.setViewName("redirect:/mem_joinPage");
 			mv.addObject("result", 0);
@@ -79,7 +79,7 @@ public class JoinController {
 	}
 	*/
 	
-	// 회원가입 처리
+	// 회원가입 처리-일반
 	@PostMapping("/mem_joinPage_OK")
 	public ModelAndView mem_joinPage_OK(UserVO uservo, RedirectAttributes redirectAttributes, String userChk) {
 		ModelAndView mv = new ModelAndView("");
@@ -121,7 +121,87 @@ public class JoinController {
 		}
 		return mv;
 	}
-
+	
+	// 회원가입 처리 - 네이버
+	@PostMapping("/mem_joinPage_naver_OK")
+	public ModelAndView mem_joinPage_naver_OK(UserVO uservo, RedirectAttributes redirectAttributes, String userChk) {
+		ModelAndView mv = new ModelAndView("");
+		try {
+			if (userChk.equals("0")) {
+				// 비밀번호 암호화
+				String userPw = passwordEncoder.encode(uservo.getUserPw());
+				uservo.setUserPw(userPw);
+				
+				int result = memService.userNaverJoin(uservo);
+				if (result > 0) {
+					redirectAttributes.addFlashAttribute("message", "회원가입이 성공적으로 완료됐습니다.");
+					mv.setViewName("redirect:/mem_login");
+					mv.addObject("result", 1); // 회원가입 성공
+				} else {
+					redirectAttributes.addFlashAttribute("message", "회원가입에 실패했습니다. 다시 시도해 주세요.");
+					mv.setViewName("redirect:/mem_joinPage_naver");
+					mv.addObject("result", 0);
+				}
+			} else {
+				int result2 = memService.userNaverUpdate(uservo);
+				if (result2 > 0) {
+					redirectAttributes.addFlashAttribute("message", "회원가입 정보가 성공적으로 완료됐습니다.");
+					mv.setViewName("redirect:/mem_login");
+					mv.addObject("result", 1); // 회원가입 성공
+				} else {
+					redirectAttributes.addFlashAttribute("message", "회원가입에 실패했습니다. 다시 시도해 주세요.");
+					mv.setViewName("redirect:/mem_joinPage_naver");
+					mv.addObject("result", 0);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			redirectAttributes.addFlashAttribute("message", "회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.");
+			mv.setViewName("redirect:/mem_joinPage");
+		}
+		return mv;
+	}
+	
+	// 회원가입 처리 - 네이버
+	@PostMapping("/mem_joinPage_kakao_OK")
+	public ModelAndView mem_joinPage_kakao_OK(UserVO uservo, RedirectAttributes redirectAttributes, String userChk) {
+		ModelAndView mv = new ModelAndView("");
+		try {
+			if (userChk.equals("0")) {
+				// 비밀번호 암호화
+				String userPw = passwordEncoder.encode(uservo.getUserPw());
+				uservo.setUserPw(userPw);
+				
+				int result = memService.userKakaoJoin(uservo);
+				if (result > 0) {
+					redirectAttributes.addFlashAttribute("message", "회원가입이 성공적으로 완료됐습니다.");
+					mv.setViewName("redirect:/mem_login");
+					mv.addObject("result", 1); // 회원가입 성공
+				} else {
+					redirectAttributes.addFlashAttribute("message", "회원가입에 실패했습니다. 다시 시도해 주세요.");
+					mv.setViewName("redirect:/mem_joinPage_kakao");
+					mv.addObject("result", 0);
+				}
+			} else {
+				int result2 = memService.userKakaoUpdate(uservo);
+				if (result2 > 0) {
+					redirectAttributes.addFlashAttribute("message", "회원가입 정보가 성공적으로 완료됐습니다.");
+					mv.setViewName("redirect:/mem_login");
+					mv.addObject("result", 1); // 회원가입 성공
+				} else {
+					redirectAttributes.addFlashAttribute("message", "회원가입에 실패했습니다. 다시 시도해 주세요.");
+					mv.setViewName("redirect:/mem_joinPage_kakao");
+					mv.addObject("result", 0);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			redirectAttributes.addFlashAttribute("message", "회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.");
+			mv.setViewName("redirect:/mem_joinPage");
+		}
+		return mv;
+	}
+	
 	// 아이디 중복 체크
 	@PostMapping(value="/mem_id_chk", produces = "text/plain; charset=utf-8")
 	@ResponseBody
@@ -175,11 +255,14 @@ public class JoinController {
 		Map<String, Object> map = new HashMap<>();
 		
 		List<UserVO> result2 = memService.userPhoneChk2(userPhone); // 이메일 가져오기
-		if (result2 != null) {
+		System.out.println("여기에요1");
+		if (result2 != null && !result2.isEmpty()) {
+			System.out.println("여기에요2");
 			map.put("status", "duplicate");
 			map.put("result2", result2); // 중복된 경우 이메일 정보 포함
 			
 		} else {
+			System.out.println("여기에요3");
 			map.put("status", "available");
 		}
 		System.out.println("Controller에서 반환할 JSON: " + map);

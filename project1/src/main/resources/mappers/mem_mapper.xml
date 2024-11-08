@@ -62,4 +62,26 @@
 	<select id="phonechk2" parameterType="String" resultType="uservo">
 		select * from pjcustomer where userPhone=#{userPhone}
 	</select>
+	
+	<update id="naverupdate" parameterType="uservo">
+		update pjcustomer set userName=#{userName}, userId=#{userId}, n_userId=#{n_userId}, userPw=#{userPw}, userPhone=#{userPhone}, userMail=#{userMail}, 
+ 			userAddr=#{userAddr}, userLevel=1, userFavor01=#{userFavor01}, userFavor02=#{userFavor02}, userFavor03=#{userFavor03}, userUpdReg=now() 
+ 			where userPhone=#{userPhone}
+	</update>
+	
+	<insert id="naverinsert" parameterType="uservo">
+		INSERT INTO pjcustomer (userName, userId, n_userId, userPw, userPhone, userMail, userAddr, userLevel, userFavor01, userFavor02, userFavor03, userReg) 
+        VALUES (#{userName}, #{userId}, #{n_userId}, #{userPw}, #{userPhone}, #{userMail}, #{userAddr}, 1, #{userFavor01}, #{userFavor02}, #{userFavor03}, now())
+	</insert>
+	
+	<update id="kakaoupdate" parameterType="uservo">
+		update pjcustomer set userName=#{userName}, userId=#{userId}, k_userId=#{k_userId}, userPw=#{userPw}, userPhone=#{userPhone}, userMail=#{userMail}, 
+ 			userAddr=#{userAddr}, userLevel=1, userFavor01=#{userFavor01}, userFavor02=#{userFavor02}, userFavor03=#{userFavor03}, userUpdReg=now() 
+ 			where userPhone=#{userPhone}
+	</update>
+	
+	<insert id="kakaoinsert" parameterType="uservo">
+		INSERT INTO pjcustomer (userName, userId, k_userId, userPw, userPhone, userMail, userAddr, userLevel, userFavor01, userFavor02, userFavor03, userReg) 
+        VALUES (#{userName}, #{userId}, #{k_userId}, #{userPw}, #{userPhone}, #{userMail}, #{userAddr}, 1, #{userFavor01}, #{userFavor02}, #{userFavor03}, now())
+	</insert>
  </mapper>
