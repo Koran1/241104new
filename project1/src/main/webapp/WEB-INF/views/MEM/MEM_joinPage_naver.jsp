@@ -153,14 +153,18 @@
 						<!-- 이름 -->
 						<tr>
 							<td><label for="userName"><span class="span-subject">*</span> 이름</label></td>
-							<td><input type="text" id="userName" name="userName" placeholder="이름 입력" required></td>
+							<td>
+								<input type="text" id="userName" name="userName" value="${uservo.userName }" placeholder="이름 입력" readonly required>
+								<input type="hidden" name="userName" id="userName" value="${uservo.userName }">
+							</td>
 						</tr>
 						
 						<!-- 아이디 -->
 						<tr>
 							<td><label for="userId"><span class="span-subject">*</span> 아이디</label></td>
 							<td>
-								<input type="text" id="userId" name="userId" placeholder="아이디 입력(6~10자, 영문자, 숫자 포함)" required>
+								<input type="text" class="ifPhoneSame" id="userId" name="userId" placeholder="아이디 입력(6~10자, 영문자, 숫자 포함)" required>
+								<input type="hidden" name="n_userId" id="n_userId" value="${uservo.n_userId }">
 								<div class="id_chkMsg" id="id_chkMsg"></div>
 							</td>
 						</tr>
@@ -169,7 +173,7 @@
 						<tr>
 							<td><label for="userPw"><span class="span-subject">*</span> 비밀번호</label></td>
 							<td>
-								<input type="password" id="userPw" name="userPw" placeholder="비밀번호 입력" required>
+								<input type="password" class="ifPhoneSame" id="userPw" name="userPw" placeholder="비밀번호 입력" required>
 								<div class="pw_regex" id="pw_regex"></div>
 							</td>
 						</tr>
@@ -178,7 +182,7 @@
 						<tr>
 							<td><label for="userPw2"><span class="span-subject">*</span> 비밀번호 확인</label></td>
 							<td>
-								<input type="password" id="userPw2" name="userPw2" placeholder="(8~15문자, 영문자, 숫자, 특수문자 포함)" required>
+								<input type="password" class="ifPhoneSame" id="userPw2" name="userPw2" placeholder="(8~15문자, 영문자, 숫자, 특수문자 포함)" required>
 								<div class="pw_equal" id="pw_equal"></div>
 							</td>
 						</tr>
@@ -187,8 +191,9 @@
 						<tr>
 							<td><label for="userPhone"><span class="span-subject">*</span> 전화번호</label></td>
 							<td>
-								<input type="text" id="userPhone" name="userPhone" placeholder="전화번호 입력" required>
-								<input type="button" onclick="phone_chk()" value="중복 검사" disabled style="background-color: #88B0AB;">
+								<input type="text" id="userPhoneDisplay" value="${uservo.userPhone }" placeholder="전화번호 입력" required readonly>
+								<input type="hidden" id="userPhone" name="userPhone" value="${uservo.userPhone }">
+								<input type="button" id="phoneChkBtn" onclick="phone_chk()" value="중복 검사">
 								<div class="phone_chkMsg" id="phone_chkMsg"></div>
 								<div id="emailSelection"></div>
 							</td>
@@ -199,17 +204,9 @@
 							<td><label for="userMail"><span class="span-subject">*</span> 이메일</label></td>
 							<td>
 								<input type="hidden" name="userChk" value="0" id="userChk">
-								<input type="email" id="userMail" name="userMail" placeholder="이메일 입력" required>
-								<input type="button" onclick="send_email()" value="이메일 전송" disabled style="background-color: #88B0AB;">
-								<div class="mail_chkMsg" id="mail_chkMsg"></div>
+								<input type="email" id="userMail" name="userMail" value="${uservo.userMail }" placeholder="이메일 입력" readonly required>
+								<input type="hidden" id="userMail" name="userMail" value="${uservo.userMail }">
 								<input type="hidden" id="selectedEmail" name="userMail">
-							</td>
-						</tr>
-						<tr>
-							<td><label><span class="span-subject">*</span> 이메일 인증 번호</label></td>
-							<td>
-								<input type="number" id="authNumber" name="authNumber" placeholder="인증번호" maxlength="6" required>
-								<input type="button" onclick="authNum_chk()" value="확인" disabled style="background-color: #88B0AB;">
 							</td>
 						</tr>
 						
@@ -437,76 +434,6 @@
 	
 	<!-- 전화번호   -->
 	<script type="text/javascript">
-	// 전화번호 정규식
-	$("#userPhone").on("input", function () {
-	    let userPhone = $(this).val();
-	    const phoneChkMsg = $("#phone_chkMsg");
-	    const phoneChkBtn = $("input[type='button'][onclick='phone_chk()']"); 
-
-	    // 숫자만 남기기
-	    userPhone = userPhone.replace(/[^0-9]/g, "");
-
-	    // 올바른 앞자리인지 확인
-	    const validPrefixes = ["010", "011", "016", "017", "018", "019"];
-	    const prefix = userPhone.slice(0, 3);
-
-	    if (userPhone.length >= 3 && !validPrefixes.includes(prefix)) {
-	        // 유효하지 않은 앞자리 입력 시
-	        phoneChkMsg.html("유효하지 않은 전화번호 앞자리입니다. 다시 입력해 주세요.").css("color", "red");
-	        $(this).val(""); // 입력값 초기화
-	        phoneChkBtn.prop("disabled", true).css("background-color", "#88B0AB");
-	        return;
-	    } else {
-	        // 메시지 초기화
-	        phoneChkMsg.html("");
-	    }
-
-	    // 하이픈 추가 로직
-	    if (prefix === "010") {
-	        // 010인 경우: 3-4-4 형식, 최대 13자
-	        if (userPhone.length <= 3) {
-	            userPhone = userPhone;
-	        } else if (userPhone.length <= 7) {
-	            userPhone = userPhone.slice(0, 3) + "-" + userPhone.slice(3);
-	        } else if (userPhone.length <= 11) {
-	            userPhone = userPhone.slice(0, 3) + "-" + userPhone.slice(3, 7) + "-" + userPhone.slice(7);
-	        } else {
-	            userPhone = userPhone.slice(0, 3) + "-" + userPhone.slice(3, 7) + "-" + userPhone.slice(7, 11);
-	        }
-	    } else if (["011", "016", "017", "018", "019"].includes(prefix)) {
-	        // 다른 번호: 3-3-4 형식, 최대 12자
-	        if (userPhone.length <= 3) {
-	            userPhone = userPhone;
-	        } else if (userPhone.length <= 6) {
-	            userPhone = userPhone.slice(0, 3) + "-" + userPhone.slice(3);
-	        } else if (userPhone.length <= 10) {
-	            userPhone = userPhone.slice(0, 3) + "-" + userPhone.slice(3, 6) + "-" + userPhone.slice(6);
-	        } else {
-	            userPhone = userPhone.slice(0, 3) + "-" + userPhone.slice(3, 6) + "-" + userPhone.slice(6, 10);
-	        }
-	    }
-	    // 하이픈 적용 후 커서 위치 유지
-	    setTimeout(() => {
-	        const position = $(this)[0].selectionStart; // 현재 커서 위치
-	        $(this)[0].setSelectionRange(position, position); // 커서 위치 복원
-	    }, 0);
-	    
-	 	// 전화번호 유효성 최종 확인 (길이 및 형식 모두 맞는 경우)
-	    const phoneRegex = /^(010-\d{4}-\d{4}|01[1|6|7|8|9]-\d{3}-\d{4})$/;
-	    if (phoneRegex.test(userPhone)) {
-	        phoneChkMsg.html(""); // 메시지 초기화
-	        phoneChkBtn.prop("disabled", false).css("background-color", "#008165"); // 버튼 활성화
-	    } else {
-	        phoneChkMsg.html("전화번호 형식이 맞지 않습니다.").css("color", "red");
-	        phoneChkBtn.prop("disabled", true).css("background-color", "#88B0AB"); // 버튼 비활성화
-	    }
-
-	    // 포맷팅된 값 업데이트
-	    $(this).val(userPhone);
-	});
-	</script>
-	
-	<script type="text/javascript">
 	$(document).ready(function () {
 	    // 전화번호 중복 검사 함수
 	    window.phone_chk = function () {
@@ -518,69 +445,64 @@
 	        }
 
 	        $.ajax({
-	            url: "mem_phone_chk", // 서버 요청 URL
+	            url: "mem_phone_chk2", // 서버 요청 URL
 	            data: { userPhone: userPhone }, // 요청 데이터
 	            method: "post",
 	            dataType: "json",
-	            cache: false,
 	            success: function (data) {
 	                const emailSelectionDiv = $("#emailSelection"); // 이메일 선택 영역
-	                console.log("AJAX 응답 데이터:", data);
+	                const phoneChkMsg = $("#phone_chkMsg");
 
 	                if (data.status === "duplicate") {
-	                	console.log(data.email);
-	                    // 중복된 전화번호의 경우
+	                	document.querySelector("#userId").value = data.result2[0].userId;
+	                	document.querySelector("#userPw").value = data.result2[0].userPw;
+	                	document.querySelector("#userPw2").value = data.result2[0].userPw;
+	                	document.querySelector("#userId").style.backgroundColor = "lightgray";
+	                	document.querySelector("#userPw").style.backgroundColor = "lightgray";
+	                	document.querySelector("#userPw2").style.backgroundColor = "lightgray";
+	                	
+	                    // 중복된 전화번호 처리
 	                    let emailHTML = '<p>이미 사용 중인 전화번호입니다. 아래 이메일 중 선택하세요:</p>';
-	                    emailHTML += '<input type="radio" name="emailOption" value="'+data.email+'" id="existingEmail" checked>'
-	                    emailHTML += '<label for="existingEmail">'+data.email+'</label>'
-	                    emailHTML += '<button type="button" id="selectEmailBtn">선택</button>'
+	                    emailHTML += '<input type="radio" name="emailOption" value="' + data.email + '" id="existingEmail" checked>';
+	                    emailHTML += '<label for="existingEmail">' + data.email + '</label>';
+	                    emailHTML += '<button type="button" id="selectEmailBtn">선택</button>';
 	                    emailSelectionDiv.html(emailHTML);
+	                    document.querySelectorAll(".ifPhoneSame").forEach(item => {
+	                        item.setAttribute("readonly", true);
+	                    });
 
-	                    console.log("emailSelectionDiv 상태 (업데이트 후):", emailSelectionDiv.html());
-
-	                    // 선택 버튼 클릭 이벤트 추가 (중복 방지)
-	                    $(document).off("click", "#selectEmailBtn"); // 기존 이벤트 제거
+	                    // 선택 버튼 이벤트 추가
+	                    $(document).off("click", "#selectEmailBtn");
 	                    $(document).on("click", "#selectEmailBtn", function () {
 	                        const selectedEmail = $("input[name='emailOption']:checked").val();
 	                        $("#selectedEmail").val(selectedEmail);
-	                        $("#userMail").val(selectedEmail); // 이메일 필드에 값 설정
-	                        alert("선택된 이메일: "+selectedEmail);
-	                        $("#userChk").val("1");
+	                        $("#userMail").val(selectedEmail);
+	                        alert('선택된 이메일: ' + selectedEmail);
 	                    });
 
-	                    $("#userMail").prop("disabled", true); // 이메일 입력 필드 비활성화
-	                    $("#authNumber").prop("disabled", true); // 이메일 입력 필드 비활성화
+	                    // 이메일 입력 필드 비활성화
+	                    $("#userMail").prop("disabled", true);
+	                    $("#authNumber").prop("disabled", true);
+	                    phoneChkMsg.html("이미 등록된 전화번호입니다.").css("color", "red");
 	                } else if (data.status === "available") {
-	                    // 사용 가능한 전화번호의 경우
-	                    emailSelectionDiv.html("<p>사용 가능한 전화번호입니다. 이메일을 입력하세요.</p>");
-	                    $("#userMail").prop("disabled", false);
-	                    $("#userMail").val(""); // 이메일 필드 초기화
-	                   
+	                    // 사용 가능한 전화번호 처리
+	                    emailSelectionDiv.html(""); // 이메일 선택 영역 초기화
+	                    phoneChkMsg.html("사용 가능한 전화번호입니다.").css("color", "green");
+
+	                    // 이메일 필드를 수정하지 않음 (uservo.userMail 값 유지)
+	                    $("#userMail").prop("disabled", false); // 이메일 입력 필드 활성화
 	                    $("#authNumber").prop("disabled", false);
-	                    $("input[type='button'][onclick='authNum_chk()']").prop("disabled", false).css("background-color", "#008165");
 	                } else {
 	                    alert("오류가 발생했습니다. 다시 시도해 주세요.");
 	                }
 	            },
-	            error: function (xhr, status, error) {
-	                console.error("AJAX 요청 중 오류 발생:", error);
+	            error: function () {
 	                alert("서버와 통신 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	            },
-	            complete: function () {
-	                console.log("AJAX 요청 완료");
 	            }
 	        });
 	    };
-
-	    // 이메일 선택 함수
-	    window.selectEmail = function (email) {
-	        const emailField = document.getElementById("userMail");
-	        emailField.value = email; // 선택한 이메일을 입력 필드에 설정
-	        alert("선택한 이메일이 입력 필드에 설정되었습니다.");
-	    };
 	});
-
-</script>
+	</script>
 
 	<!-- 이메일 스크립트 -->
 	<script type="text/javascript">
@@ -687,7 +609,6 @@
         }
 	</script>
 
-	
 	<!-- 주소 api 스크립트 -->
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
@@ -744,7 +665,7 @@
 	        const selectedFavorites = $('input[type="checkbox"][name="userFavor"]:checked').length;
 	        
 	        // 이메일 인증 성공 && 관심지 3개 선택 시 버튼 활성화
-	        if (isEmailVerified && selectedFavorites === 3) {
+	        if (selectedFavorites === 3) {
 	            $(".join_btn").prop("disabled", false);
 	        } else {
 	            $(".join_btn").prop("disabled", true);

@@ -15,9 +15,19 @@
  		select count(*) from pjcustomer where userMail = #{userMail}
  	</select>
  	
+ 	<select id="phonechk" parameterType="String" resultType="String">
+ 		select userMail from pjcustomer where userPhone=#{userPhone}
+ 	</select>
+ 	
+ 	<update id="update" parameterType="uservo">
+ 		update pjcustomer set userName=#{userName}, userId=#{userId}, userPw=#{userPw}, userPhone=#{userPhone}, userMail=#{userMail}, 
+ 			userAddr=#{userAddr}, userLevel=1, userFavor01=#{userFavor01}, userFavor02=#{userFavor02}, userFavor03=#{userFavor03}, userUpdReg=now() 
+ 			where userPhone=#{userPhone}
+ 	</update>
+ 	
  	<insert id="insert" parameterType="uservo">
- 		INSERT INTO pjcustomer (userName, userId, userPw, userMail, userAddr, userLevel, userFavor01, userFavor02, userFavor03, userReg) 
-        VALUES (#{userName}, #{userId}, #{userPw}, #{userMail}, #{userAddr}, 1, #{userFavor01}, #{userFavor02}, #{userFavor03}, now())
+ 		INSERT INTO pjcustomer (userName, userId, userPw, userPhone, userMail, userAddr, userLevel, userFavor01, userFavor02, userFavor03, userReg) 
+        VALUES (#{userName}, #{userId}, #{userPw},#{userPhone}, #{userMail}, #{userAddr}, 1, #{userFavor01}, #{userFavor02}, #{userFavor03}, now())
  	</insert>
  	
  	<select id="idfind" parameterType="uservo" resultType="uservo">
@@ -35,4 +45,21 @@
  	<update id="logintime" parameterType="uservo">
  		update pjcustomer set userConnReg=now() where userId=#{userId}
  	</update>
+
+	<select id="selectNaverUserOne" parameterType="String" resultType="uservo">
+		select * from pjcustomer where n_userId = #{n_userId}
+	</select>
+	
+	<select id="selectKakaoUserOne" parameterType="String" resultType="uservo">
+		select * from pjcustomer where k_userId = #{k_userId}
+	</select>
+	
+	<!-- <insert id="userJoin2" parameterType="uservo">
+		insert into pjcustomer (n_userId, userName, userPhone, userMail, userReg) 
+		values(#{n_userId}, #{userName}, #{userPhone}, #{userMail}, now())
+	</insert> -->
+	
+	<select id="phonechk2" parameterType="String" resultType="uservo">
+		select * from pjcustomer where userPhone=#{userPhone}
+	</select>
  </mapper>

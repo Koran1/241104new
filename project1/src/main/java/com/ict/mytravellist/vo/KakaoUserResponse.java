@@ -3,7 +3,7 @@ package com.ict.mytravellist.vo;
 import com.ict.mytravellist.vo.KakaoUserResponse.Properties.Kakao_account;
 
 public class KakaoUserResponse {
-    private Long id;
+    private String id;
     private String connected_at ;
     private Properties properties;
     private Kakao_account kakao_account;
@@ -18,12 +18,12 @@ public class KakaoUserResponse {
 	}
 
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
