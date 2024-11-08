@@ -22,4 +22,7 @@ public interface TourTalkService{
     
     // pjcustomer 업데이트
     public int getCustomerCountUpdate(String writer);
+    
+    // 동일 신고 금지
+    public boolean isDuplicateReport(String reporter, String tourTalkIdx);
 }

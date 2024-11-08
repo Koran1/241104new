@@ -40,6 +40,12 @@ public class TourTalkServiceImpl implements TourTalkService{
 		return tourTalkDAO.getCustomerCountUpdate(writer);
 	}
 
+	@Override
+	public boolean isDuplicateReport(String reporter, String tourTalkIdx) {
+	    Integer count = tourTalkDAO.checkDuplicateReport(reporter, tourTalkIdx);
+	    return count != null && count > 0; // null 검사를 추가해 안정성을 높임
+	}
+
 
 
 }

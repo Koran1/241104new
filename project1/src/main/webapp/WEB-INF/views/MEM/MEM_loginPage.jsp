@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인 - MyTravelList</title>
-<link type="text/css" href="/resources/css/style.css" rel="stylesheet" />
+<link type="text/css" href="resources/css/style.css" rel="stylesheet" />
 <style type="text/css">
 	body{
 		margin: 0;
@@ -86,7 +86,7 @@
 </c:if>
 <div class="container">
 	<div class="header-wrap">
-    	<img alt="" src="<c:url value='/resources/images/logo.png'/>" 
+    	<img alt="" src="<c:url value='resources/images/logo.png'/>" 
          	class="logo-img" style="width: 250px; height: 50px;" 
          	onclick="location.href='/'" />
 		<p class="agreement-title" style="text-align: center;">로그인</p>

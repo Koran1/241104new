@@ -82,34 +82,37 @@ public class MainRestController {
 	    public Map<String, Object> getReportInsert(
 	    		@RequestBody ReportVO repvo, HttpServletRequest request) {
 	        Map<String, Object> map = new HashMap<>();
+	        String reporter = (String) request.getSession().getAttribute("userId");
+	        repvo.setReporter(reporter);
 	        try {
-	            // 세션에서 reporter ID 가져오기
-	            String reporter = (String) request.getSession().getAttribute("userId");
-	            repvo.setReporter(reporter);
-
+	        	// 중복 신고 여부 확인
+	            boolean isDuplicate = tourTalkService.isDuplicateReport(repvo.getReporter(), repvo.getTourTalkIdx());
+	            if (isDuplicate) {
+	                map.put("status", "duplicate");
+	                map.put("message", "동일한 신고는 할 수 없습니다");
+	                return map;
+	            }
+	            
 	            // 1. 신고 정보 저장
 	            int reportInsertResult = tourTalkService.getReportInsert(repvo);
-	            
 	            // 2. tourtalk 테이블 hit 증가 및 조건부 active 업데이트
 	            int reportCountUpdateResult = tourTalkService.getReportCountUpdate(repvo.getTourTalkIdx());
-
 	            // 3. pjcustomer 테이블 userEtc01 증가
 	            int customerCountUpdateResult = tourTalkService.getCustomerCountUpdate(repvo.getWriter());
 
 	            // 결과 확인
 	            if (reportInsertResult > 0 && reportCountUpdateResult > 0 && customerCountUpdateResult > 0) {
 	                map.put("status", "success");
-	                map.put("message", "신고가 접수되었고 관련 업데이트가 완료되었습니다.");
+	                map.put("message", "신고 의견이 정상적으로 접수되었습니다");
 	            } else {
 	                map.put("status", "fail");
-	                map.put("message", "신고 접수 또는 관련 업데이트에 실패했습니다.");
+	                map.put("message", "신고 접수에 실패하였습니다");
 	            }
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	            map.put("status", "error");
-	            map.put("message", "예외가 발생했습니다: " + e.getMessage());
+	            map.put("message", "신고 접수 오류 발생" + e.getMessage());
 	        }
-
 	        return map;
 	    }
 	

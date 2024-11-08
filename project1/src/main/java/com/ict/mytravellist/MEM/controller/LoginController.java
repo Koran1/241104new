@@ -108,7 +108,7 @@ public class LoginController {
 	        session.setAttribute("loginChk", "ok"); // 로그인 상태 체크 세션 설정
 	        session.setAttribute("userId", uservo.getUserId()); // userId 세션에 저장
 	        session.setAttribute("loginFailCnt", 0); // 로그인 성공 시 실패 횟수 초기화
-	        
+	        mv.setViewName("MAIN/main");
 	        // 로그인 시간 저장
 	        LocalDateTime now = LocalDateTime.now();
 	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

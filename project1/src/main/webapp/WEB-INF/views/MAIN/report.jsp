@@ -6,37 +6,99 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>신고 기능</title>
-    <style>
-        /* 간단한 CSS */
-        #report-container {
-            width: 300px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-        }
-        textarea {
-            width: 100%;
-            height: 100px;
-            margin-bottom: 10px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>신고접수</title>
+<style type="text/css">
+/* 메인 페이지 스타일 */
+.main-container {
+	text-align: center;
+	margin-top: 50px;
+}
+
+/* 화면 중앙에 위치한 팝업 스타일 */
+.popup {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 350px;
+	background-color: #fff;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+	padding: 20px;
+	border-radius: 8px;
+	display: none;
+	z-index: 1000;
+}
+
+.popup-header {
+	cursor: move;
+	background-color: #f1f1f1;
+	padding: 10px;
+	border-bottom: 1px solid #ddd;
+	text-align: center;
+}
+
+.popup textarea {
+	width: 100%;
+	height: 200px;
+	margin-top: 10px;
+	padding: 8px;
+	border-radius: 4px;
+	resize: none;
+}
+
+.button-container {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 10px;
+}
+
+.popup button {
+	flex: 1;
+	margin: 0 5px;
+	padding: 10px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	color: white;
+}
+
+#submit-btn {
+	background-color: #d9534f;
+}
+
+#close-btn {
+	background-color: gray;
+}
+</style>
+</style>
 </head>
 <body>
+ 	<%
+ 	String userId = (String) session.getAttribute("userId");
+ 	%>
 
-    <% String userId = (String) session.getAttribute("userId"); %>
-
-    <div id="report-container" style="display:none;">
-        <h2>신고하기</h2>
-        <textarea id="reportContent" placeholder="신고 사유를 입력하세요 (최대 100자)"></textarea>
-        <button onclick="submitReport()">접수</button>
-        <button onclick="closeReportForm()">취소</button>
+    <!-- 신고 팝업창 -->
+    <div id="report-container" class="popup">
+	    <div class="popup-header">
+	        <h2>:: 신고 의견 접수 ::</h2>
+	    </div>
+        <textarea id="reportContent" placeholder="신고 사유를 입력하세요 (100자 이내)"></textarea>
+        <div class="button-container">
+            <button id="submit-btn" onclick="submitReport()">접수</button>
+            <button id="close-btn" onclick="closeReportForm()">취소</button>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
+	    $(function() {
+	        $("#report-container").draggable({
+	            handle: "h2"  // 제목(h2) 부분을 드래그 가능 영역으로 설정
+	        });
+	    });	
+	    
         // 신고 팝업창 열기
         function openReportForm(tourTalkIdx, writer) {
             $('#report-container').show();
@@ -73,7 +135,9 @@
                     reportContent: reportContent   // 신고 사유
                 }),
                 success: function(response) {
-                    if (response.status === 'success') {
+                    if (response.status === 'duplicate') {
+                        alert("동일한 신고는 할 수 없습니다");
+                    } else if (response.status === 'success') {
                         alert(response.message);
                         closeReportForm();
                     } else {
@@ -85,6 +149,41 @@
                 }
             });
         }
+        
+      	// 팝업창 이동
+		const popup = document.getElementById("report-container");
+		    const popupHeader = document.querySelector(".popup-header"); // 드래그 가능 영역
+		    let isDragging = false;
+		    let startX, startY, initialX, initialY;
+		
+		    popupHeader.addEventListener("mousedown", function(e) {
+		        // 드래그 상태 활성화
+		        isDragging = true;
+		
+		        // 마우스 클릭 위치 (페이지 내 좌표)
+		        startX = e.clientX;
+		        startY = e.clientY;
+		
+		        // 팝업창의 현재 위치
+		        initialX = popup.offsetLeft;
+		        initialY = popup.offsetTop;
+		    });
+		
+		    document.addEventListener("mousemove", function(e) {
+		        if (isDragging) {
+		            // 마우스 이동량 계산
+		            const deltaX = e.clientX - startX;
+		            const deltaY = e.clientY - startY;
+		
+		            // 팝업창의 새 위치 설정
+		            popup.style.left = initialX + deltaX + "px";
+		            popup.style.top = initialY + deltaY + "px";
+		        }
+		    });
+		
+		    document.addEventListener("mouseup", function() {
+		        isDragging = false;
+		    });
     </script>
 </body>
 </html>

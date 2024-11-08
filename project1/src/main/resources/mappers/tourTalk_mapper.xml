@@ -30,4 +30,8 @@
         WHERE userId = #{writer}
 	</update>
 	
+	<select id="userCheck" parameterType="map" resultType="int">
+	    SELECT COUNT(*) FROM report
+	    WHERE reporter = #{reporter} AND tourTalkIdx = #{tourTalkIdx}
+	</select>
 </mapper>

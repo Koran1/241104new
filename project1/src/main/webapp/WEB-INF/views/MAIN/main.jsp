@@ -22,6 +22,7 @@
 	align-items: center; /* 세로 방향으로 가운데 정렬 */
 	padding-top: 20px; /* 상단 여백 */
 	box-shadow: 0 0 3px gray; /* 외곽 그림자 */
+	height: 95vh;
 }
 
 /* 메인 화면의 좌측 영역: 비율 10% */
@@ -32,7 +33,7 @@
 /* 메인 화면의 중앙 영역: 비율 80% */
 .main_center {
 	width: 80%; /* 중앙 레이아웃의 비율 설정 */
-	height: 90vh;
+	height: 95vh;
 }
 
 /* 메인 화면의 우측 영역: 비율 10% */
@@ -174,6 +175,13 @@
 .travel_weather_detail th{
 	border-bottom: 1px solid lightgray;
 }
+table th {
+	font-weight: bold;
+}
+
+table td {
+	font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -211,7 +219,7 @@
 		    // 페이지 로드 시 리스트 초기 렌더링
 		    loadTravelList();
 
-		    setInterval(loadTravelList, 1000000);
+		    setInterval(loadTravelList, 10000);
 		    
  		   function countKoreanChars(str) {
  			    if (!str) return 0;  // null 또는 undefined 처리
@@ -282,12 +290,12 @@
 		    	            table += "<div class='travel_temp'>";
 		    	            table += "<ul>";
 		    	            table += "<li class='travel_temp_high_title'>최저</li>";
-		    	            table += "<li class='travel_temp_high_icon' style='font-size: 17px;'>" +  wthrSKY_PTY + "</li>";
+		    	            table += "<li class='travel_temp_high_icon' style='font-size: 25px;'>" +  wthrSKY_PTY + "</li>";
 		    	            table += "<li class='travel_temp_high'>" + wthrTMin + "°C</li>";
 		    	            table += "</ul>";
 		    	            table += "<ul>";
 		    	            table += "<li class='travel_temp_low_title'>최고</li>";
-		    	            table += "<li class='travel_temp_low_icon' style='font-size: 17px;'>" + wthrSKY_PTY + "</li>";
+		    	            table += "<li class='travel_temp_low_icon' style='font-size: 25px;'>" + wthrSKY_PTY + "</li>";
 		    	            table += "<li class='travel_temp_low'>" + wthrTMax + "°C</li>";
 		    	            table += "</ul>";
 		    	            table += "</div>";

@@ -1,6 +1,7 @@
 package com.ict.mytravellist.MAIN.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,11 @@ public class TourTalkDAOImpl implements TourTalkDAO{
 	@Override
 	public int getCustomerCountUpdate(String writer) {
 		return sqlSessionTemplate.update("tourTalk.customerCountUpdate", writer);
+	}
+
+	@Override
+	public Integer checkDuplicateReport(String reporter, String tourTalkIdx) {
+	    return sqlSessionTemplate.selectOne("tourTalk.userCheck", Map.of("reporter", reporter, "tourTalkIdx", tourTalkIdx));
 	}
 
 

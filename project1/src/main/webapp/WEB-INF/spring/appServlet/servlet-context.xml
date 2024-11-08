@@ -31,38 +31,13 @@
 	</beans:bean>
 	
 	<interceptors>
-		<interceptor>
-			<!-- 모든 경로에 인터셉터 적용 -->
-			<mapping path="/**"/>
-			
-			<!-- 폴더로 구분해서 filter 적용 -->
-			<exclude-mapping path="/add_notice"/>
-			<exclude-mapping path="/add_notice_search"/>
-			<exclude-mapping path="/add_notice_detail"/>
-			<exclude-mapping path="/add_faq"/>
-			<exclude-mapping path="/add_notice"/>
-			<exclude-mapping path="/main_go"/>
-			<exclude-mapping path="/random_location"/>
-			<exclude-mapping path="/search_go"/>
-			<exclude-mapping path="/travelDetail_go"/>
-			<exclude-mapping path="/mem_joinPage"/>
-			<exclude-mapping path="/mem_joinAgree"/>
-			<exclude-mapping path="/mem_joinPage_OK"/>
-			<exclude-mapping path="/mem_id_chk"/>
-			<exclude-mapping path="/mem_email_chk"/>
-			<exclude-mapping path="/mem_login"/>
-			<exclude-mapping path="/mem_login_ok"/>
-			<exclude-mapping path="/mem_findID"/>
-			<exclude-mapping path="/mem_findPW"/>
-			<exclude-mapping path="/mem_findID_OK"/>
-			<exclude-mapping path="/mem_findPW_OK"/>
-			<exclude-mapping path="/mem_findPW_Change"/>
-			<exclude-mapping path="/getwthrinfo"/>
-			<exclude-mapping path="/administrator"/>
-			<exclude-mapping path="/admin_index"/>
-			
-			<exclude-mapping path="/public/**"/>
-			<beans:bean id="loginInterceptor" class="com.ict.mytravellist.commons.LoginInterceptor" />
-		</interceptor>
-	</interceptors>
+	        <interceptor>
+	            <!-- 모든 경로에 인터셉터 적용 -->
+	            <mapping path="/mytrvlplan"/>
+	            <mapping path="/add_qna"/>
+	            <mapping path="/go_my_page"/>
+	            
+	            <beans:bean id="loginInterceptor" class="com.ict.mytravellist.commons.LoginInterceptor" />
+	        </interceptor>
+	 </interceptors>
 </beans:beans>

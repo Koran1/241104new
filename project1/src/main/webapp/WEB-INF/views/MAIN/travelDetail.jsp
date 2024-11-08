@@ -178,6 +178,7 @@
 /* 사용자 정보와 날짜를 가로로 정렬 */
 .tourinfo {
 	display: flex;
+	align-items: center;
 	gap: 10px;
 }
 
@@ -186,6 +187,7 @@
 	margin-right: 20px;
 	color: #666;
 	font-size: 16px;
+	margin-right: 10px;
 }
 
 .tourTId, .tourTReg {
@@ -197,6 +199,19 @@
 
 .userReport {
 	flex: right;
+}
+
+/* 신고 버튼 스타일 */
+.report-icon-button {
+	color: #666; /* 기본 아이콘 색상 */
+	font-size: 16px;
+	cursor: pointer;
+	transition: color 0.3s;
+	border: none;
+	background: none;
+}
+.report-icon-button:hover {
+	color: #d9534f;
 }
 </style>
 </head>
@@ -422,10 +437,10 @@
 		        talkHtml += "<ul class='tourinfo'>";
 		        talkHtml += "<li class='tourTId'>" + userId + "</li>";
 		        talkHtml += "<li class='tourTReg'>" + formatDateTime(list.tourTalkReg) + "</li>";
-		        talkHtml += "</ul>";
-		        talkHtml += "<div class='userReport'>";
+		        talkHtml += "<li class='userReport'>";
 		        // 신고 버튼 클릭 시 openReportForm 함수 호출
-		        talkHtml += "<button onclick='openReportForm(" + tourTalkIdx + ", \"" + userId + "\")'>신고</button>";
+		        talkHtml += "<button class='report-icon-button' onclick='openReportForm(" + tourTalkIdx + ", \"" + userId + "\")'>신고 <i class='fas fa-exclamation-circle'></i></li>";
+		        talkHtml += "</ul>";
 		        talkHtml += "</div>";
 		        talkHtml += "</div>";
 		    });
@@ -436,6 +451,12 @@
 	    function tourtalk_write_ok() {
 	        const tourTalkContent = $('#content').val();
 	        const travelIdx = $('#travelIdx').val(); // travelIdx 값을 가져옵니다
+	        
+	        // 입력 값이 비어 있거나 공백만 있는 경우 경고창 띄우기
+	        if (!tourTalkContent || tourTalkContent.trim() === "") {
+	            alert("내용을 입력해주세요");
+	            return; // 함수를 종료하여 서버에 요청하지 않음
+	        }
 	        
 	        $.ajax({
 	            url: "/tourtalk_write_ok",
