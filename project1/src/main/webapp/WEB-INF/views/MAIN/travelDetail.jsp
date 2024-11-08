@@ -247,7 +247,7 @@
 
 		<!-- 메인 센터 -->
 		<div class="main_center">
-			<div class="trrname">${list.trrsrtNm}</div>
+			<div class="trrname">${list.trrsrtNm} </div>
 			<!-- 사진 섹션 -->
 			<div class="photo_gallery">
 				<img src="${list.placeImg01}" alt="관광지 이미지01" class="photo_big" id="photo_big">

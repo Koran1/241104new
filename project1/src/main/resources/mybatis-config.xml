@@ -26,6 +26,7 @@
 		<typeAlias type="com.ict.mytravellist.vo.TravelDBVO"  alias="tdvo" />
 		<typeAlias type="com.ict.mytravellist.vo.TrvlPlanVO"  alias="tplvo" />
 		<typeAlias type="com.ict.mytravellist.vo.ReportVO"  alias="repvo" />
+		<typeAlias type="com.ict.mytravellist.vo.UserInterest"  alias="userintvo" />
 		
 	</typeAliases>
 	

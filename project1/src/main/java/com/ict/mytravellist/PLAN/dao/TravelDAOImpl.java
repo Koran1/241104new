@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ict.mytravellist.vo.TravelDBVO;
 import com.ict.mytravellist.vo.TrvlPlanVO;
+import com.ict.mytravellist.vo.UserInterest;
 
 @Repository
 public class TravelDAOImpl implements TravelDAO{
@@ -74,8 +75,21 @@ public class TravelDAOImpl implements TravelDAO{
 	public int unlikeTrvlFav(String userId, String trvlPlanIdx) throws Exception {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("userId", userId);
-		map.put("trvlPlanIdx", trvlPlanIdx);
+		map.put("travelIdx", trvlPlanIdx);
 		return sqlSessionTemplate.delete("trvlplan.unlike", map);
+	}
+
+	@Override
+	public int likeTrvlFav(String userId, String trvlPlanIdx) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userId", userId);
+		map.put("travelIdx", trvlPlanIdx);
+		return sqlSessionTemplate.insert("trvlplan.like", map);
+	}
+
+	@Override
+	public List<UserInterest> getUserFavs(String userId) throws Exception {
+		return sqlSessionTemplate.selectList("trvlplan.get_userfavs", userId);
 	}
 
 	

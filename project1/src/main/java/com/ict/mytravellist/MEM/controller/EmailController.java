@@ -22,12 +22,11 @@ public class EmailController {
     
     // 이메일 인증번호 전송
     @PostMapping("/send_email_code")
-    public ModelAndView sendMail(
+    public void sendMail(
 			@RequestParam("userMail") String userMail,
 			HttpServletRequest request
 			) {
 		try {
-			ModelAndView mv = new ModelAndView("MEM/MEM_joinEmailChk");
 			// 임시번호 6자리 만들기
 			Random random = new Random();
 			// 0 ~ 1000000 미만의 정수를 무작위로 생성(6자리 숫자 중 하나를 랜덤으로 만듦)
@@ -53,10 +52,8 @@ public class EmailController {
 			// EmailService 호출해서 사용하기
 			emailService.sendEmail(ranNum, userMail);
 			
-			return mv;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
 		}
 	}
 

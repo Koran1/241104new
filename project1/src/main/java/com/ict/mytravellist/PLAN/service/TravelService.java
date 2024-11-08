@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ict.mytravellist.vo.TravelDBVO;
 import com.ict.mytravellist.vo.TrvlPlanVO;
+import com.ict.mytravellist.vo.UserInterest;
 
 public interface TravelService {
 	public List<TravelDBVO> selectListTrvlFav(String userId) throws Exception;
@@ -16,4 +17,6 @@ public interface TravelService {
 	public int getTotalCount(String userId) throws Exception;
 	public int getPlansCount(String userId) throws Exception;
 	public int unlikeTrvlFav(String userId, String trvlPlanIdx) throws Exception;
+	public int likeTrvlFav(String userId, String trvlPlanIdx) throws Exception;
+	public List<UserInterest> getUserFavs(String userId) throws Exception;
 }
