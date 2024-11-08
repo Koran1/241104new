@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,15 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.ict.mytravellist.MAIN.service.MainService;
 import com.ict.mytravellist.MAIN.service.TourTalkService;
 import com.ict.mytravellist.vo.ImgVO;
 import com.ict.mytravellist.vo.ReportVO;
 import com.ict.mytravellist.vo.TourTalkVO;
+import com.ict.mytravellist.vo.UserVO;
 
 @RestController
-public class SummernoteAjaxController {
+public class MainRestController {
 	
 	@Autowired
 	private TourTalkService tourTalkService;
@@ -36,16 +33,11 @@ public class SummernoteAjaxController {
     public List<TourTalkVO> detail(@RequestParam("travelIdx") String travelIdx) {
         // travelIdx에 해당하는 TourTalk 정보를 가져오기
         List<TourTalkVO> list = tourTalkService.getTourTalkList(travelIdx);
-        if (!list.isEmpty()) {
-        	// System.out.println();
-            return list;
-        } else {
-            return null;
-        }
+        return list;
     }
     
     // 글 등록 처리
-	@RequestMapping(value = "/bbs_write_ok", method = RequestMethod.POST)
+	@RequestMapping(value = "/tourtalk_write_ok", method = RequestMethod.POST)
 	@ResponseBody
 	public void getBbsWriteOk(TourTalkVO tourtvo, HttpServletRequest request) {
 		try {
@@ -82,15 +74,68 @@ public class SummernoteAjaxController {
 		}
 	}
 	
-	// 신고
-	@RequestMapping("/report")
-	public class ReportController {
+	 	@RequestMapping(value = "/report", produces = "application/json; charset=utf-8")
+	    @ResponseBody
+	    public Map<String, Object> getReportInsert(
+	    		@RequestBody ReportVO repvo, HttpServletRequest request) {
+	        Map<String, Object> map = new HashMap<>();
+	        try {
+	            // 세션에서 reporter ID 가져오기
+	            String reporter = (String) request.getSession().getAttribute("userId");
+	            repvo.setReporter(reporter);
 
-	    @PostMapping
-	    public String reportPost(@RequestBody ReportVO repvo) {
-	    	tourTalkService.saveReport(repvo);
-	        return "신고가 접수되었습니다.";
+	            // 1. 신고 정보 저장
+	            int reportInsertResult = tourTalkService.getReportInsert(repvo);
+	            // System.out.println("reportInsertResult" + reportInsertResult);
+	            
+	            // 2. tourtalk 테이블 hit 증가 및 조건부 active 업데이트
+	            int reportCountUpdateResult = tourTalkService.getReportCountUpdate(repvo.getTourTalkIdx());
+	            // System.out.println("reportCountUpdateResult" + reportCountUpdateResult);
+
+	            // 3. pjcustomer 테이블 userEtc01 증가
+	            int customerCountUpdateResult = tourTalkService.getCustomerCountUpdate(repvo.getWriter());
+	            // System.err.println("customerCountUpdateResult" + customerCountUpdateResult);
+
+	            // 결과 확인
+	            if (reportInsertResult > 0 && reportCountUpdateResult > 0 && customerCountUpdateResult > 0) {
+	                map.put("status", "success");
+	                map.put("message", "신고가 접수되었고 관련 업데이트가 완료되었습니다.");
+	            } else {
+	                map.put("status", "fail");
+	                map.put("message", "신고 접수 또는 관련 업데이트에 실패했습니다.");
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            map.put("status", "error");
+	            map.put("message", "예외가 발생했습니다: " + e.getMessage());
+	        }
+
+	        return map;
 	    }
-	}
+	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

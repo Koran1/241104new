@@ -26,41 +26,20 @@ public class TourTalkServiceImpl implements TourTalkService{
 	}
 
 	@Override
-	public int getTourTalkUpdate(String userIdx) {
-		return 0;
+	public int getReportInsert(ReportVO reportVO) {
+		return tourTalkDAO.getReportInsert(reportVO);
 	}
 
 	@Override
-	public int getTourTalkDelete(String userIdx) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	@Override
-	public int insertTourTalk(TourTalkVO tourtvo) {
-		return tourTalkDAO.insertTourTalk(tourtvo);
-		
+	public int getReportCountUpdate(String tourTalkIdx) {
+		return tourTalkDAO.getReportCountUpdate(tourTalkIdx);
 	}
 
 	@Override
-	public void saveReport(ReportVO repvo) {
-		tourTalkDAO.saveReport(repvo);
-		tourTalkDAO.increaseReportCount(repvo.getTourTalkIdx());
-
-        if (tourTalkDAO.getReportCount(repvo.getTourTalkIdx()) >= 3) {
-        	tourTalkDAO.deactivatePost(repvo.getTourTalkIdx());
-        }		
+	public int getCustomerCountUpdate(String writer) {
+		return tourTalkDAO.getCustomerCountUpdate(writer);
 	}
 
-	@Override
-	public int getReportCount(int tourTalkIdx) {
-        return tourTalkDAO.getReportCount(tourTalkIdx);
-	}
 
-	@Override
-	public void deactivatePost(int tourTalkIdx) {
-		tourTalkDAO.deactivatePost(tourTalkIdx);		
-	}
 
 }

@@ -1,7 +1,6 @@
 package com.ict.mytravellist.MAIN.dao;
 
-import java.util.List; 
-
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,39 +26,19 @@ public class TourTalkDAOImpl implements TourTalkDAO{
 	}
 
 	@Override
-	public int getTourTalkUpdate(String userIdx) {
-		return 0;
+	public int getReportInsert(ReportVO reportVO) {
+		return sqlSessionTemplate.insert("tourTalk.reportInsert", reportVO);
 	}
 
 	@Override
-	public int getTourTalkDelete(String userIdx) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public int insertTourTalk(TourTalkVO tourtvo) {
-		return sqlSessionTemplate.insert("tourTalk.insert", tourtvo);		
+	public int getReportCountUpdate(String tourTalkIdx) {
+		return sqlSessionTemplate.update("tourTalk.tourtalkCountUpdate", tourTalkIdx);
 	}
 
 	@Override
-	public int saveReport(ReportVO repvo) {
-        return sqlSessionTemplate.insert("tourTalk.insertReport", repvo);
+	public int getCustomerCountUpdate(String writer) {
+		return sqlSessionTemplate.update("tourTalk.customerCountUpdate", writer);
 	}
 
-	@Override
-	public int increaseReportCount(int tourTalkIdx) {
-        return sqlSessionTemplate.update("tourTalk.increaseReportCount", tourTalkIdx);
 
-	}
-
-	@Override
-	public int getReportCount(int tourTalkIdx) {
-        return sqlSessionTemplate.selectOne("tourTalk.getReportCount", tourTalkIdx);
-
-	}
-
-	@Override
-	public int deactivatePost(int tourTalkIdx) {
-        return sqlSessionTemplate.update("tourTalk.deactivatePost", tourTalkIdx);
-	}
 }

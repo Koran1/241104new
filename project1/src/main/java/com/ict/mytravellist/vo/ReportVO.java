@@ -3,28 +3,28 @@ package com.ict.mytravellist.vo;
 import java.time.LocalDateTime;
 
 public class ReportVO {
-    private int reportIdx;
+    private String reportIdx;
     private String reporter;
-    private String reportedUser;
+    private String writer;
     private String reportContent;
-    private int tourTalkIdx;
+    private String tourTalkIdx;
     private LocalDateTime reportreg;
 
     public ReportVO() {}
 
-    public ReportVO(String reporter, String reportedUser, String reportContent, int tourTalkIdx) {
+    public ReportVO(String reporter, String writer, String reportContent, String tourTalkIdx) {
         this.reporter = reporter;
-        this.reportedUser = reportedUser;
+        this.writer = writer;
         this.reportContent = reportContent;
         this.tourTalkIdx = tourTalkIdx;
         this.reportreg = LocalDateTime.now();
     }
 
-	public int getReportIdx() {
+	public String getReportIdx() {
 		return reportIdx;
 	}
 
-	public void setReportIdx(int reportIdx) {
+	public void setReportIdx(String reportIdx) {
 		this.reportIdx = reportIdx;
 	}
 
@@ -36,12 +36,12 @@ public class ReportVO {
 		this.reporter = reporter;
 	}
 
-	public String getReportedUser() {
-		return reportedUser;
+	public String getWriter() {
+		return writer;
 	}
 
-	public void setReportedUser(String reportedUser) {
-		this.reportedUser = reportedUser;
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
 
 	public String getReportContent() {
@@ -52,11 +52,11 @@ public class ReportVO {
 		this.reportContent = reportContent;
 	}
 
-	public int getTourTalkIdx() {
+	public String getTourTalkIdx() {
 		return tourTalkIdx;
 	}
 
-	public void setTourTalkIdx(int tourTalkIdx) {
+	public void setTourTalkIdx(String tourTalkIdx) {
 		this.tourTalkIdx = tourTalkIdx;
 	}
 

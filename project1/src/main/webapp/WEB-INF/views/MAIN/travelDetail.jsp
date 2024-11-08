@@ -35,6 +35,7 @@
 	z-index: 5;
 	top: 0;
 }
+
 .menu_container ul {
 	display: flex;
 	list-style-type: none;
@@ -57,13 +58,13 @@
 
 /* 메뉴 버튼 스타일 */
 .menu-btn {
-    background-color: white;
-    color: black;
-    font-weight: bold;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 1.2rem;
+	background-color: white;
+	color: black;
+	font-weight: bold;
+	border: none;
+	padding: 10px 20px;
+	cursor: pointer;
+	font-size: 1.2rem;
 }
 
 /* 전체 컨테이너 */
@@ -73,14 +74,14 @@
 }
 
 .main_left, .main_right {
-    flex: 1 1 10%;
-    /* background-color: red; 디버깅 완료 후 제거 */
+	flex: 1 1 10%;
+	/* background-color: red; 디버깅 완료 후 제거 */
 }
 
 .main_center {
-    flex: 1 1 80%;
-    padding: 20px;
-    box-sizing: border-box;
+	flex: 1 1 80%;
+	padding: 20px;
+	box-sizing: border-box;
 }
 
 /* 관광지 이름 컨테이너 */
@@ -140,68 +141,73 @@
 	align-items: center;
 	justify-content: center;
 }
-.maps{
+
+.maps {
 	line-height: 1.5;
 	padding: 20px;
 	margin-bottom: 20px;
 	border-bottom: 1px solid #ddd;
 }
 
-
 /* 여행톡 섹션 */
 #bbs form {
-    text-align: right; /* 폼 내 콘텐츠 오른쪽 정렬 */
-    margin-top: 5px;
+	text-align: right; /* 폼 내 콘텐츠 오른쪽 정렬 */
+	margin-top: 5px;
 }
 
-.title{
+.title {
 	font-size: 18px;
 	font-weight: bold;
 	color: #666;
 }
 
 .tourTList {
-    padding: 15px;
-    border-bottom: 1px solid #e6e6e6;
-    max-width: 800px; /* 고정 너비 */
-    margin: 0 auto; /* 가운데 정렬 */
-    text-align: left; /* 왼쪽 정렬 */
+	padding: 15px;
+	border-bottom: 1px solid #e6e6e6;
+	max-width: 800px; /* 고정 너비 */
+	margin: 0 auto; /* 가운데 정렬 */
+	text-align: left; /* 왼쪽 정렬 */
 }
 /* 내용 텍스트 정렬 */
 .tourTContent {
 	max-width: 800px;
-    margin-bottom: 10px; /* 하단 여백 추가 */
-    text-align: left; /* 왼쪽 정렬 */
-    color: #666;
+	margin-bottom: 10px; /* 하단 여백 추가 */
+	text-align: left; /* 왼쪽 정렬 */
+	color: #666;
 }
 /* 사용자 정보와 날짜를 가로로 정렬 */
 .tourinfo {
-    display: flex;
-    gap: 10px;
+	display: flex;
+	gap: 10px;
 }
-.tourinfo li{
+
+.tourinfo li {
 	display: flex;
 	margin-right: 20px;
 	color: #666;
 	font-size: 16px;
 }
-.tourTId, .tourTReg{
+
+.tourTId, .tourTReg {
 	list-style: none;
 	font-size: 18px;
 	color: #666;
 	text-align: left;
 }
-.userReport{
+
+.userReport {
 	flex: right;
 }
 </style>
 </head>
 <body>
 	<jsp:include page="header.jsp" />
-	
+
 	<!-- 세션에 저장된 id를 불러옴 -->
-	<% String userId = (String) session.getAttribute("userId"); %>	
-	
+	<%
+	String userId = (String) session.getAttribute("userId");
+	%>
+
 	<!-- 고정된 메뉴 섹션 -->
 	<div class="menu_container">
 		<ul>
@@ -231,19 +237,19 @@
 			<div class="photo_gallery">
 				<img src="${list.placeImg01}" alt="관광지 이미지01" class="photo_big" id="photo_big">
 				<div class="photo_small">
-					<img src="${list.placeImg01}" alt="관광지 이미지01" class="small" onclick="changeBig(this)">
-					<img src="${list.placeImg02}" alt="관광지 이미지02" class="small" onclick="changeBig(this)">
-					<img src="${list.placeImg03}" alt="관광지 이미지03" class="small" onclick="changeBig(this)">
+					<img src="${list.placeImg01}" alt="관광지 이미지01" class="small" onclick="changeBig(this)"> 
+					<img src="${list.placeImg02}" alt="관광지 이미지02" class="small" onclick="changeBig(this)"> 
+					<img src="${list.placeImg03}" alt="관광지 이미지03" class="small" onclick="changeBig(this)"> 
 					<img src="${list.placeImg04}" alt="관광지 이미지04" class="small" onclick="changeBig(this)">
 				</div>
 			</div>
-			
+
 			<!-- 모달 창 구조 -->
 			<div id="imageModal" class="modal">
-			    <span class="close">&times;</span>
-			    <img class="modal-content" id="modalImage">
+				<span class="close">&times;</span> <img class="modal-content"
+					id="modalImage">
 			</div>
-			
+
 			<!-- 상세보기 섹션 -->
 			<div id="details"></div>
 			<div class="travel_info">
@@ -251,94 +257,92 @@
 				<hr>
 				<div class="details_box">
 					<ul>
-						<li><p style="font-weight:bold;">관광지 소개</p>
-							<p>${list.trrsrtIntrcn}</p><br></li>
-						<li>
-							<c:if
-								test="${empty list.rdnmadr and empty list.lnmadr}">
-							</c:if>  
-							<c:if
-								test="${not empty list.rdnmadr and empty list.lnmadr}">
-								<p><span style="font-weight:bold;">주소:</span> ${list.rdnmadr}</p>
-							</c:if> 
-							<c:if
-								test="${empty list.rdnmadr and not empty list.lnmadr}">
-								<p><span style="font-weight:bold;">주소:</span> ${list.lnmadr}</p>
-							</c:if>  
-							<c:if
-								test="${not empty list.rdnmadr and not empty list.lnmadr}">
-								<p><span style="font-weight:bold;">주소:</span> ${list.rdnmadr}</p>
+						<li><p style="font-weight: bold;">관광지 소개</p>
+							<p>${list.trrsrtIntrcn}</p>
+							<br>
+						</li>
+						<li><c:if test="${empty list.rdnmadr and empty list.lnmadr}">
+							</c:if> <c:if test="${not empty list.rdnmadr and empty list.lnmadr}">
+								<p>
+									<span style="font-weight: bold;">주소:</span> ${list.rdnmadr}
+								</p>
+							</c:if> <c:if test="${empty list.rdnmadr and not empty list.lnmadr}">
+								<p>
+									<span style="font-weight: bold;">주소:</span> ${list.lnmadr}
+								</p>
+							</c:if> <c:if test="${not empty list.rdnmadr and not empty list.lnmadr}">
+								<p>
+									<span style="font-weight: bold;">주소:</span> ${list.rdnmadr}
+								</p>
 							</c:if>
 						</li>
-						  <c:if test="${not empty list.cnvnncFclty or not empty list.recrtClturFclty or not empty list.mvmAmsmtFclty or not empty list.hospitalityFclty or not empty list.sportFclty}">
-			            <li>
-			                <span style="font-weight:bold;">시설정보:</span>
-			                <c:if test="${not empty list.cnvnncFclty}">${list.cnvnncFclty} </c:if>
-			                <c:if test="${not empty list.recrtClturFclty}">${list.recrtClturFclty} </c:if>
-			                <c:if test="${not empty list.mvmAmsmtFclty}">${list.mvmAmsmtFclty} </c:if>
-			                <c:if test="${not empty list.hospitalityFclty}">${list.hospitalityFclty} </c:if>
-			                <c:if test="${not empty list.sportFclty}">${list.sportFclty}</c:if>
-			            </li>
-			        </c:if>
-			
-			        <c:if test="${not empty list.stayngInfo}">
-			            <li><span style="font-weight:bold;">숙박시설:</span> ${list.stayngInfo}</li>
-			        </c:if>
-			
-			        <c:if test="${not empty list.aceptncCo}">
-			            <li><span style="font-weight:bold;">수용인원:</span> <fmt:formatNumber value="${list.aceptncCo}" pattern="#,##0" />명</li>
-			        </c:if>
-			
-			        <c:if test="${not empty list.prkplceCo}">
-			            <li><span style="font-weight:bold;">주차대수:</span> <fmt:formatNumber value="${list.prkplceCo}" pattern="#,##0" />대</li>
-			        </c:if>
-			
-			        <c:if test="${not empty list.phoneNumber}">
-			            <li><span style="font-weight:bold;">☎</span> ${list.phoneNumber}</li>
-			        </c:if>
-			
-			        <c:if test="${not empty list.referenceDate}">
-			            <li><span style="font-weight:bold;">정보 업데이트:</span> ${list.referenceDate}</li>
-			        </c:if>
-			    </ul>
-			</div>
-			
+						<c:if
+							test="${not empty list.cnvnncFclty or not empty list.recrtClturFclty or not empty list.mvmAmsmtFclty or not empty list.hospitalityFclty or not empty list.sportFclty}">
+							<li><span style="font-weight: bold;">시설정보:</span> <c:if
+									test="${not empty list.cnvnncFclty}">${list.cnvnncFclty} </c:if>
+								<c:if test="${not empty list.recrtClturFclty}">${list.recrtClturFclty} </c:if>
+								<c:if test="${not empty list.mvmAmsmtFclty}">${list.mvmAmsmtFclty} </c:if>
+								<c:if test="${not empty list.hospitalityFclty}">${list.hospitalityFclty} </c:if>
+								<c:if test="${not empty list.sportFclty}">${list.sportFclty}</c:if>
+							</li>
+						</c:if>
 
-			<!-- 카카오 지도 섹션 -->
-			<div class="title">지도보기</div><br>
-			<div class="kakaoMap" id="kakaoMap">
+						<c:if test="${not empty list.stayngInfo}">
+							<li><span style="font-weight: bold;">숙박시설:</span>${list.stayngInfo}</li>
+						</c:if>
 
-				<div id="map" class="map" style="width: 100%; height: 450px;"></div>
+						<c:if test="${not empty list.aceptncCo}">
+							<li><span style="font-weight: bold;">수용인원:</span> <fmt:formatNumber value="${list.aceptncCo}" pattern="#,##0" />명</li>
+						</c:if>
+
+						<c:if test="${not empty list.prkplceCo}">
+							<li><span style="font-weight: bold;">주차대수:</span> <fmt:formatNumber value="${list.prkplceCo}" pattern="#,##0" />대</li>
+						</c:if>
+
+						<c:if test="${not empty list.phoneNumber}">
+							<li><span style="font-weight: bold;">☎</span>${list.phoneNumber}</li>
+						</c:if>
+
+						<c:if test="${not empty list.referenceDate}">
+							<li><span style="font-weight: bold;">정보 업데이트:</span>${list.referenceDate}</li>
+						</c:if>
+					</ul>
+				</div>
+
+				<!-- 카카오 지도 섹션 -->
+				<div class="title">지도보기</div><br>
+				<div class="kakaoMap" id="kakaoMap">
+					<div id="map" class="map" style="width: 100%; height: 450px;"></div>
+				</div><br><br>
+
+				<!-- 여행톡 섹션 -->
+				<div class="title" id="tourTalk">여행톡</div><br>
+				<div id="bbs" align="center">
+					<input type="hidden" id="travelIdx" value="${param.travelIdx}">
+					<form id="bbsForm" method="post" encType="multipart/form-data">
+						<textarea name="content" id="content"></textarea>
+						<c:choose>
+							<c:when test="${empty userId}">
+								<input type="button" value="로그인" onclick="mem_login()">
+							</c:when>
+							<c:otherwise>
+								<input type="button" value="등록" onclick="tourtalk_write_ok()">
+							</c:otherwise>
+						</c:choose>
+					</form>
+					<div id="tourTalkList"></div>
+					<div>
+						<jsp:include page="report.jsp" />
+					</div>
+				</div>
+
 			</div>
-			<br><br>
-			
-			<!-- 여행톡 섹션 -->
-			<div class="title" id="tourTalk">여행톡</div><br>
-			<div id="bbs" align="center">
-		        <input type="hidden" id="travelIdx" value="${param.travelIdx}">
-			    <form id="bbsForm" method="post" encType="multipart/form-data">
-			        <textarea name="content" id="content"></textarea>
-			        <c:choose>
-				 		<c:when test="${empty userId}">
-				 			<input type="button" value="로그인" onclick="mem_login()">
-				 		</c:when>
-				 		<c:otherwise>
-			        		<input type="button" value="등록" onclick="bbs_write_ok()">
- 				 		</c:otherwise>
-				 	</c:choose>
-			    </form>
-			    <div id="tourTalkList"></div>
-				<div><jsp:include page="report.jsp" /></div>
-			</div>
-			
-			
+		</div>
+
+		<div class="main_right">
+			<jsp:include page="scroll.jsp" />
 		</div>
 	</div>
-
-	<div class="main_right">
-			<jsp:include page="scroll.jsp" />
-	</div>
-</div>
 
 	<div><jsp:include page="footer.jsp" /></div>
 
@@ -429,12 +433,12 @@
 		}
 
 		// 글 등록 버튼 클릭 시 호출되는 함수
-	    function bbs_write_ok() {
+	    function tourtalk_write_ok() {
 	        const tourTalkContent = $('#content').val();
 	        const travelIdx = $('#travelIdx').val(); // travelIdx 값을 가져옵니다
 	        
 	        $.ajax({
-	            url: "/bbs_write_ok",
+	            url: "/tourtalk_write_ok",
 	            method: "POST",
 	            data: {
 	            	tourTalkContent: tourTalkContent,

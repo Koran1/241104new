@@ -14,16 +14,13 @@ public interface TourTalkDAO{
 	
     // 삽입(쓰기)
     public int getTourTalkInsert(TourTalkVO tourtvo);
-		
-    // 조회수 업데이트
-    public int getTourTalkUpdate(String userIdx);
-    
-    // 삭제
-    public int getTourTalkDelete(String userIdx);
-	public int insertTourTalk(TourTalkVO tourtvo);
 	
-    int saveReport(ReportVO repvo);
-    int increaseReportCount(int tourTalkIdx);
-    int getReportCount(int tourTalkIdx);
-    int deactivatePost(int tourTalkIdx);
+    // report 정보 입력
+    public int getReportInsert(ReportVO reportVO);
+    	
+    // TourTalk 업데이트
+    public int getReportCountUpdate(String tourTalkIdx);
+    
+    // pjcustomer 업데이트
+    public int getCustomerCountUpdate(String writer);
 }

@@ -12,21 +12,22 @@
 		values(#{userId},#{tourTalkContent},now(),#{travelIdx})
 	</insert>
 	
-	<insert id="insertReport" parameterType="repvo">
-	    INSERT INTO report (reporter, reportedUser, reportContent, tourTalkIdx, reportreg)
-	    VALUES (#{reporter}, #{reportedUser}, #{reportContent}, #{tourTalkIdx}, NOW())
-	</insert>
+    <insert id="reportInsert" parameterType="repvo">
+        INSERT INTO report (reporter, writer, reportContent, tourTalkIdx, reportReg)
+        VALUES (#{reporter}, #{writer}, #{reportContent}, #{tourTalkIdx}, NOW());
+    </insert>
 	
-	<update id="increaseReportCount" parameterType="int">
-    	UPDATE tourtalk SET report = report + 1 WHERE tourTalkIdx = #{tourTalkIdx}
+	<update id="tourtalkCountUpdate" parameterType="String">
+        UPDATE tourtalk 
+    	SET hit = hit + 1, 
+        active = CASE WHEN hit + 1 >= 3 THEN 1 ELSE active END 
+    	WHERE tourTalkIdx = #{tourTalkIdx}
 	</update>
 	
-	<select id="getReportCount" parameterType="int" resultType="int">
-	    SELECT report FROM tourtalk WHERE tourTalkIdx = #{tourTalkIdx}
-	</select>
-	
-	<update id="deactivatePost" parameterType="int">
-	    UPDATE tourtalk SET active = 1 WHERE tourTalkIdx = #{tourTalkIdx}
+	<update id="customerCountUpdate" parameterType="String">
+        UPDATE pjcustomer
+        SET userEtc01 = userEtc01 + 1
+        WHERE userId = #{writer}
 	</update>
 	
 </mapper>

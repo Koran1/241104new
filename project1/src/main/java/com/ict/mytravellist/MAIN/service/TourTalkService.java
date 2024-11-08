@@ -13,15 +13,13 @@ public interface TourTalkService{
 	
     // 삽입(쓰기)
     public int getTourTalkInsert(TourTalkVO tourtvo);
-		
-    // 조회수 업데이트
-    public int getTourTalkUpdate(String userIdx);
+
+    // report 정보 입력
+    public int getReportInsert(ReportVO reportVO);	
+
+    // TourTalk 업데이트
+    public int getReportCountUpdate(String tourTalkIdx);
     
-    // 삭제
-    public int getTourTalkDelete(String userIdx);
-	
-	public int insertTourTalk(TourTalkVO tourtvo);
-    void saveReport(ReportVO repvo);
-    int getReportCount(int tourTalkIdx);
-    void deactivatePost(int tourTalkIdx);
+    // pjcustomer 업데이트
+    public int getCustomerCountUpdate(String writer);
 }
