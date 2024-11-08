@@ -33,7 +33,11 @@ public class MainRestController {
     public List<TourTalkVO> detail(@RequestParam("travelIdx") String travelIdx) {
         // travelIdx에 해당하는 TourTalk 정보를 가져오기
         List<TourTalkVO> list = tourTalkService.getTourTalkList(travelIdx);
-        return list;
+        if (!list.isEmpty()) {
+            return list;
+        } else {
+            return null;
+        }
     }
     
     // 글 등록 처리
@@ -41,7 +45,6 @@ public class MainRestController {
 	@ResponseBody
 	public void getBbsWriteOk(TourTalkVO tourtvo, HttpServletRequest request) {
 		try {
-			// System.out.println(tourtvo.getTourTalkContent());
 	        String userId = (String) request.getSession().getAttribute("userId");
 	        tourtvo.setUserId(userId);
 			int result = tourTalkService.getTourTalkInsert(tourtvo);
@@ -86,15 +89,12 @@ public class MainRestController {
 
 	            // 1. 신고 정보 저장
 	            int reportInsertResult = tourTalkService.getReportInsert(repvo);
-	            // System.out.println("reportInsertResult" + reportInsertResult);
 	            
 	            // 2. tourtalk 테이블 hit 증가 및 조건부 active 업데이트
 	            int reportCountUpdateResult = tourTalkService.getReportCountUpdate(repvo.getTourTalkIdx());
-	            // System.out.println("reportCountUpdateResult" + reportCountUpdateResult);
 
 	            // 3. pjcustomer 테이블 userEtc01 증가
 	            int customerCountUpdateResult = tourTalkService.getCustomerCountUpdate(repvo.getWriter());
-	            // System.err.println("customerCountUpdateResult" + customerCountUpdateResult);
 
 	            // 결과 확인
 	            if (reportInsertResult > 0 && reportCountUpdateResult > 0 && customerCountUpdateResult > 0) {
