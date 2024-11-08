@@ -5,19 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MyTravelList - 로그인</title>
+<title>로그인 - MyTravelList</title>
 <link type="text/css" href="/resources/css/style.css" rel="stylesheet" />
 <style type="text/css">
 	body{
 		margin: 0;
 		padding: 0;
-	}
-	.main-container{
-		margin: 0;
-		padding-top: 100px;
-		width: 100%;
-		height: 90vh;
 	}
 	.logo-img{
 		cursor: pointer;
@@ -78,18 +71,27 @@
 	button.search_id_btn:hover, button.search_pw_btn:hover, button.join_btn:hover {
     	background-color: #006b12;
 	}
-	
+	#social_login_container{
+        margin-top: 20px; margin-left: 40px;
+    }
 </style>
 <script type="text/javascript">
-	<c:if test="${not empty message}">
-	    alert("${message}");
-	</c:if>
 </script>
 </head>
 <body>
-<jsp:include page="../MAIN/header.jsp" />
-
-<div class="main-container">
+<c:if test="${not empty message}">
+    <script type="text/javascript">
+        alert("${message}");
+    </script>
+</c:if>
+<div class="container">
+	<div class="header-wrap">
+    	<img alt="" src="<c:url value='/resources/images/logo.png'/>" 
+         	class="logo-img" style="width: 250px; height: 50px;" 
+         	onclick="location.href='/'" />
+		<p class="agreement-title" style="text-align: center;">로그인</p>
+		<hr color="008615">
+	</div>
 	
 	<!-- 로그인 영역 -->
 	<div class="login-container">
@@ -120,6 +122,15 @@
 			<a href="/mem_findPW"><button type="submit" class="btn search_pw_btn">비밀번호 찾기</button></a>
 			<a href="/mem_joinAgree"><button type="submit" class="btn join_btn">회원가입</button></a>
 		</div>
+		
+		<div id="social_login_container">
+            <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=LATuMwgCg7IIRlZG9lKz&redirect_uri=http://localhost:8080/ict5_naverlogin&state=ICT_5">
+                <img alt="네이버 로그인" src="resources/images/btnG_naver.png" width="300px;" height="70px;">
+            </a>
+            <a href="https://kauth.kakao.com/oauth/authorize?client_id=3ddbaef55b331705b94b177e5af93179&redirect_uri=http://localhost:8080/ict5_kakaologin&response_type=code&state=ICT_5">
+                <img alt="카카오 로그인" src="resources/images/kakao_login_medium_wide.png"  width="300px;" height="60px;">
+            </a>
+        </div>
 	</div>
 </div>
 </body>

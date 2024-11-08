@@ -420,11 +420,13 @@
 	            pwMsg.html(""); // value가 모두 없을 때 메세지 없음
 	        }
 	    }
-
+		
+	    /*
 	    // 비밀번호 확인 입력하는 곳에 포커스 시 값 초기화
 	    $("#userPw2").on("focus", function() {
 	        $(this).val(""); // 비밀번호 확인 입력하는 곳 초기화
 	    });
+	    */
 
 	    // 비밀번호 확인 입력하는 곳에서 블러 이벤트 시 일치 여부 확인
 	    $("#userPw, #userPw2").on("blur", function() {
