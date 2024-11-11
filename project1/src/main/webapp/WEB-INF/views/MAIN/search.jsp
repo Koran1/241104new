@@ -198,7 +198,13 @@
 									</div>
 									<div class="travel_info">
 										<p class="travel_location_title">${k.trrsrtNm}
-										<input type="checkbox" class="userFavs" value="${k.travelIdx}">
+										<input type="checkbox" class="userFavs" value="${k.travelIdx}"
+											<c:forEach var="favs" items="${fav_list}">
+												<c:if test="${k.travelIdx == favs.travelIdx}">
+													checked = "checked"
+												</c:if>
+											</c:forEach>
+										>
 										</p>
 										<c:choose>
 											<c:when test="${empty k.rdnmadr}">
@@ -284,7 +290,10 @@
 				}
 			})
 		})
-		
+
+		function test1(){
+			console.log("test1");
+		}
 		function likeUserFavs(travelIdx) {
 			$.ajax({	
 				url : "/likeUserFavs",

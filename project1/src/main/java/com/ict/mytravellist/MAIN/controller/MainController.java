@@ -134,10 +134,11 @@ public class MainController {
 	
 		    // DB 처리
 		    List<TravelDBVO> list = mainService.getSearchPageList(paging.getOffset(), paging.getNumPerPage(), tdvo);
-		    
+		    for (TravelDBVO k : list) {
+			}
 		    // 작업중
 		    List<UserInterest> fav_list = travelService.getUserFavs((String) request.getSession().getAttribute("userId"));
-	    	
+		    mv.addObject("fav_list", fav_list);
 		    
 		    mv.addObject("list", list);
 		    mv.addObject("paging", paging);
