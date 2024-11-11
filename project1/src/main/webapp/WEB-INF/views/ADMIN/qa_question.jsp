@@ -15,7 +15,7 @@
 <body>
 	<div id="header">
 		<img id="logo" alt="logo" src="../resources/images/logo.png" onclick='location.href ="/admin_index"'>
-		<h2>admin index</h2>
+		<h2>ADMIN</h2>
 	 </div>
 	 
 	<div id="container">
@@ -66,7 +66,7 @@
 						<tr>
 							<td colspan="2">
 								<input type="button" value="저장" onclick="admin_qa_answer(this.form)">
-								<button type="button" onclick="location.href='/admin_qna';">취소</button>
+								<button type="button" onclick="location.href='/admin_qa';">취소</button>
 							</td>
 						</tr>
 					</tfoot>

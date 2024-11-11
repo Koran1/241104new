@@ -76,5 +76,10 @@ public class TravelServiceImpl implements TravelService{
 		return travelDAO.getUserFavs(userId);
 	}
 
+	@Override
+	public int deleteTrvlPlan(String userId, String trvlPlanIdx) throws Exception {
+		return travelDAO.deleteTrvlPlan(userId, trvlPlanIdx);
+	}
+
 	
 }

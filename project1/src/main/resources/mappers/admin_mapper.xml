@@ -132,5 +132,13 @@
  	<select id="get_admininfo" parameterType="String" resultType="adminvo">
  		select * from pjadmin where adminID = #{adminID}
  	</select>
- 	
+ 	<select id="get_userconnreg" resultType = "int">
+ 		SELECT count(*) FROM pjcustomer WHERE DATE_FORMAT(userConnReg, "%Y-%m-%d") = CURDATE()
+ 	</select>
+ 	<select id="get_newuserreg" resultType = "int">
+ 		SELECT count(*) FROM pjcustomer WHERE DATE_FORMAT(userReg, "%Y-%m-%d") = CURDATE()
+ 	</select>
+ 	<select id="get_newtourtalk" resultType = "int">
+ 		SELECT count(*) FROM pjtourtalk WHERE DATE_FORMAT(tourTalkReg, "%Y-%m-%d") = CURDATE()
+ 	</select>
  </mapper>

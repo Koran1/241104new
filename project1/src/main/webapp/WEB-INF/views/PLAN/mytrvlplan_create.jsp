@@ -181,7 +181,7 @@
 	<div id="container">
 		<div id="button_container">
 			<button onclick="location.href='/mytrvlplan'">나의 관심지 관리</button>
-			<button style="color: red"
+			<button style="background-color:#008165; color: white; font-weight: bold;"
 				onclick="location.href='/mytrvlplan_create'">여행 계획 짜기</button>
 			<button onclick="location.href='/mytrvlplan_list'">여행 계획 관리</button>
 		</div>

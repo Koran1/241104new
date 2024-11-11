@@ -155,4 +155,19 @@ public class AdminServiceImpl implements AdminService {
 		return adminDAO.getAdminInfo(adminID);
 	}
 
+	@Override
+	public int getUserConnReg() throws Exception {
+		return adminDAO.getUserConnReg();
+	}
+
+	@Override
+	public int getNewUserReg() throws Exception {
+		return adminDAO.getNewUserReg();
+	}
+
+	@Override
+	public int getNewTourTalk() throws Exception {
+		return adminDAO.getNewTourTalk();
+	}
+
 }

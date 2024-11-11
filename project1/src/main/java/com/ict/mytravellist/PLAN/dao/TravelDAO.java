@@ -19,4 +19,5 @@ public interface TravelDAO {
 	public int unlikeTrvlFav(String userId, String trvlPlanIdx) throws Exception;
 	public int likeTrvlFav(String userId, String trvlPlanIdx) throws Exception;
 	public List<UserInterest> getUserFavs(String userId) throws Exception;
+	public int deleteTrvlPlan(String userId, String trvlPlanIdx) throws Exception;
 }

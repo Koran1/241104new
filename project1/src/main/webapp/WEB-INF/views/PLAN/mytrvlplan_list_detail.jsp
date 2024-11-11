@@ -66,7 +66,7 @@
         <div id="button_container">
             <button onclick="location.href='/mytrvlplan'">나의 관심지 관리</button>
             <button onclick="location.href='/mytrvlplan_create'">여행 계획 짜기</button>
-            <button style="color: red" onclick="location.href='/mytrvlplan_list'">여행 계획 관리</button>
+            <button style="background-color:#008165; color: white; font-weight: bold;" onclick="location.href='/mytrvlplan_list'">여행 계획 관리</button>
         </div>
 
 		<div id="main_container">
@@ -99,6 +99,7 @@
 			<!-- Bottom Bar -->
 			<div id="bottom-bar">
 				<button onclick="location.href = '/mytrvlplan_update?trvlPlanIdx=${tplvo.trvlPlanIdx}'">수정하기</button>
+				<button onclick="chkDelete(${tplvo.trvlPlanIdx})" style="background-color: #FA0000; color: white;">삭제</button>
 			</div>
 		</div>
 	</div>
@@ -228,6 +229,12 @@
 				})
 		}
 		getRoadLine2();
+		function chkDelete(trvlPlanIdx) {
+			if(confirm("정말 삭제하시겠습니까? (복구가 불가능합니다)")){
+				location.href = '/mytrvlplan_delete?trvlPlanIdx='+trvlPlanIdx;
+			}
+			
+		}
 </script>
 
 </body>

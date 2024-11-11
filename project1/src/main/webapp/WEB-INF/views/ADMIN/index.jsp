@@ -67,9 +67,9 @@
 <body>
 	<div id="header">
 		<a href="/admin_index">
-		<img id="logo" alt="logo" src="../resources/images/logo.png">
+		<img id="logo" alt="logo" src="../resources/images/logo.png" height="60px">
 		</a>
-		<h2>admin index</h2>
+		<h2>ADMIN</h2>
 	</div>
 	<div id="container">
 		<div id="button_container">
@@ -82,9 +82,9 @@
 		
 		<div id="main_container">
 			<div id="dashboard">
-				<p>오늘 방문자 수 : 32</p>
-				<p>추가된 댓글 수 : 12</p>
-				<p>신규 가입 수 : 8</p>
+				<p>오늘 방문자 수 : ${newUserConnReg}</p>
+				<p>추가된 댓글 수 : ${newTourTalk}</p>
+				<p>신규 가입 수 : ${newUserReg}</p>
 				<p><a href="/load_weather">날씨 정보 최신화하기</a></p>
 			</div>
 			<div id="graph">

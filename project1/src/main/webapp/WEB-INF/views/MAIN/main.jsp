@@ -8,39 +8,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MyTravelList</title>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="resources/css/reset.css">
 <link rel="stylesheet" href="resources/css/footer.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style type="text/css">
-
 /* 메인 컨테이너: 화면 전체 레이아웃을 잡는 최상위 요소 */
 .main_container {
 	display: flex; /* 내부 요소들을 플렉스박스로 배치 */
 	justify-content: space-between; /* 좌우 요소 간 공간을 균등하게 분배 */
 	align-items: center; /* 세로 방향으로 가운데 정렬 */
 	padding-top: 20px; /* 상단 여백 */
-	box-shadow: 0 0 3px gray; /* 외곽 그림자 */
-	height: 95vh;
+	height: 100vh;
 }
-
 /* 메인 화면의 좌측 영역: 비율 10% */
-.main_left {
-	width: 10%; /* 좌측 레이아웃의 비율 설정 */
-}
+.main_left { width: 10%;}
 
 /* 메인 화면의 중앙 영역: 비율 80% */
 .main_center {
 	width: 80%; /* 중앙 레이아웃의 비율 설정 */
-	height: 95vh;
+	height: 100vh;
 }
-
 /* 메인 화면의 우측 영역: 비율 10% */
-.main_right {
-	width: 10%; /* 우측 레이아웃의 비율 설정 */
-}
-
+.main_right { width: 10%;}
 /* 메인 컨테이너의 래퍼: 스크롤 없이 고정된 레이아웃 */
 .main_wrapper {
 	margin: 100px 0;
@@ -67,7 +57,6 @@
 	margin: 10px 0; /* 세로 여백 */
 	padding: 8px; /* 내부 여백 */
 }
-
 .travel_name{
 	text-align: center;
 	align-items: center;
@@ -76,7 +65,6 @@
 	margin-bottom: 15px;
 	color: rgba(100, 50, 15, 10);
 }
-
 /* 여행지 이미지 스타일: travel_box 내부 이미지 */
 .travel_image {
     width: 100%;
@@ -86,13 +74,13 @@
     justify-content: center;
     align-items: center;
 }
-
 .travel_image img {
     width: 100%;
     height: 100%;
     object-fit: cover; /* 이미지 비율을 유지하며 박스에 맞춤 */
     border-radius: 12px 12px 0 0; /* 상단 모서리 둥글게 */
 }
+
 /* 날씨 정보 스타일: 여행지 정보 하단 날씨 박스 */
 .travel_weather {
 	height: 157px !important; /* 날씨 정보의 높이 */
@@ -103,7 +91,6 @@
 	border-radius: 0 0 12px 12px; /* 하단 모서리 둥글게 */
 	font-size: 20px; /* 텍스트 크기 설정 */
 }
-
 /* ul과 li의 가로 정렬: 날씨 정보를 리스트로 표현 */
 .travel_weather ul {
 	list-style: none; /* 리스트 불릿 제거 */
@@ -112,19 +99,16 @@
 	display: flex; /* 리스트를 가로 정렬 */
 	justify-content: space-around; /* 리스트 항목 간 공간 균등 분배 */
 }
-
 /* 날씨 리스트 항목 스타일 */
 .travel_weather li {
 	text-align: center; /* 텍스트 가운데 정렬 */
 	margin: 0 5px; /* 좌우 여백 */
 }
-
 /* 링크 스타일: 날씨 항목에 링크가 포함된 경우 */
 .travel_weather a {
 	text-decoration: none; /* 밑줄 제거 */
 	color: inherit; /* 부모 요소의 텍스트 색상과 동일하게 설정 */
 }
-
 /* 지역명 스타일: 여행지의 한글 이름 */
 .travel_location_region {
 	font-size: 27px; /* 텍스트 크기 */
@@ -132,14 +116,8 @@
 	font-optical-sizing: auto; /* 텍스트 크기에 따른 최적화 */
 	font-weight: 550; /* 폰트 두께 설정 */
 }
-.travel_location_date {
-	font-size: 24px;
-}
-
-/* 온도 정보 스타일: 온도 리스트 위치 조정 */
-.travel_temp {
-	margin-left: 120px; /* 왼쪽 여백 */
-}
+.travel_location_date {	font-size: 24px;}
+.travel_temp { margin-left: 120px; }
 
 /* 드디어 박스를 가로로 정렬하는데 성공!!*/
 #travel-list-unlogin, #travel-list-login {
@@ -150,7 +128,7 @@
 	transition: opacity 0.8s ease-in-out; /* 페이드 효과 */
 	gap: 30px; /* 각 박스 사이에 20px 간격 추가 */
 }
-/* 추가 CSs */
+/* 추가 CSS */
 .travel_box_detail{
 	width: 100%;
 	height: 100%
@@ -166,36 +144,27 @@
     text-align: center; /* 텍스트 가운데 정렬 */
     border-collapse: collapse; /* 테이블 셀 간격 제거 */
 }
-
 .travel_weather_detail th,
 .travel_weather_detail td {
     padding: 4px 1px;
     width: 15%; /* 5개의 열을 균등하게 분할 */
 }
-.travel_weather_detail th{
-	border-bottom: 1px solid lightgray;
-}
-table th {
-	font-weight: bold;
-}
-
-table td {
-	font-weight: bold;
-}
+.travel_weather_detail th{ border-bottom: 1px solid lightgray; }
+table th { font-weight: bold; }
+table td { font-weight: bold; }
 </style>
 </head>
 <body>
+	<!-- Header -->
 	<jsp:include page="header.jsp" />
 
-	<!-- 바디 -->
+	<!-- main -->
 	<div class="main_container">
-
 		<div class="main_left">
 			<jsp:include page="popup.jsp" />
 		</div>
 
-	<% String userId = (String) session.getAttribute("userId"); %>	
-
+		<% String userId = (String) session.getAttribute("userId"); %>	
 		<div class="main_center">
 			<div class="main_wrapper">
 				<c:choose>
@@ -211,31 +180,31 @@ table td {
 
 		<div class="main_right"></div>
 	</div>
-
+	
+	<!-- Footer -->
 	<jsp:include page="footer.jsp" />
 
 	<script type="text/javascript">
-	document.addEventListener("DOMContentLoaded", function () {
+		document.addEventListener("DOMContentLoaded", function () {
 		    // 페이지 로드 시 리스트 초기 렌더링
 		    loadTravelList();
 
 		    setInterval(loadTravelList, 10000);
 		    
- 		   function countKoreanChars(str) {
- 			    if (!str) return 0;  // null 또는 undefined 처리
- 			    return str.split('').filter(char => char.match(/[가-힣]/)).length;
- 			}
+ 		function countKoreanChars(str) {
+ 			if (!str) return 0;  // null 또는 undefined 처리
+ 			return str.split('').filter(char => char.match(/[가-힣]/)).length;
+ 		}
  		    
- 		  	const userId = "${userId}";
+ 		const userId = "${userId}";
  		   
- 		    function loadTravelList() {
- 		        // userId 변수를 HTML에서 JSP로 전달받아 로그인 여부 확인
- 		        const isLoggedIn = "${userId}" !== ""; 
- 		        const containerId = isLoggedIn ? "#travel-list-login" : "#travel-list-unlogin";
+ 		function loadTravelList() {
+ 		    // userId 변수를 HTML에서 JSP로 전달받아 로그인 여부 확인
+ 		    const isLoggedIn = "${userId}" !== ""; 
+ 		    const containerId = isLoggedIn ? "#travel-list-login" : "#travel-list-unlogin";
 
- 		        $(containerId).empty();
- 		        
- 		        $.ajax({
+ 		    $(containerId).empty();
+ 		    $.ajax({
  		            url: isLoggedIn ? "/random_location_login" : "/random_location", // 로그인 상태에 따라 다른 URL 호출
  		            method: "post",
  		          	data: { userId: "${userId}" }, // userId를 명시적으로 전달
@@ -321,7 +290,6 @@ table td {
 		                            table += "</tr>";
 		                        }
 		                    });
-
 		                    table += "</table><br>";
 		                    table += "</div>";
 		                    table += "</div>";
@@ -389,6 +357,5 @@ table td {
 		    });
 		}
 	</script>
-	
 </body>
 </html>

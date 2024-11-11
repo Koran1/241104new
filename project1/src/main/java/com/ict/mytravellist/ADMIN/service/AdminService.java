@@ -44,4 +44,7 @@ public interface AdminService {
 	public int getMainTotalCount() throws Exception;
 	
 	public AdminVO getAdminInfo(String adminID) throws Exception;
+	public int getUserConnReg() throws Exception;
+	public int getNewUserReg() throws Exception;
+	public int getNewTourTalk() throws Exception;
 }

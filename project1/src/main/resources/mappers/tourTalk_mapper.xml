@@ -20,7 +20,7 @@
 	<update id="tourtalkCountUpdate" parameterType="String">
         UPDATE pjtourtalk 
     	SET hit = hit + 1, 
-        active = CASE WHEN hit + 1 >= 3 THEN 1 ELSE active END 
+        active = CASE WHEN hit + 1 > 3 THEN 1 ELSE active END 
     	WHERE tourTalkIdx = #{tourTalkIdx}
 	</update>
 	

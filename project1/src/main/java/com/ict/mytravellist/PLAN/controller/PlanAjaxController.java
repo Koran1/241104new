@@ -239,8 +239,6 @@ public class PlanAjaxController {
 	public void likeUserFavs( @RequestParam("userId") String userId,
 			@RequestParam("travelIdx") String travelIdx) {
 		try {
-		System.out.println(userId);
-		System.out.println(travelIdx);
 		int result = travelService.likeTrvlFav(userId, travelIdx);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -250,8 +248,6 @@ public class PlanAjaxController {
 	public void unlikeUserFavs( @RequestParam("userId") String userId,
 			@RequestParam("travelIdx") String travelIdx) {
 		try {
-			System.out.println(userId);
-			System.out.println(travelIdx);
 			int result = travelService.unlikeTrvlFav(userId, travelIdx);
 		} catch (Exception e) {
 			e.printStackTrace();

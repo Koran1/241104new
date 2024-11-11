@@ -157,7 +157,7 @@
         <div id="button_container">
             <button onclick="location.href='/mytrvlplan'">나의 관심지 관리</button>
             <button onclick="location.href='/mytrvlplan_create'">여행 계획 짜기</button>
-            <button style="color: red" onclick="location.href='/mytrvlplan_list'">여행 계획 관리</button>
+            <button style="background-color:#008165; color: white; font-weight: bold;" onclick="location.href='/mytrvlplan_list'">여행 계획 관리</button>
         </div>
 
 		<div id="main_container">
@@ -748,7 +748,7 @@
 		}
 		
 		function resetPlan() {
-        	if(confirm("취소하시겠습니까?")) location.href='/mytrvlplan';
+        	if(confirm("취소하시겠습니까?")) location.href='/mytrvlplan_list';
 		}
 </script>
 

@@ -10,15 +10,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MyTravelList - 관광지 상세보기</title>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="resources/css/summernote-lite.css">
-	
 <link rel="stylesheet" href="resources/css/reset.css">
 <link rel="stylesheet" href="resources/css/header.css">
 <link rel="stylesheet" href="resources/css/footer.css">
 <style type="text/css">
-
 /* 메뉴 컨테이너 스타일 */
 .menu_container {
 	width: 100%;
@@ -35,7 +32,6 @@
 	z-index: 5;
 	top: 0;
 }
-
 .menu_container ul {
 	display: flex;
 	list-style-type: none;
@@ -47,15 +43,8 @@
 	border-left: 1px solid rgb(211, 209, 209);
 	border-right: 1px solid rgb(211, 209, 209);
 }
-
-.menu_container ul li:first-child {
-	border-left: none;
-}
-
-.menu_container ul li:last-child {
-	border-right: none;
-}
-
+.menu_container ul li:first-child {	border-left: none; }
+.menu_container ul li:last-child { border-right: none; }
 /* 메뉴 버튼 스타일 */
 .menu-btn {
 	background-color: white;
@@ -72,12 +61,7 @@
 	width: 100%;
 	padding-top: 130px;
 }
-
-.main_left, .main_right {
-	flex: 1 1 10%;
-	/* background-color: red; 디버깅 완료 후 제거 */
-}
-
+.main_left, .main_right { flex: 1 1 10%; }
 .main_center {
 	flex: 1 1 80%;
 	padding: 20px;
@@ -95,6 +79,7 @@
 	text-decoration-color: rgba(255, 249, 196, 0.6); /* 줄의 색을 노란색으로 */
 	text-decoration-thickness: 10px; /* 줄 두께 */
 }
+
 /* 사진 갤러리 */
 .photo_gallery {
 	display: flex;
@@ -102,18 +87,15 @@
 	flex-wrap: wrap;
 	justify-content: center;
 }
-
 .photo_big {
 	width: 700px;
 	height: 500px;
 }
-
 .photo_small {
 	display: flex;
 	justify-content: space-between;
 	flex-direction: column;
 }
-
 .small {
 	width: 170px;
 	height: 120px;
@@ -126,7 +108,6 @@
 	padding: 20px;
 	/* box-sizing: border-box; */
 }
-
 .details_box {
 	line-height: 1.5;
 	padding: 20px;
@@ -141,7 +122,6 @@
 	align-items: center;
 	justify-content: center;
 }
-
 .maps {
 	line-height: 1.5;
 	padding: 20px;
@@ -154,13 +134,11 @@
 	text-align: right; /* 폼 내 콘텐츠 오른쪽 정렬 */
 	margin-top: 5px;
 }
-
 .title {
 	font-size: 18px;
 	font-weight: bold;
 	color: #666;
 }
-
 .tourTList {
 	padding: 15px;
 	border-bottom: 1px solid #e6e6e6;
@@ -181,7 +159,6 @@
 	align-items: center;
 	gap: 10px;
 }
-
 .tourinfo li {
 	display: flex;
 	margin-right: 20px;
@@ -189,17 +166,13 @@
 	font-size: 16px;
 	margin-right: 10px;
 }
-
 .tourTId, .tourTReg {
 	list-style: none;
 	font-size: 18px;
 	color: #666;
 	text-align: left;
 }
-
-.userReport {
-	flex: right;
-}
+.userReport { flex: right; }
 
 /* 신고 버튼 스타일 */
 .report-icon-button {
@@ -216,12 +189,11 @@
 </style>
 </head>
 <body>
+	<!-- Header  -->
 	<jsp:include page="header.jsp" />
 
 	<!-- 세션에 저장된 id를 불러옴 -->
-	<%
-	String userId = (String) session.getAttribute("userId");
-	%>
+	<% String userId = (String) session.getAttribute("userId");	%>
 
 	<!-- 고정된 메뉴 섹션 -->
 	<div class="menu_container">
@@ -431,9 +403,15 @@
 		    lists.forEach(list => {
 		        const tourTalkIdx = list.tourTalkIdx;
 		        const userId = list.userId;
+		        const active = list.active;
 		
 		        talkHtml += "<div class='tourTList'>";
-		        talkHtml += "<div class='tourTContent'><p>" + list.tourTalkContent + "</p></div>";
+		        // active가 1일 경우 제한 메시지 표시, 0일 경우 실제 콘텐츠 표시
+		        if (active === 1) {
+		            talkHtml += "<div class='tourTContent'><p>본 글은 신고로 인해 보기가 중단 되었습니다</p></div>";
+		        } else {
+		            talkHtml += "<div class='tourTContent'><p>" + list.tourTalkContent + "</p></div>";
+		        }
 		        talkHtml += "<ul class='tourinfo'>";
 		        talkHtml += "<li class='tourTId'>" + userId + "</li>";
 		        talkHtml += "<li class='tourTReg'>" + formatDateTime(list.tourTalkReg) + "</li>";

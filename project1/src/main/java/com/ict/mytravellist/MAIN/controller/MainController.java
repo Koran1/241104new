@@ -1,12 +1,9 @@
 package com.ict.mytravellist.MAIN.controller;
 
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,11 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.google.gson.Gson;
 import com.ict.mytravellist.MAIN.common.MainPaging;
 import com.ict.mytravellist.MAIN.service.MainService;
-import com.ict.mytravellist.MAIN.service.TourTalkService;
 import com.ict.mytravellist.PLAN.service.TravelService;
 import com.ict.mytravellist.vo.TravelDBVO;
 import com.ict.mytravellist.vo.UserInterest;
@@ -32,13 +27,7 @@ public class MainController {
 	private MainService mainService;
 	
 	@Autowired
-	private TourTalkService tourTalkService;
-	
-	@Autowired
 	private TravelService travelService;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private MainPaging paging;
@@ -82,7 +71,7 @@ public class MainController {
 		return "fail";
 	}
 	
-
+	// 페이징
 	@GetMapping("/search_go")
 	public ModelAndView boardList(
 	        @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
@@ -135,10 +124,11 @@ public class MainController {
 	
 		    // DB 처리
 		    List<TravelDBVO> list = mainService.getSearchPageList(paging.getOffset(), paging.getNumPerPage(), tdvo);
-		    
+		    for (TravelDBVO k : list) {
+			}
 		    // 작업중
 		    List<UserInterest> fav_list = travelService.getUserFavs((String) request.getSession().getAttribute("userId"));
-	    	
+		    mv.addObject("fav_list", fav_list);
 		    
 		    mv.addObject("list", list);
 		    mv.addObject("paging", paging);

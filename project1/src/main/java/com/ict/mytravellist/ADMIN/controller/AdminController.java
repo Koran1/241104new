@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -574,30 +575,41 @@ public class AdminController {
 		}
 	}
 	
-	@PostMapping("/admin_index")
+	@RequestMapping("/admin_index")
 	public ModelAndView goAdminIndex(AdminVO adminvo, HttpSession session) {
-		ModelAndView result = new ModelAndView();
+		ModelAndView mv = new ModelAndView();
 		try {
 			String input_id = adminvo.getAdminID();
 			String input_pw = adminvo.getAdminPW();
 			
 			AdminVO true_admin = adminService.getAdminInfo(input_id);
-			if(true_admin != null) {
-				if(true_admin.getAdminPW().equals(input_pw)) {
-					// Needs to be added
-					// on pjcustomer -> check userConnReg
-					// on tourtalk -> check tourtalkReg
-					// on pjcustomer -> check userREg
-					session.setAttribute("loginChk", "ok");
-					
-					result.setViewName("ADMIN/index");
-					return result;
-				}
-			}
-			result.addObject("errorMsg", "올바르지 못한 로그인 정보입니다.");
-			result.setViewName("ADMIN/loginPage");
-			return result;
 			
+			String loginChk = (String) session.getAttribute("loginChk");
+			
+			int newUserConnReg = adminService.getUserConnReg();
+			mv.addObject("newUserConnReg", newUserConnReg);
+			
+			int newTourTalk = adminService.getNewTourTalk();
+			mv.addObject("newTourTalk", newTourTalk);
+			
+			int newUserReg = adminService.getNewUserReg();
+			mv.addObject("newUserReg", newUserReg);
+			
+			if(loginChk == null) {
+				if(true_admin == null || !true_admin.getAdminPW().equals(input_pw)) {
+					mv.addObject("errorMsg", "올바르지 못한 로그인 정보입니다.");
+					mv.setViewName("ADMIN/loginPage");
+					return mv;
+				}else {
+					session.setAttribute("loginChk", "ok");
+					mv.setViewName("ADMIN/index");
+					return mv;
+				}
+			}else {
+				session.setAttribute("loginChk", "ok");
+				mv.setViewName("ADMIN/index");
+				return mv;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

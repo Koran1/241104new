@@ -33,11 +33,15 @@ public class MainRestController {
     public List<TourTalkVO> detail(@RequestParam("travelIdx") String travelIdx) {
         // travelIdx에 해당하는 TourTalk 정보를 가져오기
         List<TourTalkVO> list = tourTalkService.getTourTalkList(travelIdx);
-        if (!list.isEmpty()) {
-            return list;
-        } else {
-            return null;
-        }
+       
+        // active 상태에 따라 tourTalkContent를 조건부 설정
+        list.forEach(tourTalk -> {
+            if ("1".equals(tourTalk.getActive())) {
+                tourTalk.setTourTalkContent("해당 글은 다수의 신고로 인해 삭제 되었습니다");
+            }
+        });
+        
+        return list;
     }
     
     // 글 등록 처리
@@ -89,7 +93,7 @@ public class MainRestController {
 	            boolean isDuplicate = tourTalkService.isDuplicateReport(repvo.getReporter(), repvo.getTourTalkIdx());
 	            if (isDuplicate) {
 	                map.put("status", "duplicate");
-	                map.put("message", "동일한 신고는 할 수 없습니다");
+	                map.put("message", "중복 신고는 할 수 없습니다");
 	                return map;
 	            }
 	            
@@ -103,7 +107,7 @@ public class MainRestController {
 	            // 결과 확인
 	            if (reportInsertResult > 0 && reportCountUpdateResult > 0 && customerCountUpdateResult > 0) {
 	                map.put("status", "success");
-	                map.put("message", "신고 의견이 정상적으로 접수되었습니다");
+	                map.put("message", "신고가 정상적으로 접수되었습니다");
 	            } else {
 	                map.put("status", "fail");
 	                map.put("message", "신고 접수에 실패하였습니다");

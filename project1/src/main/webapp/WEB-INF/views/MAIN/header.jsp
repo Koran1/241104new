@@ -14,6 +14,7 @@
     	position: fixed;
     	background-color: white;
     	z-index: 1000;
+    	padding-left: 20px;
     }
     </style>
     <link rel="canonical" href="https://getbootstrap.kr/docs/5.3/examples/headers/">

@@ -11,104 +11,113 @@
 <link rel="stylesheet" href="resources/css/reset.css">
 <link rel="stylesheet" href="resources/css/footer.css">
 <style type="text/css">
-
-	.modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    .modal-content {
-        background-color: #fff;
-        margin: 5% auto;
-        padding: 30px;
-        border-radius: 5px;
-        width: 80%; 
-        max-width: 1000px;
-        height: 70%;
-        max-height: 600px; 
-        overflow-y: hidden;
-    }
-	.modal-in-title{
-		color: #333;
-		border-bottom: 2px solid #008165;
-		padding-bottom: 5px;
-		font-size: 24px;
-	}
-	.modal-header {
-    display: flex;
-    justify-content: space-between; /* 좌우 정렬 */
-    align-items: center;
-	}
-	.close {
-	    color: #aaa;
-	    font-size: 28px;
-	    font-weight: bold;
-	    cursor: pointer;
-	}
-	.close:hover, .close:focus {
-	    color: black;
-	    text-decoration: none;
-	}
-    .agree-list{
-    	list-style-type: none;
-    }
-	.disabled{
-		margin: 20px 0px 0px;
-		padding: 10px 30px;
-		background-color: #88B0AB;
-		color: white;
-		border: none;
-		border-radius: 5px;
-		cursor: pointer;
-	}
-	.enabled{
-		margin: 20px 0px 0px;
-		padding: 10px 30px;
-		background-color: #008165;
-		color: white;
-		border: none;
-		border-radius: 5px;
-		cursor: pointer;
-	}
-	.logo-img{
-		cursor: pointer;
-	}
-	
-.footer_center {
-    display: flex;
-    flex-direction: column; /* 세로 정렬 */
-    align-items: center; /* 중앙 정렬 */
-    gap: 0; /* 상단과 하단 간격 */
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5);
 }
+
+.modal-content {
+	background-color: #fff;
+	margin: 5% auto;
+	padding: 30px;
+	border-radius: 5px;
+	width: 80%;
+	max-width: 1000px;
+	height: 70%;
+	max-height: 600px;
+	overflow-y: hidden;
+}
+
+.modal-in-title {
+	color: #333;
+	border-bottom: 2px solid #008165;
+	padding-bottom: 5px;
+	font-size: 24px;
+}
+
+.modal-header {
+	display: flex;
+	justify-content: space-between; /* 좌우 정렬 */
+	align-items: center;
+}
+
+.close {
+	color: #aaa;
+	font-size: 28px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+}
+
+.agree-list {
+	list-style-type: none;
+}
+
+.disabled {
+	margin: 20px 0px 0px;
+	padding: 10px 30px;
+	background-color: #88B0AB;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.enabled {
+	margin: 20px 0px 0px;
+	padding: 10px 30px;
+	background-color: #008165;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.logo-img {
+	cursor: pointer;
+}
+
+.footer_center {
+	display: flex;
+	flex-direction: column; /* 세로 정렬 */
+	align-items: center; /* 중앙 정렬 */
+	gap: 0; /* 상단과 하단 간격 */
+}
+
 .footer_center_top ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 15px; /* 리스트 아이템 간격 */
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	gap: 15px; /* 리스트 아이템 간격 */
 }
 
 .footer_center_top li {
-    font-weight: bold;
-    font-size: 20px;
-    color: inherit; /* 부모 요소의 텍스트 색상과 동일하게 설정 */
+	font-weight: bold;
+	font-size: 20px;
+	color: inherit; /* 부모 요소의 텍스트 색상과 동일하게 설정 */
 }
 
 .footer_center_bottom {
-    text-align: center;
-    font-size: 18px; /* 글씨 크기 조정 */
-    color: #555; /* 글씨 색상 조정 */
-    text-align: left;
+	text-align: center;
+	font-size: 18px; /* 글씨 크기 조정 */
+	color: #555; /* 글씨 색상 조정 */
+	text-align: left;
 }
-.footer_center_bottom p{
-	margin: 10px 0 ;
+
+.footer_center_bottom p {
+	margin: 10px 0;
 }
 </style>
 
