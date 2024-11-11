@@ -8,19 +8,98 @@
 <title>MyTravelList - QNA</title>
 <link rel="stylesheet" href="resources/css/summernote-lite.css">
 <style type="text/css">
-	.main-container{
+	* {
+    	box-sizing: border-box;
+    	margin: 0;
+    	padding: 0;
+	}
+	.main-container {
 		margin: 0;
 		padding-top: 100px;
 		width: 100%;
 		height: 90vh;
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
 	}
-	.qna-ask-table{
+
+	.qna-ask-container {
 		width: 60%;
-		margin: 50px auto;
-		padding: 20px;
 	}
-	.note-btn-group{width: auto;}
-	.note-toolbar{width: auto;}
+
+	.qna-ask-table {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 20px 0;
+	}
+
+	.qna-ask-table th, .qna-ask-table td {
+		border: 1px solid #ddd;
+		padding: 10px;
+	}
+
+	.qna-ask-table th {
+		text-align: left;
+		font-weight: bold;
+	}
+
+	.qna-ask-table input[type="text"], 
+	.qna-ask-table input[type="file"], 
+	.qna-ask-table textarea {
+		width: 100%;
+		padding: 8px;
+		box-sizing: border-box;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+	}
+
+	.qna-ask-table textarea {
+		resize: none;
+		height: 100px;
+	}
+
+	.qna-ask-table tfoot td {
+		text-align: center;
+		padding: 15px;
+	}
+
+	.qna-ask-table .cancel_btn {
+		background: none;
+		border: 1px solid #ddd;
+		padding: 5px 10px;
+		cursor: pointer;
+	}
+	.qna-ask-table input[type="button"],
+	.qna-ask-table .cancel_btn {
+    	padding: 10px 20px;
+    	font-size: 16px;
+    	border-radius: 4px;
+    	border: none;
+    	cursor: pointer;
+    	transition: background-color 0.3s, color 0.3s;
+	}
+
+	.qna-ask-table input[type="button"] {
+    	background-color: #008165;
+    	color: white;
+	}
+
+	.qna-ask-table input[type="button"]:hover {
+    	background-color: #02B08A;
+	}	
+
+	.qna-ask-table .cancel_btn {
+    	background-color: #F8F9FA;
+    	color: #333;
+    	border: 1px solid #ddd;
+	}
+
+	.qna-ask-table .cancel_btn:hover {
+    	background-color: #E9ECEF;
+    	color: #000;
+	}
+	/* .note-btn-group{width: auto;}
+	.note-toolbar{width: auto;} */
 </style>
 </head>
 <body>
@@ -64,6 +143,7 @@
 			</form>	
 		</div>
 	</div>
+	<jsp:include page="../MAIN/footer.jsp" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
 	<script src="resources/js/summernote-lite.js" ></script>
 	<script src="resources/js/lang/summernote-ko-KR.js" ></script>

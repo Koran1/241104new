@@ -40,6 +40,7 @@
         padding: 10px;
         background-color: #f1f1f1;
         border-bottom: 1px solid #ddd;
+        font-weight: bold;
     }
     .noticeContent {
         padding: 20px;

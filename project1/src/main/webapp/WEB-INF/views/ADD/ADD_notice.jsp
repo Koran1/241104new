@@ -44,7 +44,6 @@
 	.noticeReg{
 		width: 30%;
 		text-align: center;
-		border-left: 1px solid #ddd;
 	}
 	.subject-detail {
 		text-decoration: none;
@@ -99,6 +98,8 @@
 	.notice-table th, td{
 		padding: 10px;
 		margin: 10px;
+		text-align: center;
+		font-weight: bold;
 	}
 	ul.tab-menu {
         list-style-type: none;
@@ -106,7 +107,7 @@
         padding: 0;
         border-bottom: 2px solid #008165;
         width: 70%;
-        margin: 0 auto;
+        margin: 0 auto;	
         display: flex;
     }
     ul.tab-menu::after {
@@ -194,7 +195,7 @@
         
        <div class="search-container">
 			<form action="/add_notice_search" onsubmit="return validateSearch()">
-				<input type="text" name="notice_keyword" value="${notice_keyword}">
+				<input type="text" name="notice_keyword" placeholder="제목 또는 내용 검색" value="${notice_keyword}">
 				<button type="submit" id="search_btn">검색</button>
 			</form>
 		</div>

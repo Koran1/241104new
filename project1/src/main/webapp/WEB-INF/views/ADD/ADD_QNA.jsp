@@ -59,7 +59,6 @@
 	.qnaReg{
 		width: 30%;
 		text-align: center;
-		border-left: 1px solid #ddd;
 	}
 	.subject-detail{
 		text-decoration: none;
@@ -79,6 +78,8 @@
 	.qna-table th, td{
 		padding: 10px;
 		margin: 10px;
+		text-align: center;
+		font-weight: bold;
 	}
 	.pagination {
 		margin: 0 auto ; 
