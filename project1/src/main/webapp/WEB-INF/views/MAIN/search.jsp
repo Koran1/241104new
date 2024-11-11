@@ -285,17 +285,14 @@
 				}
 			})
 		})
-
-		function test1(){
-			console.log("test1");
-		}
+		
 		function likeUserFavs(travelIdx) {
 			$.ajax({	
 				url : "/likeUserFavs",
 				method : "get",
 				data : {userId :"${userId}", travelIdx : travelIdx},
 				success : function(data) {
-					alert("관심지 추가 완료!")
+					
 				},error : function() {
 					alert("서버 오류 발생");
 				}

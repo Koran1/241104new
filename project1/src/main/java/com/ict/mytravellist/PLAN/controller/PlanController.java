@@ -125,7 +125,6 @@ public class PlanController {
 		try {
 			String userId = (String) session.getAttribute("userId");
 			tplvo.setUserId(userId);
-			
 			int result = travelService.insertTrvlPlan(tplvo);
 			if(result > 0) {
 				mv.setViewName("redirect:/mytrvlplan_list");
@@ -241,10 +240,14 @@ public class PlanController {
 	
 	@GetMapping("/mytrvlplan_update")
 	public ModelAndView goPlanUpdate(
-			@ModelAttribute("trvlPlanIdx") String trvlPlanIdx) {
+			@ModelAttribute("trvlPlanIdx") String trvlPlanIdx, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		try {
+			String userId = (String) session.getAttribute("userId");
+			
 			TrvlPlanVO tplvo = travelService.selectOneTrvlPlan(trvlPlanIdx);
+			List<TravelDBVO> list_trvlfav = travelService.selectListTrvlFav(userId);
+			mv.addObject("list_trvlfav", list_trvlfav);
 			mv.addObject("tplvo", tplvo);
 			mv.setViewName("PLAN/mytrvlplan_update");
 		} catch (Exception e) {

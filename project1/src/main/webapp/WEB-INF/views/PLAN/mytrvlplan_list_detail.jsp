@@ -11,7 +11,7 @@
 <link href="resources/css/admin.css" rel="stylesheet"/>
 <style type="text/css">
 	
-	#main-content {
+#main-content {
 	display: flex;
 	flex-direction: row;
 	width: 100%;
@@ -35,7 +35,15 @@
 	justify-content: space-around;
 	align-items: center;
 }
-
+#top-bar {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+    width: 100%;
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
 .travelplan img {
 	height: 50px;
 	width: 50px;
@@ -45,7 +53,17 @@
 	width: 100%;
 	border: 1px solid black;
 }
-
+#bottom-bar {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	margin-top: 10px;
+}
+#bottom-bar button{
+	margin-left: 10px;
+	padding: 10px;
+}
 #map {
 	width: 100%;
 	height: 100%;
@@ -72,8 +90,8 @@
 		<div id="main_container">
 			
 			<div id="top-bar">
-				<h2>${tplvo.trvlPlanDate} ${list[0].touritEtc01}</h2>
-				<h1>${tplvo.trvlPlanSubject}</h1>
+				<p>여행일자 : ${tplvo.trvlPlanDate} ${list[0].touritEtc01}</p>
+				<p>제목 : ${tplvo.trvlPlanSubject}</p>
 			</div>
 			
 			<!-- Main Content -->

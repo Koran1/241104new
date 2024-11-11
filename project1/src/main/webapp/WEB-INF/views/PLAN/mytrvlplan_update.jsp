@@ -108,6 +108,23 @@
 	justify-content: space-around;
 	align-items: center;
 }
+#top-bar {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+}
+#top-bar input, #top-bar select{
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+#top-bar select{
+	height: auto;
+}
+#top-bar button {
+	margin-left: 40px;
+	margin-bottom: 20px;
+	width: 80px;
+}
 .delete-btn {
 	width: 20px;
 	height: 20px;
@@ -268,7 +285,7 @@
         	markers.push({ marker, lat, lng });
             infowindows.push({ infowindow, lat, lng });
         }
-        
+
         const imageItems = document.querySelectorAll('.image-item');
         imageItems.forEach(item => {
             item.style.display = (item.getAttribute('data-category') === document.getElementById('region-filter').getAttribute("data-selected") ) ? 'block' : 'none';
@@ -313,6 +330,7 @@
             
             let iwcontent = '<p>'+name+'</p>'
             addMarker(lat, lng, iwcontent);
+	        map.setCenter(new kakao.maps.LatLng(markers[0].lat, markers[0].lng));
         })
         
         document.getElementById('add-item').addEventListener('click', function () {
@@ -412,7 +430,6 @@
                     }
                     return true;
                 });
-				console.log(markers);
                 infowindows = infowindows.filter(({ infowindow, lat: iwLat, lng: iwLng }) => {
                     if (iwLat === lat && iwLng === lng) {
                         infowindow.close(); 
@@ -441,7 +458,6 @@
         dragDrop();
      
 		function getRoadLine() {
-			
 			try {
 				if (addedItems.length < 2) {
 	                   throw new Error('최소 2개 이상 선택해주세요!');
@@ -459,7 +475,6 @@
 				    idx_container.push(data_idx);
 				})
 				
-				
 				$.ajax({	
 					url : "/kakaoRoadLine",
 					method : "get",
@@ -468,7 +483,6 @@
 					success : function(data) {
 						
 				        const data_container = document.querySelectorAll('.travelplan');
-				        
 				        const container = document.querySelector('.travelplans');
 				     	// Clear previous plans
 				        container.innerHTML = ''; 
@@ -498,6 +512,7 @@
 				        
 			            const input = document.createElement('input');
 						input.setAttribute("type", "hidden");
+						input.setAttribute("class", "trvlPlanHiddenInput");
 						input.setAttribute("name", "trvlPlantrrsrtNm"+1);
 						input.setAttribute("value", data[0].routes[0].summary.origin.name);
 						container.appendChild(input);
@@ -526,6 +541,7 @@
 									
 									const input = document.createElement('input');
 									input.setAttribute("type", "hidden");
+									input.setAttribute("class", "trvlPlanHiddenInput");
 									input.setAttribute("name", "trvlPlantrrsrtNm"+j);
 									input.setAttribute("value", plan.routes[0].summary.destination.name);
 									container.appendChild(input);
@@ -536,6 +552,7 @@
 
 						const input_reg = document.createElement('input');
 						input_reg.setAttribute("type", "hidden");
+						input_reg.setAttribute("class", "trvlPlanHiddenInput");
 						input_reg.setAttribute("name", "trvlPlanEtc01");
 						input_reg.setAttribute("value", region);
 						container.appendChild(input_reg);
@@ -630,13 +647,16 @@
 					data : {positions : positions, idx_container : idx_container},
 					dataType : "json",
 					success : function(data) {
-						console.log(data);
+						document.querySelectorAll('.trvlPlanHiddenInput').forEach(items =>{
+							items.remove();
+						})
 						const region = document.getElementById('region-filter').innerText;
 				        const dist_times = document.querySelectorAll(".dist_time");
 				        const container = document.querySelector('.travelplans');
 				        
 			            const input = document.createElement('input');
 						input.setAttribute("type", "hidden");
+						input.setAttribute("class", "trvlPlanHiddenInput");
 						input.setAttribute("name", "trvlPlantrrsrtNm"+1);
 						input.setAttribute("value", data[0].routes[0].summary.origin.name);
 						container.appendChild(input);
@@ -650,6 +670,7 @@
 							
 							const input = document.createElement('input');
 							input.setAttribute("type", "hidden");
+							input.setAttribute("class", "trvlPlanHiddenInput");
 							input.setAttribute("name", "trvlPlantrrsrtNm"+j);
 							input.setAttribute("value", plan.routes[0].summary.destination.name);
 							container.appendChild(input);
@@ -660,6 +681,7 @@
 
 						const input_reg = document.createElement('input');
 						input_reg.setAttribute("type", "hidden");
+						input_reg.setAttribute("class", "trvlPlanHiddenInput");
 						input_reg.setAttribute("name", "trvlPlanEtc01");
 						input_reg.setAttribute("value", region);
 						container.appendChild(input_reg);
