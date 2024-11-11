@@ -57,4 +57,5 @@ public interface MemService {
     public int userJoin2(UserVO uservo) throws Exception;
     
     public UserVO selectKakaoUserOne(String k_userId) throws Exception;
+    
 }

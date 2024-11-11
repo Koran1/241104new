@@ -23,8 +23,8 @@
 <body>
 	<div id="header">
 		<img id="logo" alt="logo" src="../resources/images/logo.png" onclick='location.href ="/admin_index"'>
-		<h2>admin index</h2>
-	 </div>
+	 	<h2>ADMIN</h2>
+	</div>
 	 
 	<div id="container">
 		<div id="button_container">

@@ -109,6 +109,7 @@
 							</c:when>
 							<c:otherwise>
 								<td colspan="3" class="qnaFile">
+									<img alt="img" src="/resources/upload/${qnavo.qnaFile}">
 									<a href="/add_qna_ask_filedown?qnaFile=${qnavo.qnaFile }" class="qnaFile">${qnavo.qnaFile }</a>
 								</td>								
 							</c:otherwise>

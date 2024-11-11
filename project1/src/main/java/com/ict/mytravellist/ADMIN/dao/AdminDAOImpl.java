@@ -180,4 +180,19 @@ public class AdminDAOImpl implements AdminDAO {
 		return sqlSessionTemplate.selectOne("admin.get_admininfo", adminID);
 	}
 
+	@Override
+	public int getUserConnReg() throws Exception {
+		return sqlSessionTemplate.selectOne("admin.get_userconnreg");
+	}
+
+	@Override
+	public int getNewUserReg() throws Exception {
+		return sqlSessionTemplate.selectOne("admin.get_newuserreg");
+	}
+
+	@Override
+	public int getNewTourTalk() throws Exception {
+		return sqlSessionTemplate.selectOne("admin.get_newtourtalk");
+	}
+
 }

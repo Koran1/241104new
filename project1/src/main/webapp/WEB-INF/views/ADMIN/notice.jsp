@@ -134,7 +134,7 @@ table tfoot ol.paging li a:hover {
 <body>
 	<div id="header">
 		<img id="logo" alt="logo" src="../resources/images/logo.png" onclick='location.href ="/admin_index"'>
-		<h2>admin index</h2>
+		<h2>ADMIN</h2>
 	 </div>
 	 
 	<div id="container">
