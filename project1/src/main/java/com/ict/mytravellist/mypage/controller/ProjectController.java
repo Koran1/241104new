@@ -25,17 +25,10 @@ public class ProjectController {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
-	@GetMapping("/go_main")
-	public ModelAndView goMain(HttpSession session) {
-		ModelAndView mav = new ModelAndView("index");
-		session.removeAttribute("identityChk");
-		return mav ;
-	}
 	
 	@RequestMapping("/go_my_page")
 	public ModelAndView goMyPage(@ModelAttribute("isOk") String isOk) {
 		ModelAndView mav = new ModelAndView("project_view/MEM_myPage");
-		
 		return mav ;
 	}
 	
@@ -43,12 +36,13 @@ public class ProjectController {
 	public ModelAndView goIdentify(@ModelAttribute("cmd") String cmd, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		try {
-			if (session.getAttribute("identityChk") == "ok") {
-				mav.setViewName("redirect:/" + cmd);
-			}else {
+			String identityChk = (String) session.getAttribute("identityChk");
+			if (identityChk == null) {
 				String userId = (String) session.getAttribute("userId");
 				mav.addObject("userId", userId);
 				mav.setViewName("project_view/MEM_myPage_identityCheck");
+			}else {
+				mav.setViewName("redirect:/" + cmd);
 			}
 			
 		} catch (Exception e) {
@@ -74,6 +68,7 @@ public class ProjectController {
 			}else {
 				mav.setViewName("project_view/MEM_myPage_identityCheck");
 				mav.addObject("pwChk", false);
+				mav.addObject("cmd", cmd);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

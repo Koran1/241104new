@@ -49,6 +49,7 @@ public class MainController {
 		ModelAndView mv = new ModelAndView("MAIN/main");
 		session.removeAttribute("list_trvlfav");
 		session.removeAttribute("list_detail");
+		session.removeAttribute("identityChk");
 		List<WeatherVO> list = mainService.getWeatherList();
 		mv.addObject("list", list);
 		return mv;

@@ -21,28 +21,39 @@
 	#container input {width: 70%;  padding: 30px; margin-left: 20px;}
 	#container button {width: 130px; height: 60px; margin-right: 100px; }
 	#container #buttons{display: flex; justify-content: center; margin-top: 20px; }
+	#prId{text-decoration: none; color: black}
+	.funcImg{width: 100px; height: 100px;}
 </style>
 </head>
 <body>
 <jsp:include page="MEM_header.jsp" />
 	<div id="container">
 		<section id="flex_left">
-			<p id="name"><a href="/go_my_page">${userId}님</a></p>
+			<p id="name"><a href="/go_my_page" id="prId">
+				<c:choose>
+					<c:when test="${userName.length >= 10 }">
+						<span>${userId.substring(0,10)}...님</span>
+					</c:when>
+					<c:otherwise>
+						<span>${userId }님</span>
+					</c:otherwise>
+				</c:choose>
+			</a></p>
 			<div id="article_container">
 			<article>
-				<img alt="" src="resources/images/my_comment.png" style="float: left;">
+				<img  class="funcImg" alt="" src="resources/images/my_comment.png" style="float: left;">
 				내 댓글 관리
 			</article>
 			<article>
-				<img alt="" src="resources/images/update.png" style="float: left;">
+				<img class="funcImg" alt="" src="resources/images/update.png" style="float: left;">
 				회원정보 수정
 			</article>
 			<article>
-				<img alt="" src="resources/images/change_pw.png" style="float: left;">
+				<img class="funcImg" alt="" src="resources/images/change_pw.png" style="float: left;">
 				비밀번호 변경
 			</article>
 			<article>
-				<img alt="" src="resources/images/member_out.png" style="float: left;">
+				<img class="funcImg" alt="" src="resources/images/member_out.png" style="float: left;">
 				회원 탈퇴
 			</article>
 			</div>

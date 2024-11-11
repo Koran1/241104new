@@ -21,14 +21,14 @@
 	#container a {text-decoration: none; color: black}
 	#container #update_form{width: 1000px; min-height: 1000px; margin: 0 auto;}
 	#container #modal {
-      display: none; /* 처음에 보이지 않음 */
+      display: none; 
       position: fixed;
       z-index: 1;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+      background-color: rgba(0, 0, 0, 0.5); 
     }
 
 	#container #modal-content{
@@ -68,6 +68,8 @@
 	 #container input[name="userName"], input[name="userId"] {background-color: lightgray;}
 	 #container #u_emailCode{width: 25%; margin-left: 20px; margin-bottom: 20px;}
 	 #container #judgeMsg{margin-left:  100px; margin-top: 0px;}
+	 #prId{text-decoration: none; font-size: 50px;}
+	.funcImg{width: 100px; height: 100px;}
 </style>
 </head>
 <script type="text/javascript">
@@ -76,22 +78,31 @@
 <jsp:include page="MEM_header.jsp" />
 <div id="container">
 		<section id="flex_left">
-			<p id="name"><a href="/go_my_page">${userId}님</a></p>
+			<p id="name"><a href="/go_my_page">
+			<c:choose>
+				<c:when test="${userName.length >= 10 }">
+					<span>${userId.substring(0,10)}...님</span>
+				</c:when>
+				<c:otherwise>
+					<span>${userId }님</span>
+				</c:otherwise>
+			</c:choose>	
+			</a></p>
 			<div id="article_container">
 			<article><a href="/go_my_comment">
-				<img alt="" src="resources/images/my_comment.png" style="float: left;">
+				<img class="funcImg" alt="" src="resources/images/my_comment.png" style="float: left;">
 				내 댓글 관리
 			</a></article>
 			<article style="background-color: lightgray">
-				<img alt="" src="resources/images/update.png" style="float: left;">
+				<img class="funcImg" alt="" src="resources/images/update.png" style="float: left;">
 				회원정보 수정
 			</article>
 			<article><a href="go_pw_change">
-				<img alt="" src="resources/images/change_pw.png" style="float: left;">
+				<img class="funcImg" alt="" src="resources/images/change_pw.png" style="float: left;">
 				비밀번호 변경
 			</a></article>
 			<article><a href="/go_user_out">
-				<img alt="" src="resources/images/member_out.png" style="float: left;">
+				<img class="funcImg" alt="" src="resources/images/member_out.png" style="float: left;">
 				회원 탈퇴
 			</a></article>
 			</div>
