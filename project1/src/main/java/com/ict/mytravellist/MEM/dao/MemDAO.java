@@ -17,6 +17,18 @@ public interface MemDAO {
 	// 전화번호 중복X-회원가입
 	public int userJoin(UserVO uservo);
 	
+	// 네이버 전화번호 중복O-사용자 정보 업데이트
+	public int userNaverUpdate(UserVO uservo);
+		
+	// 네이버 전화번호 중복X-회원가입
+	public int userNaverJoin(UserVO uservo);
+	
+	// 카카오 전화번호 중복O-사용자 정보 업데이트
+	public int userKakaoUpdate(UserVO uservo);
+	
+	// 카카오 전화번호 중복X-회원가입
+	public int userKakaoJoin(UserVO uservo);
+	
 	// 아이디 중복 체크
 	public String userIdChk(String userId);
 	

@@ -6,12 +6,19 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입 - MyTravelList</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link type="text/css" href="/resources/css/style.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style type="text/css">
 	body {
 		margin: 0;
 		padding: 0;
+	}
+	.main-container{
+		margin: 0;
+		padding-top: 100px;
+		width: 100%;
+		height: 90vh;
 	}
 	.join-container {
 		width: 50%;
@@ -135,19 +142,13 @@
 </style>
 </head>
 <body>
-	<div class="container">
-		<div class="header-wrap">
-			<img alt="" src="<c:url value='/resources/images/logo.png' />"
-				class="logo-img" style="width: 250px; height: 50px;"
-				onclick="location.href='/'" />
-			<p class="agreement-title" style="text-align: center;">회원가입</p>
-			<hr color="008615">
-		</div>
+<jsp:include page="../MAIN/header.jsp" />
+	<div class="main-container">
 		<div class="join-container">
 			<c:if test="${not empty message}">
                 <p style="color: red; text-align: center;">${message}</p>
             </c:if>
-			<form action="/mem_joinPage_OK" method="post" name="joinForm">
+			<form action="/mem_joinPage_naver_OK" method="post" name="joinForm">
 				<table id="join-table" class="join-table">
 					<tbody>
 						<!-- 이름 -->
@@ -155,7 +156,6 @@
 							<td><label for="userName"><span class="span-subject">*</span> 이름</label></td>
 							<td>
 								<input type="text" id="userName" name="userName" value="${uservo.userName }" placeholder="이름 입력" readonly required>
-								<input type="hidden" name="userName" id="userName" value="${uservo.userName }">
 							</td>
 						</tr>
 						
@@ -164,7 +164,7 @@
 							<td><label for="userId"><span class="span-subject">*</span> 아이디</label></td>
 							<td>
 								<input type="text" class="ifPhoneSame" id="userId" name="userId" placeholder="아이디 입력(6~10자, 영문자, 숫자 포함)" required>
-								<input type="hidden" name="n_userId" id="n_userId" value="${uservo.n_userId }">
+								<input type="hidden" id="n_userId" name="n_userId" value="${uservo.n_userId }">
 								<div class="id_chkMsg" id="id_chkMsg"></div>
 							</td>
 						</tr>
@@ -191,8 +191,7 @@
 						<tr>
 							<td><label for="userPhone"><span class="span-subject">*</span> 전화번호</label></td>
 							<td>
-								<input type="text" id="userPhoneDisplay" value="${uservo.userPhone }" placeholder="전화번호 입력" required readonly>
-								<input type="hidden" id="userPhone" name="userPhone" value="${uservo.userPhone }">
+								<input type="text" id="userPhoneDisplay" name="userPhone" value="${uservo.userPhone }" placeholder="전화번호 입력" required readonly>
 								<input type="button" id="phoneChkBtn" onclick="phone_chk()" value="중복 검사">
 								<div class="phone_chkMsg" id="phone_chkMsg"></div>
 								<div id="emailSelection"></div>
@@ -204,8 +203,7 @@
 							<td><label for="userMail"><span class="span-subject">*</span> 이메일</label></td>
 							<td>
 								<input type="hidden" name="userChk" value="0" id="userChk">
-								<input type="email" id="userMail" name="userMail" value="${uservo.userMail }" placeholder="이메일 입력" readonly required>
-								<input type="hidden" id="userMail" name="userMail" value="${uservo.userMail }">
+								<input type="email" id="userMail" value="${uservo.userMail }" placeholder="이메일 입력" readonly required>
 								<input type="hidden" id="selectedEmail" name="userMail">
 							</td>
 						</tr>
@@ -420,13 +418,11 @@
 	            pwMsg.html(""); // value가 모두 없을 때 메세지 없음
 	        }
 	    }
-		
-	    /*
+
 	    // 비밀번호 확인 입력하는 곳에 포커스 시 값 초기화
 	    $("#userPw2").on("focus", function() {
 	        $(this).val(""); // 비밀번호 확인 입력하는 곳 초기화
 	    });
-	    */
 
 	    // 비밀번호 확인 입력하는 곳에서 블러 이벤트 시 일치 여부 확인
 	    $("#userPw, #userPw2").on("blur", function() {
@@ -436,75 +432,143 @@
 	
 	<!-- 전화번호   -->
 	<script type="text/javascript">
-	$(document).ready(function () {
-	    // 전화번호 중복 검사 함수
-	    window.phone_chk = function () {
-	        const userPhone = document.getElementById("userPhone").value;
+    $(document).ready(function () {
+        let isPhoneDuplicate = false; // 전화번호 중복 상태
 
-	        if (!userPhone) {
-	            alert("전화번호를 먼저 입력해 주세요.");
-	            return;
-	        }
+        // 전화번호 중복 체크 버튼 클릭 이벤트
+        $("#phoneChkBtn").on("click", function () {
+            const userPhone = $("#userPhoneDisplay").val(); // 클릭 시점에 값 가져오기
 
-	        $.ajax({
-	            url: "mem_phone_chk2", // 서버 요청 URL
-	            data: { userPhone: userPhone }, // 요청 데이터
-	            method: "post",
-	            dataType: "json",
-	            success: function (data) {
-	                const emailSelectionDiv = $("#emailSelection"); // 이메일 선택 영역
-	                const phoneChkMsg = $("#phone_chkMsg");
+            $.ajax({
+                url: "mem_phone_chk2", // 서버 요청 URL
+                data: { userPhone: userPhone }, // 요청 데이터
+                method: "post",
+                dataType: "json",
+                success: function (data) {
+                    const emailSelectionDiv = $("#emailSelection");
+                    const phoneChkMsg = $("#phone_chkMsg");
 
-	                if (data.status === "duplicate") {
-	                	document.querySelector("#userId").value = data.result2[0].userId;
-	                	document.querySelector("#userPw").value = data.result2[0].userPw;
-	                	document.querySelector("#userPw2").value = data.result2[0].userPw;
-	                	document.querySelector("#userId").style.backgroundColor = "lightgray";
-	                	document.querySelector("#userPw").style.backgroundColor = "lightgray";
-	                	document.querySelector("#userPw2").style.backgroundColor = "lightgray";
-	                	
-	                    // 중복된 전화번호 처리
-	                    let emailHTML = '<p>이미 사용 중인 전화번호입니다. 아래 이메일 중 선택하세요:</p>';
-	                    emailHTML += '<input type="radio" name="emailOption" value="' + data.email + '" id="existingEmail" checked>';
-	                    emailHTML += '<label for="existingEmail">' + data.email + '</label>';
-	                    emailHTML += '<button type="button" id="selectEmailBtn">선택</button>';
-	                    emailSelectionDiv.html(emailHTML);
-	                    document.querySelectorAll(".ifPhoneSame").forEach(item => {
-	                        item.setAttribute("readonly", true);
-	                    });
+                    if (data.status === "duplicate") {
+                        isPhoneDuplicate = true;
 
-	                    // 선택 버튼 이벤트 추가
-	                    $(document).off("click", "#selectEmailBtn");
-	                    $(document).on("click", "#selectEmailBtn", function () {
-	                        const selectedEmail = $("input[name='emailOption']:checked").val();
-	                        $("#selectedEmail").val(selectedEmail);
-	                        $("#userMail").val(selectedEmail);
-	                        alert('선택된 이메일: ' + selectedEmail);
-	                    });
+                        if (data.result2 && data.result2.length > 0) {
+                            document.querySelector("#userId").value = data.result2[0].userId;
+                            document.querySelector("#userPw").value = data.result2[0].userPw;
+                            document.querySelector("#userPw2").value = data.result2[0].userPw;
 
-	                    // 이메일 입력 필드 비활성화
-	                    $("#userMail").prop("disabled", true);
-	                    $("#authNumber").prop("disabled", true);
-	                    phoneChkMsg.html("이미 등록된 전화번호입니다.").css("color", "red");
-	                } else if (data.status === "available") {
-	                    // 사용 가능한 전화번호 처리
-	                    emailSelectionDiv.html(""); // 이메일 선택 영역 초기화
-	                    phoneChkMsg.html("사용 가능한 전화번호입니다.").css("color", "green");
+                            document.querySelector("#userId").style.backgroundColor = "lightgray";
+                            document.querySelector("#userPw").style.backgroundColor = "lightgray";
+                            document.querySelector("#userPw2").style.backgroundColor = "lightgray";
 
-	                    // 이메일 필드를 수정하지 않음 (uservo.userMail 값 유지)
-	                    $("#userMail").prop("disabled", false); // 이메일 입력 필드 활성화
-	                    $("#authNumber").prop("disabled", false);
-	                } else {
-	                    alert("오류가 발생했습니다. 다시 시도해 주세요.");
-	                }
-	            },
-	            error: function () {
-	                alert("서버와 통신 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	            }
-	        });
-	    };
-	});
-	</script>
+                            // 읽기 전용 처리
+                            document.querySelectorAll(".ifPhoneSame").forEach(item => {
+                                item.setAttribute("readonly", true);
+                            });
+
+                            // 중복된 전화번호 처리
+                            let emailHTML =
+    						'<p>이미 사용 중인 전화번호입니다. 아래 이메일 중 선택하세요:</p>' +
+    						'<p><input type="radio" name="emailOption" value="' + data.result2[0].userMail + '" checked>' + data.result2[0].userMail + '</p>' +
+    						'<p><input type="radio" name="emailOption" value=" ${uservo.userMail} " checked> ${uservo.userMail} </p>' +
+    						'<button type="button" id="selectEmailBtn">선택</button>'
+                            emailSelectionDiv.html(emailHTML);
+
+                            // 선택 버튼 이벤트 추가
+                            $("#emailSelection").on("click", "#selectEmailBtn", function () {
+                                const selectedEmail = $("input[name='emailOption']:checked").val();
+                                $("#selectedEmail").val(selectedEmail);
+                                $("#userMail").val(selectedEmail);
+                                alert('선택된 이메일: ' + selectedEmail);
+                                $("#userChk").val("1");
+                            });
+
+                            // 이메일 입력 필드 비활성화
+                            $("#userMail").prop("disabled", true);
+                            $("#authNumber").prop("disabled", true);
+                            phoneChkMsg.html("이미 등록된 전화번호입니다.").css("color", "red");
+                        } else {
+                            alert("등록된 데이터가 없습니다.");
+                        }
+                    } else if (data.status === "available") {
+                        isPhoneDuplicate = false;
+                        emailSelectionDiv.html(""); // 이메일 선택 영역 초기화
+                        phoneChkMsg.html("사용 가능한 전화번호입니다.").css("color", "green");
+
+                        // 이메일 필드를 활성화
+                        $("#userMail").prop("disabled", false);
+                        $("#authNumber").prop("disabled", false);
+                        
+                        $("#selectedEmail").val(document.getElementById("userMail").value);
+
+                        // 읽기 전용 상태 해제
+                        document.querySelectorAll(".ifPhoneSame").forEach(item => {
+                            item.removeAttribute("readonly");
+                        });
+
+                        registerEvents(); // 이벤트 다시 등록
+                    } else {
+                        alert("오류가 발생했습니다. 다시 시도해 주세요.");
+                    }
+                },
+                error: function () {
+                    alert("서버와 통신 중 오류가 발생했습니다. 다시 시도해 주세요.");
+                }
+            });
+        });
+
+        // 이벤트 등록 함수
+        function registerEvents() {
+            $("#userId").on("keyup blur", function () {
+                if (isPhoneDuplicate) return;
+
+                const userId = $(this).val();
+                const idchkMsg = $("#id_chkMsg");
+
+                const isValidFormat = /^[a-zA-Z0-9]+$/.test(userId);
+                if (userId.length < 6 || userId.length > 10) {
+                    idchkMsg.html("아이디는 6자 이상 10자 이하로 입력해 주세요.").css("color", "red");
+                } else if (!isValidFormat) {
+                    idchkMsg.html("아이디는 영문자와 숫자로만 구성되어야 합니다.").css("color", "red");
+                } else {
+                    idchkMsg.html(""); // 조건 충족 시 초기화
+                }
+            });
+
+            $("#userPw").on("input", function () {
+                if (isPhoneDuplicate) return;
+
+                const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,15}$/;
+                const pw = $("#userPw").val();
+                const pwMsg = $("#pw_regex");
+
+                if (!pwRegex.test(pw)) {
+                    pwMsg.html("비밀번호는 8~15자, 영문자, 숫자, 특수문자를 포함해야 합니다.").css("color", "red");
+                } else {
+                    pwMsg.html("");
+                }
+            });
+
+            $("#userPw, #userPw2").on("blur", function () {
+                const pw1 = $("#userPw").val();
+                const pw2 = $("#userPw2").val();
+                const pwMsg = $("#pw_equal");
+
+                if (pw1 && pw2) {
+                    if (pw1 === pw2) {
+                        pwMsg.html("비밀번호가 일치합니다.").css("color", "green");
+                    } else {
+                        pwMsg.html("비밀번호가 일치하지 않습니다.").css("color", "red");
+                    }
+                } else {
+                    pwMsg.html("");
+                }
+            });
+        }
+
+        registerEvents(); // 초기 이벤트 등록
+    });
+</script>
+
 
 	<!-- 이메일 스크립트 -->
 	<script type="text/javascript">
@@ -675,5 +739,6 @@
 	    }
 		</script>
 	</div>
+	<jsp:include page="../MAIN/footer.jsp" />
 </body>
 </html>

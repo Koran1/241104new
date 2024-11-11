@@ -146,6 +146,8 @@
 }
 .disable{color: lightgray;}
 .now{color: black;}
+
+
 </style>
 </head>
 <body>
@@ -195,7 +197,15 @@
 										<img alt="관광지 이미지" src="${k.placeImg01}"></a>
 									</div>
 									<div class="travel_info">
-										<p class="travel_location_title">${k.trrsrtNm}</p>
+										<p class="travel_location_title">${k.trrsrtNm}
+										<input type="checkbox" class="userFavs" value="${k.travelIdx}"
+											<c:forEach var="favs" items="${fav_list}">
+												<c:if test="${k.travelIdx == favs.travelIdx}">
+													checked = "checked"
+												</c:if>
+											</c:forEach>
+										>
+										</p>
 										<c:choose>
 											<c:when test="${empty k.rdnmadr}">
 												<p class="travel_location_addr">${k.lnmadr}</p>
@@ -265,6 +275,52 @@
 		    // URL 파라미터로 안전하게 전달
 		    location.href = "/search_go?keyword=" + encodeURIComponent(keyword) + "&region=" + encodeURIComponent(region);
 		}
+		
+		document.querySelectorAll(".userFavs").forEach(items => {
+				items.addEventListener("click", (e)=>{
+				if(e.target.checked == true){
+					if(${empty userId}){
+						alert("로그인 후 사용 가능합니다!");
+						location.href="/mem_login";
+					}else{
+						likeUserFavs(items.value);
+					}
+				}else{
+					unlikeUserFavs(items.value);
+				}
+			})
+		})
+
+		function test1(){
+			console.log("test1");
+		}
+		function likeUserFavs(travelIdx) {
+			$.ajax({	
+				url : "/likeUserFavs",
+				method : "get",
+				data : {userId :"${userId}", travelIdx : travelIdx},
+				success : function(data) {
+					alert("관심지 추가 완료!")
+				},error : function() {
+					alert("서버 오류 발생");
+				}
+			});
+		}
+		
+		function unlikeUserFavs(travelIdx) {
+			$.ajax({	
+				url : "/unlikeUserFavs",
+				method : "get",
+				data : {userId :"${userId}", travelIdx : travelIdx},
+				success : function(data) {
+					alert("관심지 삭제 완료!")
+				},error : function() {
+					alert("서버 오류 발생");
+				}
+			});
+			
+		}
+		
 	</script>
 	
 </body>

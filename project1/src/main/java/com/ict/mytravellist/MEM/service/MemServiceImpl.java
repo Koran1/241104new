@@ -91,4 +91,24 @@ public class MemServiceImpl implements MemService {
 	public List<UserVO> userPhoneChk2(String userPhone) {
 		return memDAO.userPhoneChk2(userPhone);
 	}
+
+	@Override
+	public int userNaverUpdate(UserVO uservo) {
+		return memDAO.userNaverUpdate(uservo);
+	}
+
+	@Override
+	public int userNaverJoin(UserVO uservo) {
+		return memDAO.userNaverJoin(uservo);
+	}
+
+	@Override
+	public int userKakaoUpdate(UserVO uservo) {
+		return memDAO.userKakaoUpdate(uservo);
+	}
+
+	@Override
+	public int userKakaoJoin(UserVO uservo) {
+		return memDAO.userKakaoJoin(uservo);
+	}
 }

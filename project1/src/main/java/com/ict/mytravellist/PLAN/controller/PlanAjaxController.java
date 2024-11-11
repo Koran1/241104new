@@ -11,15 +11,20 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.ict.mytravellist.PLAN.service.TravelService;
 import com.ict.mytravellist.PLAN.vo.RouteInfoVO;
 
 @RestController
 public class PlanAjaxController {
+	
+	@Autowired
+	private TravelService travelService;
 	
 	@RequestMapping(value = "/kakaoRoadLine", produces = "application/json; charset=utf-8")
 	public List<RouteInfoVO> kakaoRoad(
@@ -229,4 +234,24 @@ public class PlanAjaxController {
 		}
 		return null;
 	}
+	
+	@RequestMapping(value = "/likeUserFavs")
+	public void likeUserFavs( @RequestParam("userId") String userId,
+			@RequestParam("travelIdx") String travelIdx) {
+		try {
+		int result = travelService.likeTrvlFav(userId, travelIdx);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@RequestMapping(value = "/unlikeUserFavs")
+	public void unlikeUserFavs( @RequestParam("userId") String userId,
+			@RequestParam("travelIdx") String travelIdx) {
+		try {
+			int result = travelService.unlikeTrvlFav(userId, travelIdx);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

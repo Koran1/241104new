@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>MyTravelList - 회원가입</title>
+<title>회원가입 - MyTravelList</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link type="text/css" href="/resources/css/style.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -16,9 +16,9 @@
 	}
 	.main-container{
 		margin: 0;
-		padding-top: 10px;
+		padding-top: 100px;
 		width: 100%;
-		height: 200vh;
+		height: 90vh;
 	}
 	.join-container {
 		width: 50%;

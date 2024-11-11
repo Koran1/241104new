@@ -47,4 +47,11 @@
 	<delete id="unlike" parameterType="map">
 		delete from pjuserinterest where userId = #{userId} and travelIdx = #{travelIdx}
 	</delete>
+	<insert id="like" parameterType="map">
+		insert into pjuserinterest (userId, travelIdx) values (#{userId}, #{travelIdx})
+	</insert>
+	<select id="get_userfavs" parameterType="String" resultType="userintvo">
+		select * from pjuserinterest where userId = #{userId}
+	</select>
+	
 </mapper>

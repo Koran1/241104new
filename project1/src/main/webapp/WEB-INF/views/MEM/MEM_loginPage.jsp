@@ -6,11 +6,18 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인 - MyTravelList</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link type="text/css" href="resources/css/style.css" rel="stylesheet" />
 <style type="text/css">
 	body{
 		margin: 0;
 		padding: 0;
+	}
+	.main-container{
+		margin: 0;
+		padding-top: 100px;
+		width: 100%;
+		height: 90vh;
 	}
 	.logo-img{
 		cursor: pointer;
@@ -84,15 +91,8 @@
         alert("${message}");
     </script>
 </c:if>
-<div class="container">
-	<div class="header-wrap">
-    	<img alt="" src="<c:url value='resources/images/logo.png'/>" 
-         	class="logo-img" style="width: 250px; height: 50px;" 
-         	onclick="location.href='/'" />
-		<p class="agreement-title" style="text-align: center;">로그인</p>
-		<hr color="008615">
-	</div>
-	
+<jsp:include page="../MAIN/header.jsp" />
+<div class="main-container">
 	<!-- 로그인 영역 -->
 	<div class="login-container">
 		<form action="/mem_login_ok" method="post">
@@ -133,5 +133,6 @@
         </div>
 	</div>
 </div>
+<jsp:include page="../MAIN/footer.jsp" />
 </body>
 </html>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ict.mytravellist.PLAN.dao.TravelDAO;
 import com.ict.mytravellist.vo.TravelDBVO;
 import com.ict.mytravellist.vo.TrvlPlanVO;
+import com.ict.mytravellist.vo.UserInterest;
 
 @Service
 public class TravelServiceImpl implements TravelService{
@@ -63,6 +64,16 @@ public class TravelServiceImpl implements TravelService{
 	@Override
 	public int unlikeTrvlFav(String userId, String trvlPlanIdx) throws Exception {
 		return travelDAO.unlikeTrvlFav(userId, trvlPlanIdx);
+	}
+
+	@Override
+	public int likeTrvlFav(String userId, String trvlPlanIdx) throws Exception {
+		return travelDAO.likeTrvlFav(userId, trvlPlanIdx);
+	}
+
+	@Override
+	public List<UserInterest> getUserFavs(String userId) throws Exception {
+		return travelDAO.getUserFavs(userId);
 	}
 
 	
