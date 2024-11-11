@@ -92,6 +92,14 @@ public class TravelDAOImpl implements TravelDAO{
 		return sqlSessionTemplate.selectList("trvlplan.get_userfavs", userId);
 	}
 
+	@Override
+	public int deleteTrvlPlan(String userId, String trvlPlanIdx) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userId", userId);
+		map.put("trvlPlanIdx", trvlPlanIdx);
+		return sqlSessionTemplate.delete("trvlplan.delete_trvlplan", map);
+	}
+
 	
 
 	

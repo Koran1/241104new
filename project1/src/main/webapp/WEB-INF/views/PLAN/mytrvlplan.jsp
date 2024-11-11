@@ -20,7 +20,7 @@
 
 .image-item {
 	text-align: center;
-	border: 2px solid pink;
+	border: 2px solid #008165;
 	border-radius: 8px;
 	padding: 5px;
 	width: 200px;
@@ -89,7 +89,7 @@ ol.paging li a:hover {
 	<jsp:include page="../MAIN/header.jsp" />
 	<div id="container">
 		<div id="button_container">
-			<button style="color: red" onclick="location.href='/mytrvlplan'">나의
+			<button style="background-color:#008165; color: white; font-weight: bold;" onclick="location.href='/mytrvlplan'">나의
 				관심지 관리</button>
 			<button onclick="location.href='/mytrvlplan_create'">여행 계획
 				짜기</button>
@@ -134,6 +134,7 @@ ol.paging li a:hover {
 						</c:otherwise>
 					</c:choose>
 				</div>
+				<br>
 				<div>
 					<ol class="paging">
 						<!-- 이전 -->

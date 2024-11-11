@@ -54,4 +54,7 @@
 		select * from pjuserinterest where userId = #{userId}
 	</select>
 	
+	<delete id="delete_trvlplan" parameterType="map">
+		delete from pjtrvlplan where userId = #{userId} and trvlPlanIdx = #{trvlPlanIdx}
+	</delete>
 </mapper>

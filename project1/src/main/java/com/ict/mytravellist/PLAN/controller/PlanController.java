@@ -277,7 +277,21 @@ public class PlanController {
 		return mv;
 	}
 	
-	
+	@GetMapping("/mytrvlplan_delete")
+	public ModelAndView trvlPlanDelete(HttpSession session, String trvlPlanIdx) {
+		ModelAndView mv = new ModelAndView();
+		try {
+			String userId = (String) session.getAttribute("userId");
+			int result = travelService.deleteTrvlPlan(userId, trvlPlanIdx);
+			if (result > 0) {
+				mv.setViewName("redirect:/mytrvlplan_list");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			mv.setViewName("PLAN/plan_error");
+		}
+		return mv;
+	}
 	
 	
 	
