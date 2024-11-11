@@ -19,8 +19,7 @@
 	justify-content: space-between; /* 좌우 요소 간 공간을 균등하게 분배 */
 	align-items: center; /* 세로 방향으로 가운데 정렬 */
 	padding-top: 20px; /* 상단 여백 */
-	box-shadow: 0 0 3px gray; /* 외곽 그림자 */
-	height: 95vh;
+	height: 100vh;
 }
 /* 메인 화면의 좌측 영역: 비율 10% */
 .main_left { width: 10%;}
@@ -28,7 +27,7 @@
 /* 메인 화면의 중앙 영역: 비율 80% */
 .main_center {
 	width: 80%; /* 중앙 레이아웃의 비율 설정 */
-	height: 95vh;
+	height: 100vh;
 }
 /* 메인 화면의 우측 영역: 비율 10% */
 .main_right { width: 10%;}

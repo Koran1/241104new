@@ -403,9 +403,15 @@
 		    lists.forEach(list => {
 		        const tourTalkIdx = list.tourTalkIdx;
 		        const userId = list.userId;
+		        const active = list.active;
 		
 		        talkHtml += "<div class='tourTList'>";
-		        talkHtml += "<div class='tourTContent'><p>" + list.tourTalkContent + "</p></div>";
+		        // active가 1일 경우 제한 메시지 표시, 0일 경우 실제 콘텐츠 표시
+		        if (active === 1) {
+		            talkHtml += "<div class='tourTContent'><p>본 글은 신고로 인해 보기가 중단 되었습니다</p></div>";
+		        } else {
+		            talkHtml += "<div class='tourTContent'><p>" + list.tourTalkContent + "</p></div>";
+		        }
 		        talkHtml += "<ul class='tourinfo'>";
 		        talkHtml += "<li class='tourTId'>" + userId + "</li>";
 		        talkHtml += "<li class='tourTReg'>" + formatDateTime(list.tourTalkReg) + "</li>";
