@@ -143,9 +143,6 @@ table tfoot ol.paging li a:hover {
 				</tr>
 			</tfoot>
         	</table>
-			
-		    <br><br>
-		    <button id="unlike-item">삭제에요</button>
 		</div>
 
 </div>
