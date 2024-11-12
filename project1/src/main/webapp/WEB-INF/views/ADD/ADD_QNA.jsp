@@ -225,7 +225,7 @@
 						<c:choose>
 							<c:when test="${empty qna_list }">
 								<tr>
-									<td colspan="2"><h3>나의 문의 내역이 존재하지 않습니다.</h3></td>
+									<td colspan="2" style="padding: 30px 0; text-align: center;"><h3 style="font-size: 25px; font-weight: bold;">나의 문의 내역이 존재하지 않습니다.</h3></td>
 								</tr>
 							</c:when>
 							<c:otherwise>
