@@ -18,8 +18,8 @@
 	display: flex; /* 내부 요소들을 플렉스박스로 배치 */
 	justify-content: space-between; /* 좌우 요소 간 공간을 균등하게 분배 */
 	align-items: center; /* 세로 방향으로 가운데 정렬 */
-	padding-top: 20px; /* 상단 여백 */
-	height: 100vh;
+	padding-top: 70px; /* 상단 여백 */
+	height: 90vh;
 }
 /* 메인 화면의 좌측 영역: 비율 10% */
 .main_left { width: 10%;}
@@ -27,7 +27,8 @@
 /* 메인 화면의 중앙 영역: 비율 80% */
 .main_center {
 	width: 80%; /* 중앙 레이아웃의 비율 설정 */
-	height: 100vh;
+	height: 90vh;
+	margin-top: 20px;
 }
 /* 메인 화면의 우측 영역: 비율 10% */
 .main_right { width: 10%;}
@@ -253,7 +254,7 @@ table td { font-weight: bold; }
 		    	            table += "<div class='travel_location t_weather'>";
 		    	            table += "<ul>";
 		    	            table += "<li class='travel_location_region'>" + regionName + "</li>";
-		    	            table += "<li class='travel_location_date'>"+ wthrDate+" </li>";
+		    	            table += "<li class='travel_location_date'>"+ wthrDate.slice(-5)+" </li>";
 		    	            table += "</ul>";
 		    	            table += "</div>";
 		    	            table += "<div class='travel_temp'>";
