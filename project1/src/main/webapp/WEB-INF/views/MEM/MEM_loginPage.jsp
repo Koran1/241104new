@@ -152,15 +152,6 @@
 
 		<!-- 소셜 로그인 -->
 		<div id="social_login_container">
-<<<<<<< HEAD
-            <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=LATuMwgCg7IIRlZG9lKz&redirect_uri=http://13.124.3.43/ict5_naverlogin&state=ICT_5">
-                <img alt="네이버 로그인" src="resources/images/btnG_naver.png" width="300px;" height="70px;">
-            </a>
-            <a href="https://kauth.kakao.com/oauth/authorize?client_id=3ddbaef55b331705b94b177e5af93179&redirect_uri=http://13.124.3.43/ict5_kakaologin&response_type=code&state=ICT_5">
-                <img alt="카카오 로그인" src="resources/images/kakao_login_medium_wide.png"  width="300px;" height="60px;">
-            </a>
-        </div>
-=======
 			<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=LATuMwgCg7IIRlZG9lKz&redirect_uri=http://localhost:8080/ict5_naverlogin&state=ICT_5">
 				<img alt="네이버 로그인" src="resources/images/btnG_icon_square.png">
 			</a>
@@ -168,7 +159,6 @@
 				<img alt="카카오 로그인" src="resources/images/kakaotalk_sharing_btn_small_ov.png">
 			</a>
 		</div>
->>>>>>> f6c6df63347e687a22d2436ab6f61cb75309fbdf
 	</div>
 </div>	
 <jsp:include page="../MAIN/footer.jsp" />
