@@ -125,13 +125,16 @@
 	flex-direction: row;
 	width: 100%;
 }
-#top-bar input, #top-bar select{
+#top-bar input,  #top-bar p{
 	margin-right: 20px;
 	margin-bottom: 20px;
 }
-#top-bar select{
-	height: auto;
+#top-bar p{
+	align-self: center;
+	font-weight: bold;
+	font-size: 20px;
 }
+
 #top-bar button {
 	margin-left: 40px;
 	margin-bottom: 20px;
