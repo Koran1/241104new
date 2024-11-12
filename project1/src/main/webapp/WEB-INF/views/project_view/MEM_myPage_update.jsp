@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MyPage - 나의정보수정</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
  <style type="text/css">
 	#container{display: flex; padding-top: 75px;}
@@ -15,7 +16,9 @@
 	#container #logo{width: 200px; height: 70px;} 
 	#container #name{font-size: 50px; font-weight: bold;}
 	#container #article_container{display: flex; flex-direction: column;}
-	#container article{font-size: 30px; padding: 20px; margin: 10px;}
+	#container article{padding: 20px; margin: 10px; text-align: center;}
+	#container article i {font-size: 60px; padding: 20px; margin-right: 10px;}
+	#container article span{font-size: 30px; display: inline-block; margin-top: 20px;}
 	#container #title{font-size: 50px; margin-left: 20px;}
 	#container #msg{margin-left: 100px;  font-size: 30px;}
 	#container a {text-decoration: none; color: black}
@@ -41,14 +44,14 @@
 		text-align: center;
 		overflow: scroll;
 	}
-
-    #container .write {width: 60%;  padding: 25px; margin-left: 20px; margin-bottom: 20px;}
-    #container input[type="text"], input[type="email"] {font-size: 20px;}
-    #container input[type="submit"] {width: 130px; height: 60px;}
-    #container input[type="button"] {width: 130px; height: 60px;}
+    #container .write { padding: 10px; margin-left: 20px; margin-bottom: 20px;}
+    #container input[type="text"], input[type="email"] , input[type="number"]{font-size: 20px;}
+    #container input[type="submit"] {width: 100px; height: 60px; }
     #container .btn_action{
     	margin-right: 100px;
+    	margin-top: 30px;
     	width: 130px; height: 60px;
+    	
     }
     #container span {font-size: 20px;}
     #container i {font-size: 20px;}
@@ -65,13 +68,19 @@
 	 #container #region_table{margin: 32px auto; border-collapse: separate; border-spacing: 8px;}
 	 #container .clicked{background-color: #4682B4; color: white}
 	 #container td:hover{background-color: #4682B4; color: white}
-	 #container input[name="userName"], input[name="userId"] {background-color: lightgray;}
+	 #container input[name="userName"], input[name="userId"] {border: none;}
 	 #container #u_emailCode{ margin-left: 20px; margin-bottom: 20px;}
-	 #container #judgeMsg{margin-left:  100px; margin-top: 0px;}
+	 #container #judgeMsg1, #judgeMsg2 {margin-left:  100px; margin-top: 0px;}
 	 #prId{text-decoration: none; font-size: 50px;}
 	.funcImg{width: 100px; height: 100px;}
 	label{display: inline-block;}
 	#emailLb{width: 550px;}
+	#prId{text-decoration: none; color: black; display: inline-block; margin-left: 50px;}
+	input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+	  -webkit-appearance: none;
+	  margin: 0;
+	}
+	
 </style>
 </head>
 <script type="text/javascript">
@@ -80,32 +89,32 @@
 <jsp:include page="MEM_header.jsp" />
 <div id="container">
 		<section id="flex_left">
-			<p id="name"><a href="/go_my_page">
-			<c:choose>
-				<c:when test="${userName.length >= 10 }">
-					<span style="font-size: 50px; font-weight: bold;">${userId.substring(0,10)}...님</span>
-				</c:when>
-				<c:otherwise>
-					<span style="font-size: 50px; font-weight: bold;">${userId }님</span>
-				</c:otherwise>
-			</c:choose>	
+			<p id="name"><a href="/go_my_page" id="prId">
+				<c:choose>
+					<c:when test="${userName.length >= 8 }">
+						<span style="font-size: 50px;">${userId.substring(0,8)}...님</span>
+					</c:when>
+					<c:otherwise>
+						<span style="font-size: 50px;">${userId }님</span>
+					</c:otherwise>
+				</c:choose>
 			</a></p>
 			<div id="article_container">
 			<article><a href="/go_my_comment">
-				<img class="funcImg" alt="" src="resources/images/my_comment.png" style="float: left;">
-				내 댓글 관리
+			<i class="fa-regular fa-message" style="float: left"></i>
+				<span>내 댓글 관리</span>
 			</a></article>
 			<article style="background-color: lightgray">
-				<img class="funcImg" alt="" src="resources/images/update.png" style="float: left;">
-				회원정보 수정
+			<i class="fa-solid fa-user-gear" style="float: left"></i>
+				<span>회원정보 수정</span>
 			</article>
 			<article><a href="go_pw_change">
-				<img class="funcImg" alt="" src="resources/images/change_pw.png" style="float: left;">
-				비밀번호 변경
+			<i class="fa-solid fa-unlock" style="float: left"></i>	
+				<span>비밀번호 변경</span>
 			</a></article>
 			<article><a href="/go_user_out">
-				<img class="funcImg" alt="" src="resources/images/member_out.png" style="float: left;">
-				회원 탈퇴
+			<i class="fa-solid fa-arrow-right-from-bracket" style="float: left"></i>
+				<span>회원 탈퇴</span>
 			</a></article>
 			</div>
 
@@ -116,23 +125,26 @@
 			 <hr>
 			 <form  id="update_form" method="post">
 				<fieldset>
-					<legend>개인정보 수정</legend>
-			 			
-			 			<label for="userName">이름 <input type="text" name="userName" id="userName" class="write" value="${detail.userName }"readonly> </label><br>
+						<p style="font-weight: bold;">기본 정보</p>
+						<hr>
+			 			<label for="userName">이름 <input type="text" name="userName" id="userName" class="write" value="${detail.userName }" readonly> </label><br>
 				 		<label for="userId">아이디 <input type="text" name="userId" id="userId"  class="write" value="${detail.userId }" readonly></label><br>
+				 		<label for="userPhone">전화번호 <input type="number" id="userPhone" name="userPhone" class="write" value="${detail.userPhone }" style="width: 200px;" placeholder="-제외하고 입력">
+				 			<input type="button" value="중복확인" onclick="judgePhone(this.form)"></label><br> 
+				 		<p id="judgeMsg2"></p>
 			 			<label for="userMail" id="emailLb">이메일 
 			 				<input type="email" name="userMail"  id="userMail" class="write" value="${detail.userMail }" 
-			 					   pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" title="이메일 양식"  required>
-			 				<input type="button" value="중복검사" onclick="judgeEmail(this.form)">
+			 					   pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" title="이메일 양식" style="width: 330px;">
+			 				<input type="button" value="중복확인" onclick="judgeEmail(this.form)">
 			 			</label><br>
-			 			<p id="judgeMsg"></p>
+			 			<p id="judgeMsg1"></p>
 			 			<label for="emailCode" >이메일 인증
-			 				<input type="text" id="u_emailCode" name="u_emailCode" placeholder="메일로 전송된 번호 입력">
+			 				<input type="text" id="u_emailCode" name="u_emailCode" placeholder="전송받은 번호 입력">
 			 				<input type="button" value="전송" id="sendCode" style="width: 65px; height: 30px;">
 			 				<input type="button" value="확인"  id="confirmCode" style="width: 65px; height: 30px;">
 			 			</label><br>
 	 			 		<label for="userAddr">주소(시/군/구) 
-				 			<input type="text" name="userAddr"  id="userAddr" class="write" value="${detail.userAddr }" required>
+				 			<input type="text" name="userAddr"  id="userAddr" class="write" value="${detail.userAddr }" >
 				 		</label>
 				 		<input type="button" onclick="sample6_execDaumPostcode()" value="주소 찾기"><br> 
 			 			<label>내 관심지역:
@@ -141,9 +153,9 @@
 			 				<span>3. <i id="userFavor03"></i>  &nbsp; &nbsp;</span> 
 			 				<input type="button" id="change_flavor" value="변경하기" onclick="changeFlavor()">
 			 			</label>
-			 			<input type="hidden" name="userFavor01" value="${detail.userFavor01}">
-			 			<input type="hidden" name="userFavor02" value="${detail.userFavor02}">
-			 			<input type="hidden" name="userFavor03" value="${detail.userFavor03}">
+			 			<input type="hidden"  id="userFavor01" name="userFavor01" value="${detail.userFavor01}">
+			 			<input type="hidden" id="userFavor02" name="userFavor02" value="${detail.userFavor02}">
+			 			<input type="hidden" id="userFavor03" name="userFavor03" value="${detail.userFavor03}">
 				</fieldset>
 				<div id="buttons">
 					<input type="button" id="btn_update" class="btn_action" value="수정" onclick="goUpdate(this.form)">
@@ -195,8 +207,27 @@
         	  location.href = "/go_my_page";
 		   }
            function goUpdate(f) {
-        	   f.action = "/go_update_ok";
-        	   f.submit();
+        	let name = f.userName.value;
+        	let id = f.userId.value;
+        	let phone = f.userPhone.value;
+        	let mail = f.userMail.value;
+        	let addr = f.userAddr.value;
+        	let favor1 = f.userFavor01.value;
+        	let favor2 = f.userFavor02.value;
+        	let favor3 = f.userFavor03.value;
+        	if(name == "" || id == "" || phone == "" || mail == "" || addr == "" || favor1 == "" || favor2 == "" || favor3 == "") {
+        		alert("공란이 존재하면 수정 할 수 없습니다.");
+        	}else{
+        		if("${detail.userPhone}" != phone || "${detail.userMail}" != mail || "${detail.userAddr}" != addr || 
+        				"${detail.userFavor01}" != favor1 || "${detail.userFavor02}" != favor2 || "${detail.userFavor03}" != favor3) {
+        			if("${isUsable}" == true  && "${isPhoneUsable}" == true){
+		        	   f.action = "/go_update_ok";
+		        	   f.submit(); 
+        			}else {
+        				alert("전화번호, 이메일의 중복검사를 통과해야만 수정할 수 있습니다.");
+        			}
+        		}
+        	}
 		   }
            function changeFlavor() {
 				let modal = document.querySelector("#modal");
@@ -292,41 +323,66 @@
 			      Array.from(tds).map(item => item.classList.remove("clicked"));
 			}
            });
-	       	function isPatternGood(userMail) {
+	       	function isEmailPatternGood(userMail) {
 	    		const pattern = /[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*/;
 	    		return pattern.test(userMail);
 	    	}
+	       	function isPhonePatternGood(userPhone) {
+	    		const pattern =  /^01(0|1|[6-9])[0-9]{3,4}[0-9]{4}$/;
+	    		return pattern.test(userPhone);
+	    	}
+	       	
+           function judgePhone(f) {
+        	  let userPhone = document.querySelector("#userPhone").value; 
+        	  if (isPhonePatternGood(userPhone)) {
+        	   f.action = "/judge_user_Phone";
+        	   f.submit(); 
+			  }else {
+				alert("올바른 전화번호 형식이 아닙니다.");
+			}
+           }
            function judgeEmail(f) {
         	  let userMail = document.querySelector("#userMail").value; 
-        	  if (isPatternGood(userMail)) {
+        	  if (isEmailPatternGood(userMail)) {
         	   f.action = "/judge_user_email"
         	   f.submit();
 			  }else {
-				alert("이메일 형식을 확인해 주세요.");
+				alert("올바른 이메일 형식이 아닙니다.");
 			}
            }
            
-			let judgeMsg = document.querySelector("#judgeMsg");    
-			<c:if test="${isUsable == true }">
-				judgeMsg.innerText = "중복되지 않는 이메일 입니다.";
-				judgeMsg.style.color = "green";
+			let judgeMsg1 = document.querySelector("#judgeMsg1");    
+			<c:if test="${isUsable} == true }">
+				judgeMsg1.innerText = "사용 가능한 이메일 입니다.";
+				judgeMsg1.style.color = "green";
 			</c:if>
 			<c:if test="${isUsable == false }">
-				judgeMsg.innerText = "다른 이메일을 사용해 주세요.";
-				judgeMsg.style.color = "tomato";
+				judgeMsg1.innerText = "다른 이메일을 사용해 주세요.";
+				judgeMsg1.style.color = "tomato";
+			</c:if>
+           
+			let judgeMsg2 = document.querySelector("#judgeMsg2");    
+			<c:if test="${isPhoneUsable == true }">
+				judgeMsg2.innerText = "사용 가능한 전화번호 입니다.";
+				judgeMsg2.style.color = "green";
+			</c:if>
+			<c:if test="${isPhoneUsable == false }">
+				judgeMsg2.innerText = "다른 전화번호를 사용해 주세요.";
+				judgeMsg2.style.color = "tomato";
 			</c:if>
 			
         	 
 			$("#userMail").on("keyup", function() {
-				$("#judgeMsg").text("");
+				$("#judgeMsg1").text("");
+			});
+			$("#userPhone").on("keyup", function() {
+				$("#judgeMsg2").text("");
 			});
 			
-			
-
  			$("#sendCode").on("click", function() {
-			let judgeMsg = document.querySelector("#judgeMsg");    
-			console.log(judgeMsg.innerText);
- 				if (judgeMsg.innerText == "중복되지 않는 이메일 입니다.") {
+			let judgeMsg1 = document.querySelector("#judgeMsg1");    
+			console.log(judgeMsg1.innerText);
+ 				if (judgeMsg1.innerText == "중복되지 않는 이메일 입니다.") {
 					$.ajax({
 						url:"/send_email_code", 
 						method:"post", 

@@ -73,8 +73,8 @@
 			 		<p>비밀번호<input type="password" id="userPw"  name="userPw" style="margin-top: 10px;" required> </p>
 			 	</fieldset>
 				 <div id="buttons">
-				 	 <button  onclick="confirm(this.form)">확인</button>
-					 <button  onclick="cancle(this.form)" >취소</button>
+				 	 <button style="background-color: gray; color: white; border: none;" onclick="confirm(this.form)">확인</button>
+					 <button style="background: white;  " onclick="cancle(this.form)" >취소</button>
 				 </div>
 			 </form>
 		</section>				

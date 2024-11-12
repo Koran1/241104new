@@ -87,7 +87,7 @@
 			 	<tbody id="tbody"></tbody>
 			 	<tfoot id="tfoot"></tfoot>
 			 </table>
-			 <button  type="button" id="btn_del_chked" name="btn_del_chked">일괄삭제</button>
+			 <button  type="button" id="btn_del_chked" name="btn_del_chked" style="background-color: gray; color: white; border: none;">일괄삭제</button>
 			 
 			 </form>
 		</section>				
@@ -138,7 +138,7 @@
 						tbody += "<td width='13'>" + obj.trrsrtNm + "</td>";
 						tbody += "<td width='55%'>" + obj.tourTalkContent + "</td>";
 						tbody += "<td width='14%'>" + obj.tourTalkReg + "</td>";
-						tbody += "<td width='13%'><button type='button' class='btn_del_one' name='" + obj.tourTalkIdx + "'>삭제</button></td>";
+						tbody += "<td width='13%'><button type='button' style='background-color: gray; color: white; border: none;' class='btn_del_one' name='" + obj.tourTalkIdx + "'>삭제</button></td>";
 						tbody += "</tr>";
 					}); // each 괄호
 					$("#tbody").append(tbody);

@@ -14,6 +14,7 @@ public interface ProjectDAO {
 	public int getChangePw(UserVO uvo) throws Exception;
 	public int getUserOut(String Userid) throws Exception;
 	public UserVO judgeUserEmail(String userMail) throws Exception; 
+	public UserVO judgeUserPhone(String userPhone) throws Exception; 
 
 	
 	

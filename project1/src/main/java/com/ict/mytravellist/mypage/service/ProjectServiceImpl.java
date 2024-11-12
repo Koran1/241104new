@@ -60,6 +60,11 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDAO.judgeUserEmail(userMail);
 	}
 
+	@Override
+	public UserVO judgeUserPhone(String userPhone) throws Exception {
+		return projectDAO.judgeUserPhone(userPhone);
+	}
+
 
 	
 
