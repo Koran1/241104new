@@ -133,8 +133,8 @@
 				<div class="footer_center">
 					<div class="footer_center_top">
 						<ul>
-							<li id="btn-modal1" class="btn btn-modal">개인정보처리방침 
-							<li id="btn-modal2" class="btn btn-modal">서비스이용약관 
+							<li id="btn-modal1" class="btn btn-modal">서비스이용약관 
+							<li id="btn-modal2" class="btn btn-modal">개인정보처리방침
 						</ul>
 					</div>
 					<div class="footer_center_bottom">
