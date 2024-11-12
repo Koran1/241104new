@@ -61,5 +61,9 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public UserVO judgeUserPhone(String userPhone) throws Exception {
 		return sqlsessionTemplate.selectOne("projectMapper.judgeUserPhone", userPhone);
 	}
+	@Override
+	public String getPlaceNameOne(String travelIdx) throws Exception {
+		return sqlsessionTemplate.selectOne("projectMapper.getPlaceNameOne", travelIdx);
+	}
 
 }

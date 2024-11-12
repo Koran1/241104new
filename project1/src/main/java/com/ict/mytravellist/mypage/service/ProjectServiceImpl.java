@@ -65,6 +65,11 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDAO.judgeUserPhone(userPhone);
 	}
 
+	@Override
+	public String getPlaceNameOne(String travelIdx) throws Exception {
+		return projectDAO.getPlaceNameOne(travelIdx);
+	}
+
 
 	
 

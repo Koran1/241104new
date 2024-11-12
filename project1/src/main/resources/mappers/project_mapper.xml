@@ -37,6 +37,9 @@
 	<select id="judgeUserPhone" parameterType="String" resultType="uservo">
 		select * from pjcustomer where userPhone = #{userPhone}
 	</select>
+	<select id="getPlaceNameOne" parameterType="String" resultType="tdvo">
+		select trrsrtNm from travellistdb where travelIdx = #{travelIdx}
+	</select>
 	
 	
 	

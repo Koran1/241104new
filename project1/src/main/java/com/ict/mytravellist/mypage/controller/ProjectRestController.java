@@ -68,7 +68,6 @@ public class ProjectRestController {
 			}
 
 			List<TourTalkVO> list = projectService.getTTList(userId, paging.getOffset(), paging.getNumPerPage());
-			
 			if (list != null) { 
 				for (TourTalkVO k : list) {  
 					StringBuffer sb = new StringBuffer();
@@ -78,6 +77,9 @@ public class ProjectRestController {
 						sb.append("...");
 						k.setTourTalkContent(sb.toString());
 					}
+					String travelIdx = k.getTravelIdx();
+					String trrsrtNm = projectService.getPlaceNameOne(travelIdx);
+					k.setTrrsrtNm(trrsrtNm);
 				}
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("list", list);

@@ -17,4 +17,5 @@ public interface ProjectService {
 	public int getUserOut(String userId) throws Exception;
 	public UserVO judgeUserEmail(String userMail) throws Exception; 
 	public UserVO judgeUserPhone(String userPhone) throws Exception; 
+	public String getPlaceNameOne(String travelIdx) throws Exception; 
 }

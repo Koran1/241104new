@@ -14,9 +14,9 @@
 	#container #flex_write{width: 85%;}
 	#container #logo{width: 200px; height: 70px;} 
 	#container #name{font-size: 50px; font-weight: bold;}
-	#container #article_container{display: flex; flex-direction: column;}
-	#container article{font-size: 30px; padding: 20px; margin: 10px;}
-	#container article i{font-size: 60px;}
+	#container article{padding: 20px; margin: 10px; text-align: center;}
+	#container article i {font-size: 60px; padding: 20px; margin-right: 10px;}
+	#container article span{font-size: 30px; display: inline-block; margin-top: 20px;}
 	#container #title{font-size: 50px; margin-left: 20px;}
 	#container #msg{text-align: center;}
 	#container #change_pw_form{width: 1300px; min-height: 1000px; margin: 0 auto;}
