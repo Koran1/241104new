@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MyPage - 내댓글보기</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style type="text/css">
 	#container{display: flex; padding-top: 75px;}
@@ -15,7 +16,9 @@
 	#container #logo{width: 200px; height: 70px;} 
 	#container #name{font-size: 50px; font-weight: bold;}
 	#container #article_container{display: flex; flex-direction: column;}
-	#container article{font-size: 30px; padding: 20px; margin: 10px;}
+	#container article{padding: 20px; margin: 10px; text-align: center;}
+	#container article i {font-size: 60px; padding: 20px; margin-right: 10px;}
+	#container article span{font-size: 30px; display: inline-block; margin-top: 20px;}
 	#container #title{font-size: 50px; margin-left: 20px;}
 	#container table{border: 1px solid gray; border-collapse: collapse; width: 80%; height: 300px; margin-top: 20px; }
 	#container th, #container td{border: 1px solid gray; text-align: center; padding: 10px; }
@@ -28,8 +31,7 @@
 	#container tfoot{margin: 50px;}
 	#container .page_num{padding: 3px 7px;}
 	#container .page_btn{padding: 3px 7px;}
-	#prId{text-decoration: none;}
-	.funcImg{width: 100px; height: 100px;}
+	#prId{text-decoration: none; color: black; display: inline-block; margin-left: 50px;}
 
 </style>
 </head>
@@ -37,7 +39,7 @@
 <jsp:include page="MEM_header.jsp" />
 	<div id="container">
 		<section id="flex_left">
-			<p id="name"><a href="/go_my_page">
+			<p id="name"><a href="/go_my_page" id="prId">
 			<c:choose>
 				<c:when test="${userName.length >= 10 }">
 					<span>${userId.substring(0,10)}...님</span>
@@ -49,31 +51,31 @@
 			</a></p>
 			<div id="article_container">
 			<article style="background-color: lightgray">
-				<img class="funcImg" alt="" src="resources/images/my_comment.png" style="float: left;">
-				내 댓글 관리
+			<i class="fa-regular fa-message" style="float: left"></i>
+				<span>내 댓글 관리</span>
 			</article>
 			<article>
 				<a href="/go_update">
-				<img class="funcImg" alt="" src="resources/images/update.png" style="float: left;">
-				회원정보 수정
+				<i class="fa-solid fa-user-gear" style="float: left"></i>
+				<span>회원정보 수정</span>
 				</a>
 			</article>
 			<article>
 				<a href="/go_pw_change">
-				<img class="funcImg" alt="" src="resources/images/change_pw.png" style="float: left;">
-				비밀번호 변경
+				<i class="fa-solid fa-unlock" style="float: left"></i>	
+				<span>비밀번호 변경</span>
 				</a>
 			</article>
 			<article>
 				<a href="/go_user_out">
-				<img class="funcImg" alt="" src="resources/images/member_out.png" style="float: left;">
-				회원 탈퇴
+				<i class="fa-solid fa-arrow-right-from-bracket" style="float: left"></i>
+				<span>회원 탈퇴</span>
 				</a>
 			</article>
 			</div>
 		</section>	
 		<section id="flex_write">
-			 <p id="title">내 댓글 보기/ 삭제하기</p>
+			 <p id="title">내 댓글 보기 /  삭제하기</p>
 			 <hr>
 			 <form>
 			 <table id="comment_table">
@@ -132,8 +134,8 @@
 					tbody = "";
 					$(data).each(function(index, obj) {
 						tbody += "<tr>";
-						tbody += "<td width='4%'><input type='checkbox' class='checkboxes' name='" + obj.tourTalkIdx + "'></td>"; 
-						tbody += "<td width='14'>" + obj.trrsrtNm + "</td>";
+						tbody += "<td width='5%'><input type='checkbox' class='checkboxes' name='" + obj.tourTalkIdx + "'></td>"; 
+						tbody += "<td width='13'>" + obj.trrsrtNm + "</td>";
 						tbody += "<td width='55%'>" + obj.tourTalkContent + "</td>";
 						tbody += "<td width='14%'>" + obj.tourTalkReg + "</td>";
 						tbody += "<td width='13%'><button type='button' class='btn_del_one' name='" + obj.tourTalkIdx + "'>삭제</button></td>";

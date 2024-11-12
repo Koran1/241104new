@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MyPage - 본인인증</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <style type="text/css">
 	#container{display: flex; padding-top: 75px;}
 	#container #flex_left{width: 15%;  background-color: Whitesmoke;}
@@ -15,6 +16,7 @@
 	#container #name{font-size: 50px; font-weight: bold;}
 	#container #article_container{display: flex; flex-direction: column;}
 	#container article{font-size: 30px; padding: 20px; margin: 10px;}
+	#container article i{font-size: 60px;}
 	#container #title{font-size: 50px; margin-left: 20px;}
 	#container #msg{text-align: center;}
 	#container #change_pw_form{width: 1300px; min-height: 1000px; margin: 0 auto;}
@@ -23,10 +25,8 @@
 	#container #buttons{display: flex; justify-content: center; margin-top: 20px; }
 	#container a {text-decoration: none; color: black}
 	#container input[type="password"]{font-size: 45px;}
-	#container i{font-size: 15px; font-weight: bold; margin-left: 20px;}
 	#container .scLv{display: inline-block; width: 20px; border: 1px solid black; height: 13px; }
 	#prId{text-decoration: none;}
-	.funcImg{width: 100px; height: 100px;}
 </style>
 </head>
 <body>
@@ -45,19 +45,19 @@
 			</a></p>
 			<div id="article_container">
 			<article><a href="/go_my_comment">
-				<img class="funcImg" alt="" src="resources/images/my_comment.png" style="float: left;">
+				<i class="fa-regular fa-message"></i>
 				내 댓글 관리
 			</a></article>
 			<article><a href="/go_update">
-				<img class="funcImg" alt="" src="resources/images/update.png" style="float: left;">
+				<i class="fa-solid fa-user-gear" style="float: left"></i>
 				회원정보 수정
 			</a></article>
 			<article style="background-color: lightgray">
-				<img class="funcImg" alt="" src="resources/images/change_pw.png" style="float: left;">
+				<i class="fa-solid fa-unlock" style="float: left"></i>	
 				비밀번호 변경
 			</article>
 			<article><a href="/go_user_out">
-				<img class="funcImg" alt="" src="resources/images/member_out.png" style="float: left;">
+				<i class="fa-solid fa-arrow-right-from-bracket" style="float: left"></i>
 				회원 탈퇴
 			</a></article>
 			</div>
@@ -141,18 +141,18 @@
 	let securityLv = 0;
 	let msg = "";
 	let pw_msg = document.querySelector("#pw_msg");
-		if (HaveKorean(value) || value.length < 6 || value.length > 15 || value.includes(" ")) {
-			 msg = "비밀번호는 공백을 제외한 알파벳 대/소문자를 포함한 6~15자여야 합니다.";
+		if (HaveKorean(value) || value.length < 8 || value.length > 15 || value.includes(" ")) {
+			 msg = "비밀번호는 공백을 제외한 알파벳 대/소문자를 포함한 8~15자여야 합니다.";
 			pw_msg.innerText = msg;
 			
 		}else{
 			securityLv++;
-			if (HaveLowEnglish(value)) securityLv++;;
-			if (HaveUpEnglish(value)) securityLv++;;
-			if (HaveSpecial(value)) securityLv++;;
-			if (value.length > 11)  securityLv++;;
+			if (HaveLowEnglish(value)) securityLv++;
+			if (HaveUpEnglish(value)) securityLv++;
+			if (HaveSpecial(value)) securityLv++;
+			if (value.length > 11)  securityLv++;
 			
-			msg = "<i>보안수준:<i><span><span class='scLv'></span><span class='scLv'></span><span class='scLv'></span><span class='scLv'></span><span class='scLv'></span>";
+			msg = "<i>보안수준: &nbsp;&nbsp;<i><span><span class='scLv'></span><span class='scLv'></span><span class='scLv'></span><span class='scLv'></span><span class='scLv'></span>";
 			pw_msg.innerHTML = msg;
 			
 			let levels = document.querySelectorAll(".scLv");

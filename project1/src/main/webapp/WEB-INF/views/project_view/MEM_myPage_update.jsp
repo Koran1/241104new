@@ -66,10 +66,12 @@
 	 #container .clicked{background-color: #4682B4; color: white}
 	 #container td:hover{background-color: #4682B4; color: white}
 	 #container input[name="userName"], input[name="userId"] {background-color: lightgray;}
-	 #container #u_emailCode{width: 25%; margin-left: 20px; margin-bottom: 20px;}
+	 #container #u_emailCode{ margin-left: 20px; margin-bottom: 20px;}
 	 #container #judgeMsg{margin-left:  100px; margin-top: 0px;}
 	 #prId{text-decoration: none; font-size: 50px;}
 	.funcImg{width: 100px; height: 100px;}
+	label{display: inline-block;}
+	#emailLb{width: 550px;}
 </style>
 </head>
 <script type="text/javascript">
@@ -118,15 +120,15 @@
 			 			
 			 			<label for="userName">이름 <input type="text" name="userName" id="userName" class="write" value="${detail.userName }"readonly> </label><br>
 				 		<label for="userId">아이디 <input type="text" name="userId" id="userId"  class="write" value="${detail.userId }" readonly></label><br>
-			 			<label for="userMail">이메일 
+			 			<label for="userMail" id="emailLb">이메일 
 			 				<input type="email" name="userMail"  id="userMail" class="write" value="${detail.userMail }" 
 			 					   pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" title="이메일 양식"  required>
 			 				<input type="button" value="중복검사" onclick="judgeEmail(this.form)">
 			 			</label><br>
 			 			<p id="judgeMsg"></p>
-			 			<label for="emailCode">이메일 인증
+			 			<label for="emailCode" >이메일 인증
 			 				<input type="text" id="u_emailCode" name="u_emailCode" placeholder="메일로 전송된 번호 입력">
-			 				<input type="button" value="전송하기" id="sendCode" style="width: 65px; height: 30px;">
+			 				<input type="button" value="전송" id="sendCode" style="width: 65px; height: 30px;">
 			 				<input type="button" value="확인"  id="confirmCode" style="width: 65px; height: 30px;">
 			 			</label><br>
 	 			 		<label for="userAddr">주소(시/군/구) 
@@ -380,6 +382,5 @@
 
            
     </script>
-
 </body>
 </html>
