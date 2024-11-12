@@ -47,21 +47,11 @@ public class MemDAOImpl implements MemDAO {
 		return String.valueOf(result);
 	}
 	
-	/*
 	@Override
 	public String userPhoneChk(String userPhone) {
-		int result = sqlSessionTemplate.selectOne("mems.phonechk", userPhone);
-		return String.valueOf(result);
-	}
-	*/
-	
-	@Override
-	public String userPhoneChk(String userPhone) {
-		// int result = sqlSessionTemplate.selectOne("mems.phonechk", userPhone);
 		String email = sqlSessionTemplate.selectOne("mems.phonechk", userPhone);
 		System.out.println("DAO에서 가져온 이메일: " + email);
 		return email;
-		//return sqlSessionTemplate.selectOne("mems.phonechk", userPhone);
 	}
 
 	@Override

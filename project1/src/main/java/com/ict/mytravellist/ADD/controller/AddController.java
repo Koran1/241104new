@@ -303,7 +303,6 @@ public class AddController {
 			}
 	        return null;  
 	    } catch (Exception e) {
-	        System.out.println(e);
 	        e.printStackTrace();
 	        return null;
 	    }
@@ -328,7 +327,7 @@ public class AddController {
 			FileCopyUtils.copy(in, out);
 			
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	

@@ -153,9 +153,11 @@
 		<!-- 소셜 로그인 -->
 		<div id="social_login_container">
 			<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=LATuMwgCg7IIRlZG9lKz&redirect_uri=http://localhost:8080/ict5_naverlogin&state=ICT_5">
+			<!-- <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=JArbJQzekN3B9KzvZp4b&redirect_uri=http://3.34.95.42/ict5_naverlogin&state=ICT_5"> -->
 				<img alt="네이버 로그인" src="resources/images/btnG_icon_square.png">
 			</a>
 			<a href="https://kauth.kakao.com/oauth/authorize?client_id=3ddbaef55b331705b94b177e5af93179&redirect_uri=http://localhost:8080/ict5_kakaologin&response_type=code&state=ICT_5">
+			<!-- <a href="https://kauth.kakao.com/oauth/authorize?client_id=1a31dbd4bb00984c5b2d38a62c3d2f0f&redirect_uri=http://3.34.95.42/ict5_kakaologin&response_type=code&state=ICT_5"> -->
 				<img alt="카카오 로그인" src="resources/images/kakaotalk_sharing_btn_small_ov.png">
 			</a>
 		</div>

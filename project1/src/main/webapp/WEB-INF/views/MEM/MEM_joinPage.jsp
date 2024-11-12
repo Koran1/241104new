@@ -164,6 +164,16 @@
 							</td>
 						</tr>
 						
+						<!-- 전화번호 -->
+						<tr>
+							<td><label for="userPhone"><span class="span-subject">*</span> 전화번호</label></td>
+							<td>
+								<input type="text" id="userPhone" name="userPhone" placeholder="전화번호 입력" required>
+								<input type="button" onclick="phone_chk()" value="중복 검사" disabled style="background-color: #88B0AB;">
+								<div class="phone_chkMsg" id="phone_chkMsg"></div>
+								<div id="emailSelection"></div>
+							</td>
+						</tr>
 						<!-- 비밀번호 -->
 						<tr>
 							<td><label for="userPw"><span class="span-subject">*</span> 비밀번호</label></td>
@@ -182,16 +192,6 @@
 							</td>
 						</tr>
 						
-						<!-- 전화번호 -->
-						<tr>
-							<td><label for="userPhone"><span class="span-subject">*</span> 전화번호</label></td>
-							<td>
-								<input type="text" id="userPhone" name="userPhone" placeholder="전화번호 입력" required>
-								<input type="button" onclick="phone_chk()" value="중복 검사" disabled style="background-color: #88B0AB;">
-								<div class="phone_chkMsg" id="phone_chkMsg"></div>
-								<div id="emailSelection"></div>
-							</td>
-						</tr>
 						
 						<!-- 이메일 -->
 						<tr>
