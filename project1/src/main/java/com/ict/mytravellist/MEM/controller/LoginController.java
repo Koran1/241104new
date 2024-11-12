@@ -410,7 +410,7 @@ public class LoginController {
 			StringBuffer sb = new StringBuffer();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=3ddbaef55b331705b94b177e5af93179");
-			sb.append("&redirect_uri=http://localhost:8080/ict5_kakaologin");
+			sb.append("&redirect_uri=http://13.124.3.43/ict5_kakaologin");
 			sb.append("&code=" + code);
 			sb.append("&client_secret=rS8RduBeyLuBEncvcreCNvOuLpDHtZAS");
 			bw.write(sb.toString());
