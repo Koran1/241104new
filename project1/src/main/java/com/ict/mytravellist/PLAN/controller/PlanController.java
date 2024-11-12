@@ -35,13 +35,15 @@ public class PlanController {
 	private MyTrvlPlan_Plans_Paging plans_Paging;
 	
 	@RequestMapping("/mytrvlplan")
-	public ModelAndView goPLAN(HttpServletRequest request, HttpSession session) { 
+	public ModelAndView goPLAN(
+			HttpServletRequest request, HttpSession session,
+			String region) { 
 		ModelAndView mv = new ModelAndView("PLAN/mytrvlplan");
 		try {
 			String userId = (String) session.getAttribute("userId");
 			
 			// Paging Settings
-			int totalCount = travelService.getTotalCount(userId);
+			int totalCount = travelService.getTotalCount(userId, region);
 			intrst_Paging.setTotalRecord(totalCount);
 			
 			if(intrst_Paging.getTotalRecord() <= intrst_Paging.getNumPerPage()) {
@@ -75,9 +77,10 @@ public class PlanController {
 				intrst_Paging.setEndBlock(intrst_Paging.getTotalPage());
 			}
 			
-			List<TravelDBVO> list_trvlfav_paged = travelService.selectListTrvlFavPaged(userId, offset, limit);
+			List<TravelDBVO> list_trvlfav_paged = travelService.selectListTrvlFavPaged(userId, offset, limit, region);
 			mv.addObject("list_trvlfav_paged", list_trvlfav_paged);
 			mv.addObject("intrst_Paging", intrst_Paging);
+			mv.addObject("region", region);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

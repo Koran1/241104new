@@ -45,7 +45,7 @@
 				<c:otherwise>
 					<span>${userId }님</span>
 				</c:otherwise>
-		</c:choose>
+			</c:choose>
 			</a></p>
 			<div id="article_container">
 			<article style="background-color: lightgray">

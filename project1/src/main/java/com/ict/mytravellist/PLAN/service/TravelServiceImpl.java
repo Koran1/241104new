@@ -17,8 +17,8 @@ public class TravelServiceImpl implements TravelService{
 	private TravelDAO travelDAO;
 
 	@Override
-	public List<TravelDBVO> selectListTrvlFavPaged(String userId, int offset, int limit) throws Exception {
-		return travelDAO.selectListTrvlFavPaged(userId, offset, limit);
+	public List<TravelDBVO> selectListTrvlFavPaged(String userId, int offset, int limit, String region) throws Exception {
+		return travelDAO.selectListTrvlFavPaged(userId, offset, limit, region);
 	}
 	
 	@Override
@@ -52,8 +52,8 @@ public class TravelServiceImpl implements TravelService{
 	}
 
 	@Override
-	public int getTotalCount(String userId) throws Exception {
-		return travelDAO.getTotalCount(userId);
+	public int getTotalCount(String userId, String region) throws Exception {
+		return travelDAO.getTotalCount(userId, region);
 	}
 
 	@Override
@@ -67,8 +67,8 @@ public class TravelServiceImpl implements TravelService{
 	}
 
 	@Override
-	public int likeTrvlFav(String userId, String trvlPlanIdx) throws Exception {
-		return travelDAO.likeTrvlFav(userId, trvlPlanIdx);
+	public int likeTrvlFav(String userId, String trvlPlanIdx, String region) throws Exception {
+		return travelDAO.likeTrvlFav(userId, trvlPlanIdx, region);
 	}
 
 	@Override

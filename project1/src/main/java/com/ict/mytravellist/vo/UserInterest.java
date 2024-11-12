@@ -1,7 +1,7 @@
 package com.ict.mytravellist.vo;
 
 public class UserInterest {
-	private String intrstidx, userId, travelIdx;
+	private String intrstidx, userId, travelIdx, region;
 
 	public String getIntrstidx() {
 		return intrstidx;
@@ -25,6 +25,14 @@ public class UserInterest {
 
 	public void setTravelIdx(String travelIdx) {
 		this.travelIdx = travelIdx;
+	}
+
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
 	}
 	
 }

@@ -24,11 +24,12 @@ public class TravelDAOImpl implements TravelDAO{
 	}
 	
 	@Override
-	public List<TravelDBVO> selectListTrvlFavPaged(String userId, int offset, int limit) throws Exception {
+	public List<TravelDBVO> selectListTrvlFavPaged(String userId, int offset, int limit, String region) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userId", userId);
 		map.put("offset", offset);
 		map.put("limit", limit);
+		map.put("region", region);
 		return sqlSessionTemplate.selectList("trvlplan.list_paged", map);
 	}
 	
@@ -62,8 +63,11 @@ public class TravelDAOImpl implements TravelDAO{
 	}
 
 	@Override
-	public int getTotalCount(String userId) throws Exception {
-		return sqlSessionTemplate.selectOne("trvlplan.count", userId);
+	public int getTotalCount(String userId, String region) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userId", userId);
+		map.put("region", region);
+		return sqlSessionTemplate.selectOne("trvlplan.count", map);
 	}
 
 	@Override
@@ -80,10 +84,11 @@ public class TravelDAOImpl implements TravelDAO{
 	}
 
 	@Override
-	public int likeTrvlFav(String userId, String trvlPlanIdx) throws Exception {
+	public int likeTrvlFav(String userId, String trvlPlanIdx, String region) throws Exception {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("userId", userId);
 		map.put("travelIdx", trvlPlanIdx);
+		map.put("region", region);
 		return sqlSessionTemplate.insert("trvlplan.like", map);
 	}
 

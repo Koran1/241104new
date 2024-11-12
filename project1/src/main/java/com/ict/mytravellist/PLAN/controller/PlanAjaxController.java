@@ -237,9 +237,10 @@ public class PlanAjaxController {
 	
 	@RequestMapping(value = "/likeUserFavs")
 	public void likeUserFavs( @RequestParam("userId") String userId,
-			@RequestParam("travelIdx") String travelIdx) {
+			@RequestParam("travelIdx") String travelIdx,
+			@RequestParam("region") String region) {
 		try {
-		int result = travelService.likeTrvlFav(userId, travelIdx);
+		int result = travelService.likeTrvlFav(userId, travelIdx, region);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

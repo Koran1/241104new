@@ -81,10 +81,10 @@
 			<p id="name"><a href="/go_my_page">
 			<c:choose>
 				<c:when test="${userName.length >= 10 }">
-					<span>${userId.substring(0,10)}...님</span>
+					<span style="font-size: 50px; font-weight: bold;">${userId.substring(0,10)}...님</span>
 				</c:when>
 				<c:otherwise>
-					<span>${userId }님</span>
+					<span style="font-size: 50px; font-weight: bold;">${userId }님</span>
 				</c:otherwise>
 			</c:choose>	
 			</a></p>
