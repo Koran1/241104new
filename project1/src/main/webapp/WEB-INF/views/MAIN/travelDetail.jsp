@@ -221,6 +221,7 @@
 		<div class="main_center">
 			<div class="trrname">${list.trrsrtNm} 
 			<input type="checkbox" id="userFavs"
+				data-region="${list.region}"
 				<c:forEach var="favs" items="${fav_list}">
 					<c:if test="${list.travelIdx == favs.travelIdx}">
 						checked = "checked"
@@ -613,25 +614,26 @@
 	    let userFavs = document.querySelector("#userFavs");
 	    
 	    userFavs.addEventListener("click", (e)=>{
+	    	let region = userFavs.getAttribute("data-region");
 			if(e.target.checked === true){
 				if(${empty userId}){
 					alert("로그인 후 사용 가능합니다!");
 					location.href="/mem_login";
 				}else{
-					likeUserFavs(userFavs.value);
+					likeUserFavs(userFavs.value, region);
 				}
 			}else{
 				unlikeUserFavs(userFavs.value);
 			}
 		})
 	
-		function likeUserFavs(travelIdx) {
+		function likeUserFavs(travelIdx, region) {
 			$.ajax({	
 				url : "/likeUserFavs",
 				method : "get",
-				data : {userId :"${userId}", travelIdx : travelIdx},
+				data : {userId :"${userId}", travelIdx : travelIdx, region : region},
 				success : function(data) {
-					alert("관심지 등록 완료!")
+					
 				},error : function() {
 					alert("서버 오류 발생");
 				}

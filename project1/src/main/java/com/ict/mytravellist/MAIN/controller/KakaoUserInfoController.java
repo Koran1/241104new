@@ -88,13 +88,13 @@ public class KakaoUserInfoController {
 				return sb2.toString();
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		} finally {
 			try {
 				br.close();
 				conn.disconnect();
 			} catch (Exception e2) {
-				System.out.println(e2);
+				e2.printStackTrace();
 			}
 		}
 

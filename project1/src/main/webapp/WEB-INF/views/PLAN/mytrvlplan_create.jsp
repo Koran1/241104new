@@ -13,7 +13,7 @@
 
 <style type="text/css">
 /* Modal Styles */
-.modal {
+#popupModal .modal {
 	display: none;
 	position: fixed;
 	z-index: 1;
@@ -24,7 +24,7 @@
 	background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-content {
+#popupModal .modal-content {
 	background-color: white;
 	margin: 15% auto;
 	padding: 20px;
@@ -32,22 +32,33 @@
 	width: 70%;
 	height: 70%;
 	text-align: center;
-	overflow: scroll;
+    overflow: scroll;
 }
 
-.close {
+#popupModal .close {
 	color: #aaa;
 	float: right;
 	font-size: 28px;
 	font-weight: bold;
 }
 
-.close:hover, .close:focus {
+#popupModal .close:hover, #popupModal .close:focus {
 	color: black;
 	text-decoration: none;
 	cursor: pointer;
 }
-
+#modal-top-bar{
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	font-size: 24px;
+	font-weight: bold;
+}
+#popupModal #add-item{
+	align-self: center;
+	width: 20%;
+	padding: 5px;
+}
 /* Grid and Item Styles */
 .image-grid {
 	display: grid;
@@ -58,7 +69,7 @@
 
 .image-item {
 	text-align: center;
-	border: 2px solid pink;
+	border: 2px solid #008165;
 	border-radius: 8px;
 	padding: 5px;
 	width: 200px;
@@ -245,8 +256,10 @@
 			<!-- Modal Popup -->
 			<div id="popupModal" class="modal">
 				<div class="modal-content">
-					<span class="close">&times;</span>
-					<h2>내가 찜한 관광지</h2>
+					<div id="modal-top-bar">
+						<p class="close">&times;</p>
+						<p>내가 찜한 관광지</p>
+					</div>
 					<button id="add-item">추가하기</button>
 					<div class="image-grid">
 						<c:choose>

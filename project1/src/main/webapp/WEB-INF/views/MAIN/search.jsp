@@ -194,6 +194,7 @@
 									<div class="travel_info">
 										<p class="travel_location_title">${k.trrsrtNm}
 										<input type="checkbox" class="userFavs" value="${k.travelIdx}"
+											data-region="${k.region}"
 											<c:forEach var="favs" items="${fav_list}">
 												<c:if test="${k.travelIdx == favs.travelIdx}">
 													checked = "checked"
@@ -273,12 +274,13 @@
 		
 		document.querySelectorAll(".userFavs").forEach(items => {
 				items.addEventListener("click", (e)=>{
+				let region = items.getAttribute("data-region");
 				if(e.target.checked == true){
 					if(${empty userId}){
 						alert("로그인 후 사용 가능합니다!");
 						location.href="/mem_login";
 					}else{
-						likeUserFavs(items.value);
+						likeUserFavs(items.value, region);
 					}
 				}else{
 					unlikeUserFavs(items.value);
@@ -286,11 +288,11 @@
 			})
 		})
 		
-		function likeUserFavs(travelIdx) {
+		function likeUserFavs(travelIdx, region) {
 			$.ajax({	
 				url : "/likeUserFavs",
 				method : "get",
-				data : {userId :"${userId}", travelIdx : travelIdx},
+				data : {userId :"${userId}", travelIdx : travelIdx, region : region},
 				success : function(data) {
 					
 				},error : function() {

@@ -11,6 +11,9 @@
 	<select id="list_paged" parameterType="map" resultType="tdvo">
 		select * from travellistdb 
 		where travelIdx in (select travelIdx from pjuserinterest where userId = #{userId})
+		<if test="region != null and region != ''">
+            AND region = #{region} 
+        </if>
 		order by travelIdx limit #{limit} offset #{offset}
 	</select>
 	<select id="onelist" parameterType="String" resultType="tdvo">
@@ -38,8 +41,11 @@
 		trvlPlantrrsrtNm5 = #{trvlPlantrrsrtNm5} where trvlPlanIdx = #{trvlPlanIdx}
 	</update>
 	
-	<select id="count" parameterType="String" resultType="int">
+	<select id="count" parameterType="map" resultType="int">
 		select count(*) from pjuserinterest where userId = #{userId}
+		<if test="region != null and region != ''">
+            AND region = #{region}
+        </if>
 	</select>
 	<select id="plan_count" parameterType="String" resultType="int">
 		select count(*) from pjtrvlplan where userId = #{userId}
@@ -48,7 +54,8 @@
 		delete from pjuserinterest where userId = #{userId} and travelIdx = #{travelIdx}
 	</delete>
 	<insert id="like" parameterType="map">
-		insert into pjuserinterest (userId, travelIdx) values (#{userId}, #{travelIdx})
+		insert into pjuserinterest (userId, travelIdx, region) 
+		values (#{userId}, #{travelIdx}, #{region})
 	</insert>
 	<select id="get_userfavs" parameterType="String" resultType="userintvo">
 		select * from pjuserinterest where userId = #{userId}

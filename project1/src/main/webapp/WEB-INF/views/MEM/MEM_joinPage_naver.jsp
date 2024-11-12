@@ -169,6 +169,16 @@
 							</td>
 						</tr>
 						
+						<!-- 전화번호 -->
+						<tr>
+							<td><label for="userPhone"><span class="span-subject">*</span> 전화번호</label></td>
+							<td>
+								<input type="text" id="userPhoneDisplay" name="userPhone" value="${uservo.userPhone }" placeholder="전화번호 입력" required readonly>
+								<input type="button" id="phoneChkBtn" value="중복 검사">
+								<div class="phone_chkMsg" id="phone_chkMsg"></div>
+								<div id="emailSelection"></div>
+							</td>
+						</tr>
 						<!-- 비밀번호 -->
 						<tr>
 							<td><label for="userPw"><span class="span-subject">*</span> 비밀번호</label></td>
@@ -187,16 +197,6 @@
 							</td>
 						</tr>
 						
-						<!-- 전화번호 -->
-						<tr>
-							<td><label for="userPhone"><span class="span-subject">*</span> 전화번호</label></td>
-							<td>
-								<input type="text" id="userPhoneDisplay" name="userPhone" value="${uservo.userPhone }" placeholder="전화번호 입력" required readonly>
-								<input type="button" id="phoneChkBtn" onclick="phone_chk()" value="중복 검사">
-								<div class="phone_chkMsg" id="phone_chkMsg"></div>
-								<div id="emailSelection"></div>
-							</td>
-						</tr>
 						
 						<!-- 이메일 -->
 						<tr>
@@ -470,15 +470,15 @@
 
                             // 중복된 전화번호 처리
                             let emailHTML =
-    						'<p>이미 사용 중인 전화번호입니다. 아래 이메일 중 선택하세요:</p>' +
-    						'<p><input type="radio" name="emailOption" value="' + data.result2[0].userMail + '" checked>' + data.result2[0].userMail + '</p>' +
-    						'<p><input type="radio" name="emailOption" value=" ${uservo.userMail} " checked> ${uservo.userMail} </p>' +
+    						'<p>이미 사용 중인 전화번호입니다. 아래 이메일 중 선택하세요:</p><br>' +
+    						'<p><input type="radio" name="emailOption" value="' + data.result2[0].userMail + '" checked>' +' 기존 : '+data.result2[0].userMail + '</p>' +
+    						'<p><input type="radio" name="emailOption" value="${uservo.userMail} " checked> 변경 : ${uservo.userMail} </p><br>' +
     						'<button type="button" id="selectEmailBtn">선택</button>'
                             emailSelectionDiv.html(emailHTML);
 
                             // 선택 버튼 이벤트 추가
                             $("#emailSelection").on("click", "#selectEmailBtn", function () {
-                                const selectedEmail = $("input[name='emailOption']:checked").val().trim();
+                                let selectedEmail = $("input[name='emailOption']:checked").val().trim();
                                 selectedEmail = selectedEmail.replace(/,/g, "");
                                 $("#selectedEmail").val(selectedEmail);
                                 $("#userMail").val(selectedEmail);

@@ -124,7 +124,7 @@ public class LoginController {
 	        
 	        return mv;
 	    } catch (Exception e) {
-	        System.out.println(e);
+	    	e.printStackTrace();
 	    }
 	    return new ModelAndView("MEM/MEM_loginError2");
 	}
@@ -188,7 +188,7 @@ public class LoginController {
 	            }
 	        }
 	    } catch (Exception e) {
-	        System.out.println(e);
+	        e.printStackTrace();
 	    }
 	    return mv;
 	}
@@ -230,7 +230,7 @@ public class LoginController {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 		return mv;
 	}
@@ -296,8 +296,12 @@ public class LoginController {
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 			StringBuffer sb = new StringBuffer();
 			sb.append("grant_type=authorization_code");
-			sb.append("&client_id=LATuMwgCg7IIRlZG9lKz");
-			sb.append("&client_secret=AGqNgwJlZT");
+			
+			  sb.append("&client_id=LATuMwgCg7IIRlZG9lKz");
+			  sb.append("&client_secret=AGqNgwJlZT");
+			 
+				/* sb.append("&client_id=JArbJQzekN3B9KzvZp4b"); */
+				/* sb.append("&client_secret=wdKyUNJCaE"); */
 			sb.append("&code=" + code);
 			sb.append("&state=" + state);
 			bw.write(sb.toString());
@@ -409,10 +413,15 @@ public class LoginController {
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 			StringBuffer sb = new StringBuffer();
 			sb.append("grant_type=authorization_code");
-			sb.append("&client_id=3ddbaef55b331705b94b177e5af93179");
-			sb.append("&redirect_uri=http://localhost:8080/ict5_kakaologin");
+			sb.append("&client_id=3ddbaef55b331705b94b177e5af93179"); 
+			sb.append("&redirect_uri=http://localhost:8080/ict5_kakaologin"); 
+			/*
+			 * sb.append("&client_id=1a31dbd4bb00984c5b2d38a62c3d2f0f");
+			 * sb.append("&redirect_uri=http://3.34.95.42/ict5_kakaologin");
+			 */
 			sb.append("&code=" + code);
-			sb.append("&client_secret=rS8RduBeyLuBEncvcreCNvOuLpDHtZAS");
+			sb.append("&client_secret=rS8RduBeyLuBEncvcreCNvOuLpDHtZAS"); 
+			/* sb.append("&client_secret=VCIUYRu9VtaTVcOqRJ5DCMEqFvOlGyli"); */
 			bw.write(sb.toString());
 			bw.flush();
 

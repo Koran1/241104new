@@ -37,8 +37,6 @@ public class AdminRestController {
 			int countQNA = adminService.getCountQNA(userId);
 			map.put("countTT", countTT);
 			map.put("countQNA", countQNA);
-			
-			
 			return map; 
 
 		} catch (Exception e) {

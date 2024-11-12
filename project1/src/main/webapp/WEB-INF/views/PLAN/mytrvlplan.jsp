@@ -98,23 +98,23 @@ ol.paging li a:hover {
 
 		<div id="main_container">
 			<select id="region-filter">
-				<option value="all">All</option>
-				<option value="1">서울</option>
-				<option value="2">부산</option>
-				<option value="3">대구</option>
-				<option value="4">인천</option>
-				<option value="5">광주</option>
-				<option value="6">대전</option>
-				<option value="7">울산</option>
-				<option value="8">경기</option>
-				<option value="9">강원</option>
-				<option value="10">충북</option>
-				<option value="11">충남</option>
-				<option value="12">전북</option>
-				<option value="13">전남</option>
-				<option value="14">경북</option>
-				<option value="15">경남</option>
-				<option value="16">제주</option>
+				<option value="" ${region == '' ? 'selected' : ''}>:: 전체 ::</option>
+			    <option value="1" ${region == '1' ? 'selected' : ''}>서울</option>
+			    <option value="2" ${region == '2' ? 'selected' : ''}>부산</option>
+			    <option value="3" ${region == '3' ? 'selected' : ''}>대구</option>
+			    <option value="4" ${region == '4' ? 'selected' : ''}>인천</option>
+			    <option value="5" ${region == '5' ? 'selected' : ''}>광주</option>
+			    <option value="6" ${region == '6' ? 'selected' : ''}>대전</option>
+			    <option value="7" ${region == '7' ? 'selected' : ''}>울산</option>
+			    <option value="8" ${region == '8' ? 'selected' : ''}>경기</option>
+			    <option value="9" ${region == '9' ? 'selected' : ''}>강원</option>
+			    <option value="10" ${region == '10' ? 'selected' : ''}>충북</option>
+			    <option value="11" ${region == '11' ? 'selected' : ''}>충남</option>
+			    <option value="12" ${region == '12' ? 'selected' : ''}>전북</option>
+			    <option value="13" ${region == '13' ? 'selected' : ''}>전남</option>
+			    <option value="14" ${region == '14' ? 'selected' : ''}>경북</option>
+			    <option value="15" ${region == '15' ? 'selected' : ''}>경남</option>
+			    <option value="16" ${region == '16' ? 'selected' : ''}>제주</option>
 			</select>
 
 			<form action="/mytrvlplan_unlike" method="post" style="display: inline;">
@@ -143,7 +143,7 @@ ol.paging li a:hover {
 								<li class="disable">◀ 이전</li>
 							</c:when>
 							<c:otherwise>
-								<li><a href="/mytrvlplan?intrst_cPage=${intrst_Paging.beginBlock-intrst_Paging.pagePerBlock}">◀ 이전</a></li>
+								<li><a href="/mytrvlplan?intrst_cPage=${intrst_Paging.beginBlock-intrst_Paging.pagePerBlock}&region=${region}">◀ 이전</a></li>
 							</c:otherwise>
 						</c:choose>
 
@@ -155,7 +155,7 @@ ol.paging li a:hover {
 								<li class="now">${k}</li>
 							</c:if>
 							<c:if test="${k != intrst_Paging.nowPage}">
-								<li><a href="/mytrvlplan?intrst_cPage=${k}">${k}</a></li>
+								<li><a href="/mytrvlplan?intrst_cPage=${k}&region=${region}">${k}</a></li>
 							</c:if>
 						</c:forEach>
 
@@ -166,7 +166,7 @@ ol.paging li a:hover {
 							</c:when>
 							<c:otherwise>
 								<%-- <li><a href="/bbs?cPage=${paging.beginBlock+paging.pagePerBlock}">다음으로</a></li> --%>
-								<li><a href="/mytrvlplan?intrst_cPage=${intrst_Paging.endBlock+1}">다음 ▶</a></li>
+								<li><a href="/mytrvlplan?intrst_cPage=${intrst_Paging.endBlock+1}&region=${region}">다음 ▶</a></li>
 							</c:otherwise>
 						</c:choose>
 					</ol>
@@ -180,16 +180,19 @@ ol.paging li a:hover {
 <jsp:include page="../MAIN/footer.jsp" />
 	<script type="text/javascript">
 		document.getElementById('region-filter').addEventListener('change', function () {
-		    const selectedCategory = this.value;
+		    const region = this.value;
+		    console.log(region);
+		    /* const selectedCategory = this.value;
 		    const imageItems = document.querySelectorAll('.image-item');
 		    imageItems.forEach((item) => {
 		        const itemCategory = item.getAttribute('data-category');
-		        if (selectedCategory === 'all' || itemCategory === selectedCategory) {
+		        if (selectedCategory === '' || itemCategory === selectedCategory) {
 		            item.style.display = 'block';
 		        } else {
 		            item.style.display = 'none';
 		        }
-	    	});
+	    	}); */
+	    	location.href ="/mytrvlplan?region="+region;
 		});
 		
 		document.querySelectorAll('.image-item').forEach(item => {
