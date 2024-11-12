@@ -14,7 +14,7 @@
 	width: 100%;
 }
 #main_container table{
-	width: 700px;
+	width: 650px;
 }
 #main_container table thead th, #main_container table tbody td {
 	border: 1px solid black;

@@ -124,9 +124,7 @@ public class MainController {
 	
 		    // DB 처리
 		    List<TravelDBVO> list = mainService.getSearchPageList(paging.getOffset(), paging.getNumPerPage(), tdvo);
-		    for (TravelDBVO k : list) {
-			}
-		    // 작업중
+		    
 		    List<UserInterest> fav_list = travelService.getUserFavs((String) request.getSession().getAttribute("userId"));
 		    mv.addObject("fav_list", fav_list);
 		    
@@ -144,12 +142,18 @@ public class MainController {
 
     // 특정 관광지의 상세 정보 조회
     @GetMapping("/travelDetail_go")
-    public ModelAndView detail(@ModelAttribute("travelIdx") String travelIdx) {
+    public ModelAndView detail(@ModelAttribute("travelIdx") String travelIdx, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView("MAIN/travelDetail");
         List<TravelDBVO> list = mainService.getDetailList(travelIdx);
         if (!list.isEmpty()) {
-            mv.addObject("list", list.get(0));
-            
+        	try {
+	            mv.addObject("list", list.get(0));
+	            List<UserInterest> fav_list = travelService.getUserFavs((String) request.getSession().getAttribute("userId"));
+			    mv.addObject("fav_list", fav_list);
+        	} catch (Exception e) {
+        		e.printStackTrace();
+        		return null;
+        	}
         } else {
             System.out.println("해당 관광지 정보를 찾을 수 없습니다: " + travelIdx);
             return null;

@@ -219,7 +219,14 @@
 
 		<!-- 메인 센터 -->
 		<div class="main_center">
-			<div class="trrname">${list.trrsrtNm} </div>
+			<div class="trrname">${list.trrsrtNm} 
+			<input type="checkbox" id="userFavs"
+				<c:forEach var="favs" items="${fav_list}">
+					<c:if test="${list.travelIdx == favs.travelIdx}">
+						checked = "checked"
+					</c:if>
+				</c:forEach>
+			> </div>
 			<!-- 사진 섹션 -->
 			<div class="photo_gallery">
 				<img src="${list.placeImg01}" alt="관광지 이미지01" class="photo_big" id="photo_big">
@@ -602,6 +609,48 @@
 	            modal.style.display = "none";
 	        });
 	    });
+	    
+	    let userFavs = document.querySelector("#userFavs");
+	    
+	    userFavs.addEventListener("click", (e)=>{
+			if(e.target.checked === true){
+				if(${empty userId}){
+					alert("로그인 후 사용 가능합니다!");
+					location.href="/mem_login";
+				}else{
+					likeUserFavs(userFavs.value);
+				}
+			}else{
+				unlikeUserFavs(userFavs.value);
+			}
+		})
+	
+		function likeUserFavs(travelIdx) {
+			$.ajax({	
+				url : "/likeUserFavs",
+				method : "get",
+				data : {userId :"${userId}", travelIdx : travelIdx},
+				success : function(data) {
+					alert("관심지 등록 완료!")
+				},error : function() {
+					alert("서버 오류 발생");
+				}
+			});
+		}
+		
+		function unlikeUserFavs(travelIdx) {
+			$.ajax({	
+				url : "/unlikeUserFavs",
+				method : "get",
+				data : {userId :"${userId}", travelIdx : travelIdx},
+				success : function(data) {
+					alert("관심지 삭제 완료!")
+				},error : function() {
+					alert("서버 오류 발생");
+				}
+			});
+			
+		}
 	</script>
 
 </body>

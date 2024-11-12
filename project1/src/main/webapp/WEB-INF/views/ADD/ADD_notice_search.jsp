@@ -44,7 +44,6 @@
 	.noticeReg{
 		width: 30%;
 		text-align: center;
-		border-left: 1px solid #ddd;
 	}
 	.subject-detail {
 		text-decoration: none;
@@ -99,30 +98,36 @@
 	.notice-table th, td{
 		padding: 10px;
 		margin: 10px;
+		text-align: center;
+		font-weight: bold;
 	}
-	.pagination {
-		width: 70%;
-        margin: 0 auto;
-        display: table;
-        text-align: center;
-        margin-bottom: 30px;
-    }
-    .pagination a {
-        color: #555;
-        float: left;
-        padding: 8px 16px;
-        text-decoration: none;
-        transition: background-color .3s;
-        background: #eee;
-    }
-    .pagination a.btn-mark {
-        margin: 5px;
-    }
-    .pagination a.active {
-        background: #008165;
-        margin: 5px;
-        color: white;
-    }
+	    .pagination {
+	        width: 50%;
+	        margin: 20px auto;
+	        text-align: center;
+	    }
+	    .pagination a {
+	        color: #555;
+	        display: inline-block;
+	        padding: 6px 12px;
+	        text-decoration: none;
+	        transition: background-color .3s;
+	        background: #eee;
+	        border-radius: 3px;
+	        margin: 0 2px;
+	        font-size: 14px;
+	    }
+	    .pagination a.btn-mark {
+	        margin: 0 5px;
+	    }
+	    .pagination a.active {
+	        background: #008165;
+	        color: white;
+	        font-weight: bold;
+	    }
+	    .pagination a:hover {
+	        background: #d9d9d9;
+	    }
     ul.tab-menu {
         list-style-type: none;
         margin: 0;

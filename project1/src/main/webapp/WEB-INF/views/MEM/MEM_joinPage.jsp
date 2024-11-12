@@ -131,14 +131,12 @@
 		background-color: #02B08A;
 	}
 	#emailSelection {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    height: auto !important;
-    margin-top: 10px;
-}
-	
-	
+    	display: block !important;
+    	visibility: visible !important;
+    	opacity: 1 !important;
+    	height: auto !important;
+    	margin-top: 10px;
+	}
 </style>
 </head>
 <body>
@@ -327,7 +325,7 @@
 				</div>
 			</form>
 		</div>
-		
+		<jsp:include page="../MAIN/footer.jsp" />
 		<!-- 아이디, 비밀번호 스크립트 -->
 		<script type="text/javascript">
 		// 아이디 정규식(6~10자, 영문자, 숫자 포함 여부 체크)
@@ -531,7 +529,7 @@
 	                if (data.status === "duplicate") {
 	                	console.log(data.email);
 	                    // 중복된 전화번호의 경우
-	                    let emailHTML = '<p>이미 사용 중인 전화번호입니다. 아래 이메일 중 선택하세요:</p>';
+	                    let emailHTML = '<p style="color: red;">이미 사용 중인 전화번호입니다. 아래 이메일 중 선택하세요:</p>';
 	                    emailHTML += '<input type="radio" name="emailOption" value="'+data.email+'" id="existingEmail" checked>'
 	                    emailHTML += '<label for="existingEmail">'+data.email+'</label>'
 	                    emailHTML += '<button type="button" id="selectEmailBtn">선택</button>'
@@ -543,7 +541,8 @@
 	                    $(document).off("click", "#selectEmailBtn"); // 기존 이벤트 제거
 	                    $(document).on("click", "#selectEmailBtn", function () {
 	                        const selectedEmail = $("input[name='emailOption']:checked").val();
-	                        $("#selectedEmail").val(selectedEmail);
+	                        $("#selectedEmail").val(selectedEmail).trim();
+                            selectedEmail = selectedEmail.replace(/,/g, "");
 	                        $("#userMail").val(selectedEmail); // 이메일 필드에 값 설정
 	                        alert("선택된 이메일: "+selectedEmail);
 	                        $("#userChk").val("1");
@@ -753,6 +752,5 @@
 	    }
 		</script>
 	</div>
-	<jsp:include page="../MAIN/footer.jsp" />
 </body>
 </html>

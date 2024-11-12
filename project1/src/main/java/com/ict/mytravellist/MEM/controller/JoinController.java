@@ -162,7 +162,7 @@ public class JoinController {
 		return mv;
 	}
 	
-	// 회원가입 처리 - 네이버
+	// 회원가입 처리 - 카카오
 	@PostMapping("/mem_joinPage_kakao_OK")
 	public ModelAndView mem_joinPage_kakao_OK(UserVO uservo, RedirectAttributes redirectAttributes, String userChk) {
 		ModelAndView mv = new ModelAndView("");
