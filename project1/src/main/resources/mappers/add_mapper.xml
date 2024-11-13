@@ -27,8 +27,8 @@
 	<!-- 공지사항 검색 기능 -->
 	<select id="adds.noticeSearch" parameterType="String" resultType="noticevo">
 		SELECT * FROM pjnotice 
-        WHERE noticeSubject LIKE CONCAT('%', #{keyword}, '%') 
-        OR noticeContent LIKE CONCAT('%', #{keyword}, '%') 
+        WHERE noticeSubject LIKE CONCAT('%', #{keyword2}, '%') 
+        OR noticeContent LIKE CONCAT('%', #{keyword2}, '%') 
         ORDER BY noticeIdx DESC
 	</select>
 	

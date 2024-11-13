@@ -189,9 +189,9 @@
 		</div>
 		<script type="text/javascript">
 			function validateSearch() {
-				var keyword = document.getElementsByName("notice_keyword")[0].value
+				var search = document.getElementsByName("notice_keyword")[0].value
 						.trim();
-				if (keyword === "") { 
+				if (search === "") { 
 					alert("검색어를 입력하세요.");
 					return false;
 				}

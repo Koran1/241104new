@@ -47,5 +47,5 @@ public interface AddService {
 	public List<QNAVO> getQNAList(int offset, int limit, String userId);
 	
 	// 공지사항 검색 기능
-	public List<NoticeVO> getNoticeSearch(String keyword);
+	public List<NoticeVO> getNoticeSearch(String keyword2);
 }

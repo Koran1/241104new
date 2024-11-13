@@ -72,8 +72,8 @@ public class AddServiceImpl implements AddService {
 	}
 
 	@Override
-	public List<NoticeVO> getNoticeSearch(String keyword) {
-		return addDAO.getNoticeSearch(keyword);
+	public List<NoticeVO> getNoticeSearch(String keyword2) {
+		return addDAO.getNoticeSearch(keyword2);
 	}
 
 	@Override
