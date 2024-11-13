@@ -13,52 +13,51 @@
 	#container #flex_left{width: 15%;  background-color: Whitesmoke;}
 	#container #flex_write{width: 85%;}
 	#container #logo{width: 200px; height: 70px;} 
-	#container #name{font-size: 50px; font-weight: bold;}
+	#container #article_container{display: flex; flex-direction: column;}
 	#container article{padding: 20px; margin: 10px; text-align: center;}
 	#container article i {font-size: 60px; padding: 20px; margin-right: 10px;}
 	#container article span{font-size: 30px; display: inline-block; margin-top: 20px;}
 	#container #title{font-size: 50px; margin-left: 20px;}
 	#container #msg{text-align: center;}
 	#container #change_pw_form{width: 1300px; min-height: 1000px; margin: 0 auto;}
-	#container input {width: 40%;  padding: 30px; margin-left: 20px;}
+	#container input {width: 40%;  padding: 20px; margin-left: 30px;}
 	#container button {width: 130px; height: 60px; margin-right: 100px; }
 	#container #buttons{display: flex; justify-content: center; margin-top: 20px; }
 	#container a {text-decoration: none; color: black}
 	#container input[type="password"]{font-size: 45px;}
 	#container .scLv{display: inline-block; width: 20px; border: 1px solid black; height: 13px; }
-	#prId{text-decoration: none;}
+	.prId{text-decoration: none; color: black; display: inline-block; margin-left: 50px; font-size: 50px; font-weight: bold;}
 </style>
 </head>
 <body>
 <jsp:include page="MEM_header.jsp" />
 	<div id="container">
 		<section id="flex_left">
-			<p id="name"><a href="/go_my_page">
+			<p><a href="/go_my_page">
 				<c:choose>
 					<c:when test="${userName.length >= 10 }">
-						<span>${userId.substring(0,10)}...님</span>
+						<span  class="prId">${userId.substring(0,10)}...님</span>
 					</c:when>
 					<c:otherwise>
-						<span>${userId }님</span>
+						<span class="prId">${userId }님</span>
 					</c:otherwise>
 				</c:choose>
 			</a></p>
 			<div id="article_container">
-			<article><a href="/go_my_comment">
-				<i class="fa-regular fa-message"></i>
-				내 댓글 관리
+			<article><a href="/go_my_comment"><i class="fa-regular fa-message"></i>
+				<span>내 댓글 관리</span>
 			</a></article>
 			<article><a href="/go_update">
 				<i class="fa-solid fa-user-gear" style="float: left"></i>
-				회원정보 수정
+				<span>회원정보 수정</span>
 			</a></article>
 			<article style="background-color: lightgray">
 				<i class="fa-solid fa-unlock" style="float: left"></i>	
-				비밀번호 변경
+				<span>비밀번호 변경</span>
 			</article>
 			<article><a href="/go_user_out">
 				<i class="fa-solid fa-arrow-right-from-bracket" style="float: left"></i>
-				회원 탈퇴
+				<span>회원 탈퇴</span>
 			</a></article>
 			</div>
 
@@ -75,8 +74,8 @@
 			 		<p>비밀번호 확인:  <input type="password" id="confirmPw"  name="confirmPw" required > </p>
 			 	</fieldset>
 				 <div id="buttons">
-					 <button type="button"  onclick="cancle(this.form)" >취소</button>
-				 	 <button type="button" onclick="confirm(this.form)">변경</button>
+				 	 <button type="button" style="background-color: gray; color: white; border: none;" onclick="confirm(this.form)">변경</button>
+					 <button type="button" style="background: white;"   onclick="cancle(this.form)" >취소</button>
 				 </div>
 			 </form>
 		</section>				

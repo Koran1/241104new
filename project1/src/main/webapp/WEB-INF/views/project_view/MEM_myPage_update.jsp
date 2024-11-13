@@ -36,7 +36,7 @@
 
 	#container #modal-content{
 		background-color: white;
-		margin: 15% auto;
+		margin: 5% auto;
 		padding: 20px;
 		border: 1px solid #888;
 		width: 70%;
@@ -130,14 +130,14 @@
 			 			<label for="userName">이름 <input type="text" name="userName" id="userName" class="write" value="${detail.userName }" readonly> </label><br>
 				 		<label for="userId">아이디 <input type="text" name="userId" id="userId"  class="write" value="${detail.userId }" readonly></label><br>
 				 		<label for="userPhone">전화번호 <input type="number" id="userPhone" name="userPhone" class="write" value="${detail.userPhone }" style="width: 200px;" placeholder="-제외하고 입력">
-				 			<input type="button" value="중복확인" onclick="judgePhone(this.form)"></label><br> 
-				 		<p id="judgeMsg2"></p>
+				 			<input id="btn_phoneChk" type="button" value="중복확인"></label><br> 
+				 		<p id="judgeMsg1"></p>
 			 			<label for="userMail" id="emailLb">이메일 
 			 				<input type="email" name="userMail"  id="userMail" class="write" value="${detail.userMail }" 
 			 					   pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" title="이메일 양식" style="width: 330px;">
-			 				<input type="button" value="중복확인" onclick="judgeEmail(this.form)">
+			 				<input  id="btn_emailChk" type="button" value="중복확인">
 			 			</label><br>
-			 			<p id="judgeMsg1"></p>
+			 			<p id="judgeMsg2"></p>
 			 			<label for="emailCode" >이메일 인증
 			 				<input type="text" id="u_emailCode" name="u_emailCode" placeholder="전송받은 번호 입력">
 			 				<input type="button" value="전송" id="sendCode" style="width: 65px; height: 30px;">
@@ -158,8 +158,8 @@
 			 			<input type="hidden" id="userFavor03" name="userFavor03" value="${detail.userFavor03}">
 				</fieldset>
 				<div id="buttons">
-					<input type="button" id="btn_update" class="btn_action" value="수정" onclick="goUpdate(this.form)">
-					<input type="button"  id="btn_cancel" class="btn_action" value="취소" onclick="goMyPage()">
+					<input type="button" id="btn_update" class="btn_action" value="수정" style="background-color: gray; color: white; border: none;" onclick="goUpdate(this.form)">
+					<input type="button"  id="btn_cancel" class="btn_action" value="취소" style="background: white;" onclick="goMyPage()">
 				</div>
 			 </form>
 		<div id="modal">
@@ -175,8 +175,8 @@
 					</tbody>
 				</table>
 				<div id="buttons">
-					<input type="button" id="modal_confirm" class="btn_action" value="확인">
-					<input type="button" id="modal_close" class="btn_action" value="닫기" >
+					<input type="button" id="modal_confirm" class="btn_action" value="확인" style="background-color: gray; color: white; border: none;" >
+					<input type="button" id="modal_close" class="btn_action" value="닫기" style="background: white;">
 				</div>
 			</div>
 		</div>
@@ -218,17 +218,40 @@
         	if(name == "" || id == "" || phone == "" || mail == "" || addr == "" || favor1 == "" || favor2 == "" || favor3 == "") {
         		alert("공란이 존재하면 수정 할 수 없습니다.");
         	}else{
-        		if("${detail.userPhone}" != phone || "${detail.userMail}" != mail || "${detail.userAddr}" != addr || 
-        				"${detail.userFavor01}" != favor1 || "${detail.userFavor02}" != favor2 || "${detail.userFavor03}" != favor3) {
-        			if("${isUsable}" == true  && "${isPhoneUsable}" == true){
+        		if("${detail.userAddr}" != addr || "${detail.userFavor01}" != favor1 || "${detail.userFavor02}" != favor2 || "${detail.userFavor03}" != favor3) {
 		        	   f.action = "/go_update_ok";
 		        	   f.submit(); 
+        		}else if("${detail.userPhone}" != phone) {
+        			let judgeMsg1 = document.querySelector("#judgeMsg1");   
+        			if(judgeMsg1.innerText == "사용 가능한 전화번호 입니다.") {
+        				if("${detail.userMail}" != mail) {
+        					let judgeMsg2 = document.querySelector("#judgeMsg2");
+                			if(judgeMsg2.innerText == "사용 가능한 이메일 입니다.") {
+                				f.action = "/go_update_ok";
+         		        	   	f.submit();
+                			}else {
+                				alert("메일 수정시 중복인지 확인해야 합니다.");
+                			}
+        				}
         			}else {
-        				alert("전화번호, 이메일의 중복검사를 통과해야만 수정할 수 있습니다.");
+        				alert("전화번호 수정시 중복인지 확인해야 합니다.");
+        			}
+        		}else if("${detail.userMail}" != mail) {
+        			let judgeMsg2 = document.querySelector("#judgeMsg2");
+        			if(judgeMsg2.innerText == "사용 가능한 이메일 입니다.") {
+        				if("${detail.userPhone}" != phone){
+        					let judgeMsg1 = document.querySelector("#judgeMsg1");
+        						if(judgeMsg1.innerText == "사용 가능한 전화번호 입니다.") {
+                    				f.action = "/go_update_ok";
+             		        	   	f.submit();
+        						}else {
+        							alert("전화번호 수정시 중복인지 확인해야 합니다.");
+        						}
+        				}
         			}
         		}
-        	}
 		   }
+           }
            function changeFlavor() {
 				let modal = document.querySelector("#modal");
 				modal.style.display = "block";
@@ -332,57 +355,78 @@
 	    		return pattern.test(userPhone);
 	    	}
 	       	
-           function judgePhone(f) {
+          $("#btn_phoneChk").on("click", function(){
         	  let userPhone = document.querySelector("#userPhone").value; 
         	  if (isPhonePatternGood(userPhone)) {
-        	   f.action = "/judge_user_Phone";
-        	   f.submit(); 
+        		  $.ajax({
+        			  url:"/judge_user_Phone", 
+        			  method: "POST",
+        			  data: "userPhone=" + userPhone, 
+        		  	  dataType: "text", 
+        		  	  success: function(data){
+						let judgeMsg1 = document.querySelector("#judgeMsg1");    
+        		  		 if(data == "OK" ) {
+							judgeMsg1.innerText = "사용 가능한 전화번호 입니다.";
+							judgeMsg1.style.color = "green";
+        		  		 }else if (data == "NO") {
+							judgeMsg1.innerText = "다른 전화번호를 사용해 주세요.";
+							judgeMsg1.style.color = "tomato";
+        		  			 
+        		  		 }else if (data == null) {
+        		  			 alert("서버오류 발생");
+        		  		 }
+        		  	  }, 
+        		  	  error: function(){
+        		  		  alert("오류 발생");
+        		  	  }
+        		  });
+      
 			  }else {
 				alert("올바른 전화번호 형식이 아닙니다.");
 			}
-           }
-           function judgeEmail(f) {
+          });
+          
+          $("#btn_emailChk").on("click", function(){
         	  let userMail = document.querySelector("#userMail").value; 
         	  if (isEmailPatternGood(userMail)) {
-        	   f.action = "/judge_user_email"
-        	   f.submit();
+        		  $.ajax({
+        			  url:"/judge_user_Mail", 
+        			  method: "POST",
+        			  data: "userMail=" + userMail, 
+        		  	  dataType: "text", 
+        		  	  success: function(data){
+						let judgeMsg2 = document.querySelector("#judgeMsg2");    
+        		  		 if(data == "OK" ) {
+       						judgeMsg2.innerText = "사용 가능한 이메일 입니다.";
+       						judgeMsg2.style.color = "green";
+        		  		 }else if (data == "NO") {
+       						judgeMsg2.innerText = "다른 이메일을 사용해 주세요.";
+       						judgeMsg2.style.color = "tomato";
+        		  		 }else if (data == null) {
+        		  			 alert("서버오류 발생");
+        		  		 }
+        		  	  }, 
+        		  	  error: function(){
+        		  		  alert("오류 발생");
+        		  	  }
+        		  });
+      
 			  }else {
 				alert("올바른 이메일 형식이 아닙니다.");
 			}
-           }
-           
-			let judgeMsg1 = document.querySelector("#judgeMsg1");    
-			<c:if test="${isUsable} == true }">
-				judgeMsg1.innerText = "사용 가능한 이메일 입니다.";
-				judgeMsg1.style.color = "green";
-			</c:if>
-			<c:if test="${isUsable == false }">
-				judgeMsg1.innerText = "다른 이메일을 사용해 주세요.";
-				judgeMsg1.style.color = "tomato";
-			</c:if>
-           
-			let judgeMsg2 = document.querySelector("#judgeMsg2");    
-			<c:if test="${isPhoneUsable == true }">
-				judgeMsg2.innerText = "사용 가능한 전화번호 입니다.";
-				judgeMsg2.style.color = "green";
-			</c:if>
-			<c:if test="${isPhoneUsable == false }">
-				judgeMsg2.innerText = "다른 전화번호를 사용해 주세요.";
-				judgeMsg2.style.color = "tomato";
-			</c:if>
+          });
 			
-        	 
-			$("#userMail").on("keyup", function() {
+			$("#userPhone").on("keyup", function() {
 				$("#judgeMsg1").text("");
 			});
-			$("#userPhone").on("keyup", function() {
+        	 
+			$("#userMail").on("keyup", function() {
 				$("#judgeMsg2").text("");
 			});
 			
  			$("#sendCode").on("click", function() {
-			let judgeMsg1 = document.querySelector("#judgeMsg1");    
-			console.log(judgeMsg1.innerText);
- 				if (judgeMsg1.innerText == "중복되지 않는 이메일 입니다.") {
+			let judgeMsg2 = document.querySelector("#judgeMsg2");    
+ 				if (judgeMsg2.innerText == "사용 가능한 이메일 입니다.") {
 					$.ajax({
 						url:"/send_email_code", 
 						method:"post", 

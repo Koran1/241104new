@@ -7,14 +7,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MyPage - 회원탈퇴</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <style type="text/css">
 	#container{display: flex; padding-top: 75px;}
 	#container #flex_left{width: 15%;  background-color: Whitesmoke;}
 	#container #flex_write{width: 85%;}
 	#container #logo{width: 200px; height: 70px;} 
-	#container #name{font-size: 50px; font-weight: bold;}
 	#container #article_container{display: flex; flex-direction: column;}
-	#container article{font-size: 30px; padding: 20px; margin: 10px;}
+	#container article{padding: 20px; margin: 10px; text-align: center;}
+	#container article i {font-size: 60px; padding: 20px; margin-right: 10px;}
+	#container article span{font-size: 30px; display: inline-block; margin-top: 20px;}
 	#container #title{font-size: 50px; margin-left: 20px;}
 	#container #msg{text-align: center;}
 	#container #user_out_form{width: 1300px; min-height: 1000px; margin: 0 auto;}
@@ -22,8 +24,7 @@
 	#container #buttons{display: flex; justify-content: center; margin-top: 20px; }
 	#container a {text-decoration: none; color: black}
 	#container pre {font-size: 20px; display: inline-block; }
-	#prId{text-decoration: none;}
-	.funcImg{width: 100px; height: 100px;}
+	.prId{text-decoration: none; color: black; display: inline-block; margin-left: 50px; font-size: 50px; font-weight: bold;}
 </style>
 </head>
 <body>
@@ -33,29 +34,29 @@
 			<p id="name"><a href="/go_my_page" id="prId">
 			<c:choose>
 				<c:when test="${userName.length >= 10 }">
-					<span>${userId.substring(0,10)}...님</span>
+					<span class="prId">${userId.substring(0,10)}...님</span>
 				</c:when>
 				<c:otherwise>
-					<span>${userId }님</span>
+					<span class="prId">${userId }님</span>
 				</c:otherwise>
 			</c:choose>				
 			</a></p>
 			<div id="article_container">
 			<article><a href="/go_my_comment">
-				<img class="funcImg" alt="" src="resources/images/my_comment.png" style="float: left;">
-				내 댓글 관리
+				<i class="fa-regular fa-message" style="float: left"></i>
+				<span>내 댓글 관리</span>
 			</a></article>
 			<article><a href="/go_update">
-				<img class="funcImg" alt="" src="resources/images/update.png" style="float: left;">
-				회원정보 수정
+				<i class="fa-solid fa-user-gear" style="float: left"></i>
+				<span>회원정보 수정</span>
 			</a></article>
 			<article ><a href="/go_pw_change">
-				<img class="funcImg" alt="" src="resources/images/change_pw.png" style="float: left;">
-				비밀번호 변경
+				<i class="fa-solid fa-unlock" style="float: left"></i>	
+				<span>비밀번호 변경</span>
 			</a></article>
 			<article style="background-color:lightgray">
-				<img class="funcImg" alt="" src="resources/images/member_out.png" style="float: left;">
-				회원 탈퇴
+				<i class="fa-solid fa-arrow-right-from-bracket" style="float: left"></i>
+				<span>회원 탈퇴</span>
 			</article>
 			</div>
 

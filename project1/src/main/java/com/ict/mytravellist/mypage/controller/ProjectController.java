@@ -194,24 +194,4 @@ public class ProjectController {
 		return mav;
 	}
 
-	@PostMapping("/judge_user_Phone")
-	public ModelAndView judgeUserPhone(UserVO uvo) {
-		ModelAndView mav = new ModelAndView();
-		try {
-			UserVO result = projectService.judgeUserPhone(uvo.getUserPhone());
-			  if (result == null) {
-			  mav.addObject("isPhoneUsable", true);
-			  mav.addObject("detail", uvo); 
-			  }else { 
-			  mav.addObject("isPhoneUsable", false);
-			  mav.addObject("detail", uvo); 
-			  }
-			  mav.setViewName("project_view/MEM_myPage_update");
-			 
-		} catch (Exception e) {
-			e.printStackTrace();
-			mav.setViewName("project_view/error");
-		}
-		return mav;
-	}
 }

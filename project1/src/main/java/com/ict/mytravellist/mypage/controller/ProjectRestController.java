@@ -18,6 +18,7 @@ import com.ict.mytravellist.MEM.service.EmailService;
 import com.ict.mytravellist.mypage.comm.Paging;
 import com.ict.mytravellist.mypage.service.ProjectService;
 import com.ict.mytravellist.vo.TourTalkVO;
+import com.ict.mytravellist.vo.UserVO;
 
 @RestController
 public class ProjectRestController {
@@ -152,6 +153,37 @@ public class ProjectRestController {
 			  return "success";
 		  }else {
 			  return "fail" ;
+		  }
+	  }
+	  @RequestMapping(value="/judge_user_Phone", produces="text/plain; charset=utf-8")
+	  @ResponseBody
+	  public String judgeUserPhone(@RequestParam("userPhone") String userPhone) {
+		  try {
+			  UserVO result = projectService.judgeUserPhone(userPhone);
+			  if (result == null) {
+				 return "OK"; 
+			  }else { 
+				  return "NO";
+			   }
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null ;
+		}
+	  }
+	  
+	  @RequestMapping(value="/judge_user_Mail", produces="text/plain; charset=utf-8")
+	  @ResponseBody
+	  public String judgeUserMail(@RequestParam("userMail") String userMail) {
+		  try {
+			  UserVO result = projectService.judgeUserEmail(userMail);
+			  if (result == null) {
+				  return "OK"; 
+			  }else { 
+				  return "NO";
+			  }
+		  } catch (Exception e) {
+			  e.printStackTrace();
+			  return null ;
 		  }
 	  }
 	 

@@ -4,7 +4,7 @@
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="projectMapper">
 	<update id="getUserUpdate" parameterType="uservo">
-		update pjcustomer set userMail = #{userMail}, userAddr = #{userAddr}, 
+		update pjcustomer set userPhone = #{userPhone},  userMail = #{userMail}, userAddr = #{userAddr}, 
 		userFavor01 = #{userFavor01}, userFavor02 = #{userFavor02}, userFavor03 = #{userFavor03} where userId = #{userId}
 	</update>	
 	<select id="getTTList" resultType="tourtvo" parameterType="Map">
@@ -37,7 +37,7 @@
 	<select id="judgeUserPhone" parameterType="String" resultType="uservo">
 		select * from pjcustomer where userPhone = #{userPhone}
 	</select>
-	<select id="getPlaceNameOne" parameterType="String" resultType="tdvo">
+	<select id="getPlaceNameOne" parameterType="String" resultType="String">
 		select trrsrtNm from travellistdb where travelIdx = #{travelIdx}
 	</select>
 	
