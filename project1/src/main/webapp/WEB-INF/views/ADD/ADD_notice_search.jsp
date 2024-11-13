@@ -182,13 +182,13 @@
         </div>
 
 		<div class="search-container">
-			<form action="/add_notice_search" onsubmit="return validateSearch()">
+			<form action="/add_notice_search" onsubmit="return validateSearch_notice()">
 				<input type="text" name="notice_keyword" value="${notice_keyword}">
-				<button type="submit" id="search_btn">검색</button>
+				<button type="button" id="search_btn" onclick="noticeSearch(this.form)">검색</button>
 			</form>
 		</div>
 		<script type="text/javascript">
-			function validateSearch() {
+			function validateSearch_notice() {
 				var search = document.getElementsByName("notice_keyword")[0].value
 						.trim();
 				if (search === "") { 
@@ -196,6 +196,9 @@
 					return false;
 				}
 				return true;
+			}
+			function noticeSearch(f){
+				f.submit();
 			}
 		</script>
 		
@@ -212,7 +215,7 @@
 						<c:choose>
 							<c:when test="${empty searchResults }">
 								<tr>
-									<td colspan="2"><h3>검색 결과가 없습니다.</h3></td>
+									<td colspan="2" style="padding: 30px 0; text-align: center;"><h3 style="font-size: 25px; font-weight: bold;">검색 결과가 없습니다.</h3></td>
 								</tr>
 							</c:when>
 							<c:otherwise>
