@@ -80,7 +80,7 @@ img {
 	<!-- 팝업  -->
 	<div id="cookie-popup" class="popup">
 		<div class="popup-content"></div>
-		<a href="http://localhost:8080/add_notice_detail?noticeIdx=4">
+		<a href="http://localhost:8080/add_notice_detail?noticeIdx=1">
 		<img alt="Top" src="resources/images/popup_img.jpg"></a>
 		<div class="no-show">
 			<label><input type="checkbox" id="no-show-checkbox">오늘 하루 보지않기</label>

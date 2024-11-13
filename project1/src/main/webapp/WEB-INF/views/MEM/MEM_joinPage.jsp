@@ -509,7 +509,7 @@
 	$(document).ready(function () {
 	    // 전화번호 중복 검사 함수
 	    window.phone_chk = function () {
-	        const userPhone = document.getElementById("userPhone").value;
+	        let userPhone = document.getElementById("userPhone").value;
 
 	        if (!userPhone) {
 	            alert("전화번호를 먼저 입력해 주세요.");
@@ -541,8 +541,6 @@
 	                    $(document).off("click", "#selectEmailBtn"); // 기존 이벤트 제거
 	                    $(document).on("click", "#selectEmailBtn", function () {
 	                        const selectedEmail = $("input[name='emailOption']:checked").val();
-	                        $("#selectedEmail").val(selectedEmail).trim();
-                            selectedEmail = selectedEmail.replace(/,/g, "");
 	                        $("#userMail").val(selectedEmail); // 이메일 필드에 값 설정
 	                        alert("선택된 이메일: "+selectedEmail);
 	                        $("#userChk").val("1");
