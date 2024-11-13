@@ -215,7 +215,7 @@
 						<c:choose>
 							<c:when test="${empty searchResults }">
 								<tr>
-									<td colspan="2"><h3>검색 결과가 없습니다.</h3></td>
+									<td colspan="2" style="padding: 30px 0; text-align: center;"><h3 style="font-size: 25px; font-weight: bold;">검색 결과가 없습니다.</h3></td>
 								</tr>
 							</c:when>
 							<c:otherwise>
