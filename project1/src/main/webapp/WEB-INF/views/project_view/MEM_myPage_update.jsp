@@ -206,6 +206,22 @@
            function goMyPage() {
         	  location.href = "/go_my_page";
 		   }
+           
+           document.querySelector("#userPhone").addEventListener("keyup", ()=>{
+        	   document.querySelector("#judgeMsg1").innerText = '';
+        	   isPhoneDupl = false;
+           });
+           document.querySelector("#userMail").addEventListener("keyup", ()=>{
+        	   document.querySelector("#judgeMsg2").innerText = '';
+        	   isMailDupl = false;
+        	   isMailChk = false;
+        	   
+           });
+           
+           let isPhoneDupl = false;
+           let isMailDupl = false;
+           let isMailChk = false;
+           
            function goUpdate(f) {
         	let name = f.userName.value;
         	let id = f.userId.value;
@@ -219,38 +235,41 @@
         		alert("공란이 존재하면 수정 할 수 없습니다.");
         	}else{
         		if("${detail.userAddr}" != addr || "${detail.userFavor01}" != favor1 || "${detail.userFavor02}" != favor2 || "${detail.userFavor03}" != favor3) {
-		        	   f.action = "/go_update_ok";
-		        	   f.submit(); 
-        		}else if("${detail.userPhone}" != phone) {
-        			let judgeMsg1 = document.querySelector("#judgeMsg1");   
-        			if(judgeMsg1.innerText == "사용 가능한 전화번호 입니다.") {
-        				if("${detail.userMail}" != mail) {
-        					let judgeMsg2 = document.querySelector("#judgeMsg2");
-                			if(judgeMsg2.innerText == "사용 가능한 이메일 입니다.") {
-                				f.action = "/go_update_ok";
-         		        	   	f.submit();
-                			}else {
-                				alert("메일 수정시 중복인지 확인해야 합니다.");
-                			}
-        				}
-        			}else {
-        				alert("전화번호 수정시 중복인지 확인해야 합니다.");
-        			}
-        		}else if("${detail.userMail}" != mail) {
-        			let judgeMsg2 = document.querySelector("#judgeMsg2");
-        			if(judgeMsg2.innerText == "사용 가능한 이메일 입니다.") {
-        				if("${detail.userPhone}" != phone){
-        					let judgeMsg1 = document.querySelector("#judgeMsg1");
-        						if(judgeMsg1.innerText == "사용 가능한 전화번호 입니다.") {
-                    				f.action = "/go_update_ok";
-             		        	   	f.submit();
-        						}else {
-        							alert("전화번호 수정시 중복인지 확인해야 합니다.");
-        						}
-        				}
-        			}
+	        		if("${detail.userPhone}" != phone){
+	      				if(!isPhoneDupl){
+	      					alert("전화번호 수정시 중복인지 확인해야 합니다.");
+	      					return;
+	      				}
+	      			}
+	      			if("${detail.userMail}" != mail){
+	      				if(!isMailDupl){
+	      					alert("메일 수정시 중복인지 확인해야 합니다.");
+	      					return;
+	      				}
+	      			}
+	      			alert("submission ok");
+        		}else{
+        			if("${detail.userPhone}" != phone){
+	      				if(!isPhoneDupl){
+	      					alert("전화번호 수정시 중복인지 확인해야 합니다.");
+	      					return;
+	      				}
+	      			}
+	      			if("${detail.userMail}" != mail){
+	      				if(!isMailDupl){
+	      					alert("메일 수정시 중복인지 확인해야 합니다.");
+	      					return;
+	      				}
+	      				if(!isMailChk){
+	      					alert("이메일 인증을 해주십시오");
+	      					return;
+	      				}
+	      			}
+	      			alert("submission ok");
         		}
-		   }
+      			/* f.action = "/go_update_ok";
+        	   	f.submit();  */
+		  	 }
            }
            function changeFlavor() {
 				let modal = document.querySelector("#modal");
@@ -368,6 +387,7 @@
         		  		 if(data == "OK" ) {
 							judgeMsg1.innerText = "사용 가능한 전화번호 입니다.";
 							judgeMsg1.style.color = "green";
+							isPhoneDupl = true;
         		  		 }else if (data == "NO") {
 							judgeMsg1.innerText = "다른 전화번호를 사용해 주세요.";
 							judgeMsg1.style.color = "tomato";
@@ -399,6 +419,7 @@
         		  		 if(data == "OK" ) {
        						judgeMsg2.innerText = "사용 가능한 이메일 입니다.";
        						judgeMsg2.style.color = "green";
+       					    isMailDupl = true;
         		  		 }else if (data == "NO") {
        						judgeMsg2.innerText = "다른 이메일을 사용해 주세요.";
        						judgeMsg2.style.color = "tomato";
@@ -457,6 +478,7 @@
 						dataType: "text", 
 						success: function(result) {
 							if (result == "success") {
+								isMailChk = true;
 								alert("인증이 완료되었습니다.");
 							}else {
 								alert("인증번호가 일치하지 않습니다.");

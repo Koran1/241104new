@@ -16,7 +16,7 @@
 	.vars{
 		width: 30%;
 	}
-	#noticecontent{
+	#noticecontent-area{
 		height: 100px;
 	}
 	.note-btn-group{width: auto;}
@@ -75,7 +75,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td id="noticecontent" colspan="2">
+							<td id="noticecontent-area" colspan="2">
 								<textarea name="noticeContent" id="noticeContent" required></textarea>
 							</td>
 						</tr>
@@ -126,8 +126,6 @@
         	success : function(data) {
         		const path = data.path;
         		const fileName = data.fileName;
-        		console(path);
-        		console(fileName);
         		$("#noticeContent").summernote("editor.insertImage", path+"/"+fileName);
         	},
         	error : function() {
