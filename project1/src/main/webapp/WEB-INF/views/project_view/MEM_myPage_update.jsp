@@ -45,7 +45,7 @@
 		overflow: scroll;
 	}
     #container .write { padding: 10px; margin-left: 20px; margin-bottom: 20px;}
-    #container input[type="text"], input[type="email"] , input[type="number"]{font-size: 20px;}
+    #container input[type="text"], input[type="email"]{font-size: 20px;}
     #container input[type="submit"] {width: 100px; height: 60px; }
     #container .btn_action{
     	margin-right: 100px;
@@ -129,7 +129,7 @@
 						<hr>
 			 			<label for="userName">이름 <input type="text" name="userName" id="userName" class="write" value="${detail.userName }" readonly> </label><br>
 				 		<label for="userId">아이디 <input type="text" name="userId" id="userId"  class="write" value="${detail.userId }" readonly></label><br>
-				 		<label for="userPhone">전화번호 <input type="number" id="userPhone" name="userPhone" class="write" value="${detail.userPhone }" style="width: 200px;" placeholder="전화번호 입력">
+				 		<label for="userPhone">전화번호 <input type="text" id="userPhone" name="userPhone" class="write" value="${detail.userPhone }" style="width: 200px;" placeholder="전화번호 입력">
 				 			<input id="btn_phoneChk" type="button" value="중복확인"></label><br> 
 				 		<p id="judgeMsg1"></p>
 			 			<label for="userMail" id="emailLb">이메일 
@@ -372,7 +372,7 @@
 	    		return pattern.test(userMail);
 	    	}
 	       	function isPhonePatternGood(userPhone) {
-	    		const pattern =  /^01(0|1|[6-9])[0-9]{3,4}[0-9]{4}$/;
+	    		const pattern = /^01(?:0|1|[6-9])-\d{3,4}-\d{4}$/;
 	    		return pattern.test(userPhone);
 	    	}
 	       	

@@ -173,7 +173,7 @@
 						<tr>
 							<td><label for="userPhone"><span class="span-subject">*</span> 전화번호</label></td>
 							<td>
-								<input type="text" id="userPhoneDisplay" name="userPhone" placeholder="전화번호 입력" required>
+								<input type="text" id="userPhone" name="userPhone" placeholder="전화번호 입력" required>
 								<input type="button" id="phoneChkBtn" value="중복 검사">
 								<div class="phone_chkMsg" id="phone_chkMsg"></div>
 								<div id="emailSelection"></div>
@@ -436,81 +436,16 @@
 	
 	<!-- 전화번호   -->
 	<script type="text/javascript">
-	// 전화번호 정규식
-	$("#userPhone").on("input", function () {
-	    let userPhone = $(this).val();
-	    const phoneChkMsg = $("#phone_chkMsg");
-	    const phoneChkBtn = $("input[type='button'][onclick='phone_chk()']"); 
-
-	    // 숫자만 남기기
-	    userPhone = userPhone.replace(/[^0-9]/g, "");
-
-	    // 올바른 앞자리인지 확인
-	    const validPrefixes = ["010", "011", "016", "017", "018", "019"];
-	    const prefix = userPhone.slice(0, 3);
-
-	    if (userPhone.length >= 3 && !validPrefixes.includes(prefix)) {
-	        // 유효하지 않은 앞자리 입력 시
-	        phoneChkMsg.html("유효하지 않은 전화번호 앞자리입니다. 다시 입력해 주세요.").css("color", "red");
-	        $(this).val(""); // 입력값 초기화
-	        phoneChkBtn.prop("disabled", true).css("background-color", "#88B0AB");
-	        return;
-	    } else {
-	        // 메시지 초기화
-	        phoneChkMsg.html("");
-	    }
-
-	    // 하이픈 추가 로직
-	    if (prefix === "010") {
-	        // 010인 경우: 3-4-4 형식, 최대 13자
-	        if (userPhone.length <= 3) {
-	            userPhone = userPhone;
-	        } else if (userPhone.length <= 7) {
-	            userPhone = userPhone.slice(0, 3) + "-" + userPhone.slice(3);
-	        } else if (userPhone.length <= 11) {
-	            userPhone = userPhone.slice(0, 3) + "-" + userPhone.slice(3, 7) + "-" + userPhone.slice(7);
-	        } else {
-	            userPhone = userPhone.slice(0, 3) + "-" + userPhone.slice(3, 7) + "-" + userPhone.slice(7, 11);
-	        }
-	    } else if (["011", "016", "017", "018", "019"].includes(prefix)) {
-	        // 다른 번호: 3-3-4 형식, 최대 12자
-	        if (userPhone.length <= 3) {
-	            userPhone = userPhone;
-	        } else if (userPhone.length <= 6) {
-	            userPhone = userPhone.slice(0, 3) + "-" + userPhone.slice(3);
-	        } else if (userPhone.length <= 10) {
-	            userPhone = userPhone.slice(0, 3) + "-" + userPhone.slice(3, 6) + "-" + userPhone.slice(6);
-	        } else {
-	            userPhone = userPhone.slice(0, 3) + "-" + userPhone.slice(3, 6) + "-" + userPhone.slice(6, 10);
-	        }
-	    }
-	    // 하이픈 적용 후 커서 위치 유지
-	    setTimeout(() => {
-	        const position = $(this)[0].selectionStart; // 현재 커서 위치
-	        $(this)[0].setSelectionRange(position, position); // 커서 위치 복원
-	    }, 0);
-	    
-	 	// 전화번호 유효성 최종 확인 (길이 및 형식 모두 맞는 경우)
-	    const phoneRegex = /^(010-\d{4}-\d{4}|01[1|6|7|8|9]-\d{3}-\d{4})$/;
-	    if (phoneRegex.test(userPhone)) {
-	        phoneChkMsg.html(""); // 메시지 초기화
-	        phoneChkBtn.prop("disabled", false).css("background-color", "#008165"); // 버튼 활성화
-	    } else {
-	        phoneChkMsg.html("전화번호 형식이 맞지 않습니다.").css("color", "red");
-	        phoneChkBtn.prop("disabled", true).css("background-color", "#88B0AB"); // 버튼 비활성화
-	    }
-
-	    // 포맷팅된 값 업데이트
-	    $(this).val(userPhone);
-	});
-	</script>
-	<script type="text/javascript">
+	function isPhoneGood(userPhone) {
+		const regex = /^01(?:0|1|[6-9])-\d{3,4}-\d{4}$/;
+		return regex.test(userPhone);
+	}
     $(document).ready(function () {
         let isPhoneDuplicate = false; // 전화번호 중복 상태
-
         // 전화번호 중복 체크 버튼 클릭 이벤트
         $("#phoneChkBtn").on("click", function () {
-            const userPhone = $("#userPhoneDisplay").val(); // 클릭 시점에 값 가져오기
+            let userPhone = document.getElementById("userPhone").value;
+	        if(isPhoneGood(userPhone)) {
 
             $.ajax({
                 url: "mem_phone_chk2", // 서버 요청 URL
@@ -587,62 +522,17 @@
                 error: function () {
                     alert("서버와 통신 중 오류가 발생했습니다. 다시 시도해 주세요.");
                 }
-            });
-        });
+			 		});// ajax 끝
+				            
+		     	    }else {
+		     	    	alert("전화번호 형식이 맞지 않습니다.");
+		     	    }
 
-        // 이벤트 등록 함수
-        function registerEvents() {
-            $("#userId").on("keyup blur", function () {
-                if (isPhoneDuplicate) return;
+					});// 중복검사 클릭 괄호
+				
+			    });// document.ready
 
-                const userId = $(this).val();
-                const idchkMsg = $("#id_chkMsg");
-
-                const isValidFormat = /^[a-zA-Z0-9]+$/.test(userId);
-                if (userId.length < 6 || userId.length > 10) {
-                    idchkMsg.html("아이디는 6자 이상 10자 이하로 입력해 주세요.").css("color", "red");
-                } else if (!isValidFormat) {
-                    idchkMsg.html("아이디는 영문자와 숫자로만 구성되어야 합니다.").css("color", "red");
-                } else {
-                    idchkMsg.html(""); // 조건 충족 시 초기화
-                }
-            });
-
-            $("#userPw").on("input", function () {
-                if (isPhoneDuplicate) return;
-
-                const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,15}$/;
-                const pw = $("#userPw").val();
-                const pwMsg = $("#pw_regex");
-
-                if (!pwRegex.test(pw)) {
-                    pwMsg.html("비밀번호는 8~15자, 영문자, 숫자, 특수문자를 포함해야 합니다.").css("color", "red");
-                } else {
-                    pwMsg.html("");
-                }
-            });
-
-            $("#userPw, #userPw2").on("blur", function () {
-                const pw1 = $("#userPw").val();
-                const pw2 = $("#userPw2").val();
-                const pwMsg = $("#pw_equal");
-
-                if (pw1 && pw2) {
-                    if (pw1 === pw2) {
-                        pwMsg.html("비밀번호가 일치합니다.").css("color", "green");
-                    } else {
-                        pwMsg.html("비밀번호가 일치하지 않습니다.").css("color", "red");
-                    }
-                } else {
-                    pwMsg.html("");
-                }
-            });
-        }
-
-        registerEvents(); // 초기 이벤트 등록
-    });
 </script>
-
 
 	<!-- 이메일 스크립트 -->
 	<script type="text/javascript">

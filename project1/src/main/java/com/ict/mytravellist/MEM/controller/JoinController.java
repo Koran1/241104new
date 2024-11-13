@@ -93,9 +93,10 @@ public class JoinController {
 	
 	// 회원가입 처리 - 네이버
 	@PostMapping("/mem_joinPage_naver_OK")
-	public ModelAndView mem_joinPage_naver_OK(UserVO uservo, RedirectAttributes redirectAttributes, String userChk) {
+	public ModelAndView mem_joinPage_naver_OK(UserVO uservo, RedirectAttributes redirectAttributes, @RequestParam("userChk") String userChk) {
 		ModelAndView mv = new ModelAndView("");
 		try {
+			System.out.println("userChk: " + userChk);
 			if (userChk.equals("0")) {
 				// 비밀번호 암호화
 				String userPw = passwordEncoder.encode(uservo.getUserPw());

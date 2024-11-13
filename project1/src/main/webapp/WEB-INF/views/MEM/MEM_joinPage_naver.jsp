@@ -173,7 +173,7 @@
 						<tr>
 							<td><label for="userPhone"><span class="span-subject">*</span> 전화번호</label></td>
 							<td>
-								<input type="text" id="userPhoneDisplay" name="userPhone" value="${uservo.userPhone }" placeholder="전화번호 입력" required readonly>
+								<input type="text" id="userPhone" name="userPhone" value="${uservo.userPhone }" placeholder="전화번호 입력" required readonly>
 								<input type="button" id="phoneChkBtn" value="중복 검사">
 								<div class="phone_chkMsg" id="phone_chkMsg"></div>
 								<div id="emailSelection"></div>
@@ -202,7 +202,6 @@
 						<tr>
 							<td><label for="userMail"><span class="span-subject">*</span> 이메일</label></td>
 							<td>
-								<input type="hidden" name="userChk" value="0" id="userChk">
 								<input type="email" id="userMail" value="${uservo.userMail }" placeholder="이메일 입력" readonly required>
 								<input type="hidden" id="selectedEmail" name="userMail">
 							</td>
@@ -307,6 +306,7 @@
 				<input type="hidden" name="userFavor01">
 				<input type="hidden" name="userFavor02">
 				<input type="hidden" name="userFavor03">
+				<input type="hidden" id="userChk" name="userChk" value="0">
 
 - 				<div class="button-container">
 					<div class="join-ok-button" id="join-ok-button">
@@ -435,13 +435,17 @@
 	
 	<!-- 전화번호   -->
 	<script type="text/javascript">
+	function isPhoneGood(userPhone) {
+		const regex = /^01(?:0|1|[6-9])-\d{3,4}-\d{4}$/;
+		return regex.test(userPhone);
+	}
+	
     $(document).ready(function () {
         let isPhoneDuplicate = false; // 전화번호 중복 상태
-
         // 전화번호 중복 체크 버튼 클릭 이벤트
         $("#phoneChkBtn").on("click", function () {
-            const userPhone = $("#userPhoneDisplay").val(); // 클릭 시점에 값 가져오기
-
+     	        let userPhone = document.getElementById("userPhone").value;
+     	    if(isPhoneGood(userPhone)) {
             $.ajax({
                 url: "mem_phone_chk2", // 서버 요청 URL
                 data: { userPhone: userPhone }, // 요청 데이터
@@ -483,7 +487,10 @@
                                 $("#selectedEmail").val(selectedEmail);
                                 $("#userMail").val(selectedEmail);
                                 alert('선택된 이메일: ' + selectedEmail);
-                                $("#userChk").val("1");
+                                console.log("userChk: ",  $("#userChk").val());
+                                document.querySelector("#userChk").value = "1";
+                               /*  $("#userChk").val("1"); */
+                                console.log("userChk: ",  $("#userChk").val());
                             });
 
                             // 이메일 입력 필드 비활성화
@@ -517,60 +524,14 @@
                 error: function () {
                     alert("서버와 통신 중 오류가 발생했습니다. 다시 시도해 주세요.");
                 }
-            });
-        });
+            });// ajax 끝
+            
+     	    }else {
+     	    	alert("전화번호 형식이 맞지 않습니다.");
+     	    }
+     	    });// 중복검사 클릭 괄호
 
-        // 이벤트 등록 함수
-        function registerEvents() {
-            $("#userId").on("keyup blur", function () {
-                if (isPhoneDuplicate) return;
-
-                const userId = $(this).val();
-                const idchkMsg = $("#id_chkMsg");
-
-                const isValidFormat = /^[a-zA-Z0-9]+$/.test(userId);
-                if (userId.length < 6 || userId.length > 10) {
-                    idchkMsg.html("아이디는 6자 이상 10자 이하로 입력해 주세요.").css("color", "red");
-                } else if (!isValidFormat) {
-                    idchkMsg.html("아이디는 영문자와 숫자로만 구성되어야 합니다.").css("color", "red");
-                } else {
-                    idchkMsg.html(""); // 조건 충족 시 초기화
-                }
-            });
-
-            $("#userPw").on("input", function () {
-                if (isPhoneDuplicate) return;
-
-                const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,15}$/;
-                const pw = $("#userPw").val();
-                const pwMsg = $("#pw_regex");
-
-                if (!pwRegex.test(pw)) {
-                    pwMsg.html("비밀번호는 8~15자, 영문자, 숫자, 특수문자를 포함해야 합니다.").css("color", "red");
-                } else {
-                    pwMsg.html("");
-                }
-            });
-
-            $("#userPw, #userPw2").on("blur", function () {
-                const pw1 = $("#userPw").val();
-                const pw2 = $("#userPw2").val();
-                const pwMsg = $("#pw_equal");
-
-                if (pw1 && pw2) {
-                    if (pw1 === pw2) {
-                        pwMsg.html("비밀번호가 일치합니다.").css("color", "green");
-                    } else {
-                        pwMsg.html("비밀번호가 일치하지 않습니다.").css("color", "red");
-                    }
-                } else {
-                    pwMsg.html("");
-                }
-            });
-        }
-
-        registerEvents(); // 초기 이벤트 등록
-    });
+    });// document.ready
 </script>
 
 
