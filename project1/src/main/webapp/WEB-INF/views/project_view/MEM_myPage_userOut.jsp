@@ -123,8 +123,8 @@
 			 		
 			 	</fieldset>
 				 <div id="buttons">
-					 <button type="button" onclick="cancle(this.form)">취소</button>
-				 	 <button type="button" onclick="goOut(this.form)">탈퇴하기</button>
+				 	 <button type="button" style="background-color: gray; color: white; border: none;" onclick="goOut(this.form)">탈퇴하기</button>
+					 <button type="button" style="background: white;" onclick="cancle(this.form)">취소</button>
 				 </div>
 			 </form>
 		</section>				
