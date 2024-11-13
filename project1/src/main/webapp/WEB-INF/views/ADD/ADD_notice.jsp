@@ -194,13 +194,13 @@
         </div>
         
        <div class="search-container">
-			<form action="/add_notice_search" onsubmit="return validateSearch()">
+			<form action="/add_notice_search" onsubmit="return validateSearch_notice()">
 				<input type="text" name="notice_keyword" placeholder="제목 또는 내용 검색" value="${notice_keyword}">
-				<button type="submit" id="search_btn">검색</button>
+				<button type="button" id="search_btn" onclick="noticeSearch(this.form)">검색</button>
 			</form>
 		</div>
 		<script type="text/javascript">
-			function validateSearch() {
+			function validateSearch_notice() {
 				var keyword = document.getElementsByName("notice_keyword")[0].value
 						.trim();
 				if (keyword === "") {
@@ -208,6 +208,9 @@
 					return false;
 				}
 				return true;
+			}
+			function noticeSearch(f) {
+				f.submit();
 			}
 		</script>
 		

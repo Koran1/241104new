@@ -182,13 +182,13 @@
         </div>
 
 		<div class="search-container">
-			<form action="/add_notice_search" onsubmit="return validateSearch()">
+			<form action="/add_notice_search" onsubmit="return validateSearch_notice()">
 				<input type="text" name="notice_keyword" value="${notice_keyword}">
-				<button type="submit" id="search_btn">검색</button>
+				<button type="button" id="search_btn" onclick="noticeSearch(this.form)">검색</button>
 			</form>
 		</div>
 		<script type="text/javascript">
-			function validateSearch() {
+			function validateSearch_notice() {
 				var search = document.getElementsByName("notice_keyword")[0].value
 						.trim();
 				if (search === "") { 
@@ -196,6 +196,9 @@
 					return false;
 				}
 				return true;
+			}
+			function noticeSearch(f){
+				f.submit();
 			}
 		</script>
 		
