@@ -19,7 +19,7 @@
 	#container article span{font-size: 30px; display: inline-block; margin-top: 20px;}
 	#container #title{font-size: 50px; margin-left: 20px;}
 	#container #msg{text-align: center;}
-	#container #change_pw_form{width: 1300px; min-height: 1000px; margin: 0 auto;}
+	#container #change_pw_form{width: 1700px; min-height: 1000px; margin: 0 auto ;}
 	#container input {width: 40%;  padding: 20px; margin-left: 30px;}
 	#container button {width: 130px; height: 60px; margin-right: 100px; }
 	#container #buttons{display: flex; justify-content: center; margin-top: 20px; }
@@ -44,7 +44,8 @@
 				</c:choose>
 			</a></p>
 			<div id="article_container">
-			<article><a href="/go_my_comment"><i class="fa-regular fa-message"></i>
+			<article><a href="/go_my_comment">
+			<i class="fa-regular fa-message" style="float: left"></i>
 				<span>내 댓글 관리</span>
 			</a></article>
 			<article><a href="/go_update">
@@ -62,13 +63,12 @@
 			</div>
 
 		</section>
-		
 		<section id="flex_write">
 			 <p id="title">비밀번호 변경</p>
 			 <hr>
 			 <p id="msg"> 변경할 비밀번호를 입력해 주세요.</p>
 			 <form id="change_pw_form" method="post">
-			 	<fieldset>
+			 	<fieldset style="margin: 0 400px; width: 1300px;" >
 			 		<legend>비밀번호 변경</legend>
 			 		<p id="changePw">새 비밀번호:  <input type="password" id="userPw"  name="userPw" required > <i id="pw_msg"></i></p>
 			 		<p>비밀번호 확인:  <input type="password" id="confirmPw"  name="confirmPw" required > </p>
