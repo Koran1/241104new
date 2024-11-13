@@ -76,8 +76,8 @@ public class AddDAOImpl implements AddDAO {
 	}
 
 	@Override
-	public List<NoticeVO> getNoticeSearch(String keyword) {
-		return sqlSessionTemplate.selectList("adds.noticeSearch", keyword);
+	public List<NoticeVO> getNoticeSearch(String keyword2) {
+		return sqlSessionTemplate.selectList("adds.noticeSearch", keyword2);
 	}
 
 	@Override
