@@ -9,7 +9,7 @@ public class FAQPaging {
 	private int nowBlock = 1 ;
 	
 	// 한 페이지당 6줄
-	private int numPerPage = 8;
+	private int numPerPage = 5;
 	
 	// 한 블록당 3개
 	private int pagePerBlock = 5;

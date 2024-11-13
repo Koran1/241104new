@@ -129,7 +129,7 @@
 						<hr>
 			 			<label for="userName">이름 <input type="text" name="userName" id="userName" class="write" value="${detail.userName }" readonly> </label><br>
 				 		<label for="userId">아이디 <input type="text" name="userId" id="userId"  class="write" value="${detail.userId }" readonly></label><br>
-				 		<label for="userPhone">전화번호 <input type="number" id="userPhone" name="userPhone" class="write" value="${detail.userPhone }" style="width: 200px;" placeholder="-제외하고 입력">
+				 		<label for="userPhone">전화번호 <input type="number" id="userPhone" name="userPhone" class="write" value="${detail.userPhone }" style="width: 200px;" placeholder="전화번호 입력">
 				 			<input id="btn_phoneChk" type="button" value="중복확인"></label><br> 
 				 		<p id="judgeMsg1"></p>
 			 			<label for="userMail" id="emailLb">이메일 
@@ -247,7 +247,8 @@
 	      					return;
 	      				}
 	      			}
-	      			alert("submission ok");
+	      			f.action = "/go_update_ok";
+	        	   	f.submit();
         		}else{
         			if("${detail.userPhone}" != phone){
 	      				if(!isPhoneDupl){
@@ -265,7 +266,8 @@
 	      					return;
 	      				}
 	      			}
-	      			alert("submission ok");
+	      			f.action = "/go_update_ok";
+	        	   	f.submit();
         		}
       			/* f.action = "/go_update_ok";
         	   	f.submit();  */

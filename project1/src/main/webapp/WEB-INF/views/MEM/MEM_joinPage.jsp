@@ -227,7 +227,7 @@
 				<table class="region-table">
 					<tbody>
 						<tr>
-							<td id="region-title"><span class="span-subject">*</span> 관심지</td>
+							<td id="region-title"><span class="span-subject">*</span> 관심지 (3개 필수 선택)</td>
 						</tr>
 						<tr>
 							<td>

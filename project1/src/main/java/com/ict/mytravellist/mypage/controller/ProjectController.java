@@ -162,7 +162,7 @@ public class ProjectController {
 			String userId = (String) session.getAttribute("userId");
 			int result = projectService.getUserOut(userId);
 			if (result > 0) {
-				mav.setViewName("redirect:/go_main?isOk=yes");
+				mav.setViewName("redirect:/main_go");
 				session.invalidate();
 			} else {
 				mav.setViewName("project_view/error");
