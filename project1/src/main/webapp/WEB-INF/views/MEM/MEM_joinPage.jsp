@@ -469,8 +469,7 @@
 		                    // 선택 버튼 클릭 이벤트 추가 (중복 방지)
 		                    $(document).off("click", "#selectEmailBtn"); // 기존 이벤트 제거
 		                    $(document).on("click", "#selectEmailBtn", function () {
-		                        const selectedEmail = $("input[name='emailOption']:checked").val().trim();
-		                        selectedEmail = selectedEmail.replace(/,/g, "");
+		                        const selectedEmail = $("input[name='emailOption']:checked").val();
 		                        $("#userMail").val(selectedEmail); // 이메일 필드에 값 설정
 		                        alert("선택된 이메일: "+selectedEmail);
 		                        $("#userChk").val("1");
